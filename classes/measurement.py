@@ -8,6 +8,7 @@ class Measurement:
     This class provides an easy way to read, analyse and plot data from 
     text files.
     """
+
     def __init__(self, directory, file_name):
         """
         The Measurement class provides an easy and quick way to read, 
@@ -21,13 +22,23 @@ class Measurement:
 
         Returns nothing.
         """
+        # sets the number of lines of header of file (line 0 to N_HEADER)
+        self.N_HEADER = 4
+
         self.directory = directory
         self.file_name = file_name
 
+        # try to read the data
         try:
             self.read_data(directory, file_name)
         except IOError as e20:
             print(e20)
+        except Exception as e:
+            print(e)
+
+        # try to cleanup the data
+        try:
+            self.clean_data()
         except Exception as e:
             print(e)
         
@@ -45,8 +56,22 @@ class Measurement:
         Returns nothing if successfull, but rasies exception if not.
         """
 
+        # import the data
         self.raw = [line.rstrip('\n') for line in open(directory + file_name)]
         
+        
+    def clean_data(self):
+        """
+        Splits the raw data into head and data vars.
+        """
+
+        self.head = [line.split('|') for line in self.raw[0:self.N_HEADER]]
+        self.data = np.array([[float(number) for number in line.split()] for line in self.raw[self.N_HEADER+1:-1]])
+
+        for line in self.head:
+            print(line)
+        
+
 
 
 
