@@ -119,8 +119,13 @@ class Measurement:
         plt.xlabel(self.desc[column1[0]])
         plt.ylabel(self.desc[column2[0]])
 
+        # file name
+        if type_of_plot != "":
+            n = self.directory + self.file_name.split('.')[0] + "[" + type_of_plot + "].png"
+        else:
+            n = self.directory + self.file_name.split('.')[0] + ".png"
         # save plot to file
-        plt.savefig('plot.png')
+        plt.savefig(n)
         # clear figure/plot for next
         plt.clf()
 
