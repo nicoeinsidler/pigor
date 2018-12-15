@@ -17,10 +17,10 @@ class Measurement:
         analyse and plot data from text files. When creating a new instance,
         the following parameters have to be provided:
 
-            :param self: the object itself
-            :param directory: the directory of the file to read data from
-            :param file_name: the name of the file to read from (containing
-                              also its file extention)
+            :param self:        the object itself
+            :param directory:   the directory of the file to read data from
+            :param file_name:   the name of the file to read from (containing
+                                also its file extention)
 
         Returns nothing.
         """
@@ -50,10 +50,10 @@ class Measurement:
         """
         Reads data from file and stores it in the object.
 
-            :param self: the object itself
-            :param directory: the directory of the file to read data from
-            :param file_name: the name of the file to read from (containing
-                              also its file extention)
+            :param self:        the object itself
+            :param directory:   the directory of the file to read data from
+            :param file_name:   the name of the file to read from (containing
+                                also its file extention)
         
         Returns nothing if successfull, but rasies exception if not.
         """
@@ -96,10 +96,14 @@ class Measurement:
         Creates a plot for the data. If fit is set to False the data fit won't be
         plotted, even if there exists one. Following parameters are possible:
 
-            :param self: the object itself
-            :param column1=(0,1): (column, nth element) to choose the data from for x-axis
-            :param column2=(1,1): (column, nth element) to choose the data from for y-axis
-            :param fit=True: if set to False plotting of the fit will be supressed
+            :param self:            the object itself
+            :param column1=(0,1):   (column, nth element) to choose the data from for x-axis
+            :param column2=(1,1):   (column, nth element) to choose the data from for y-axis
+            :param fit=True:        if set to False plotting of the fit will be supressed
+            :param type_of_plot="": string to specify a certain plot type, which will be used
+                                    in the file name as well as in the plot title
+            :param override=True:   determines if plot image should be recreated if it
+                                    already exists
 
         """
 
@@ -130,7 +134,6 @@ class Measurement:
             # save plot to file
             plt.savefig(n)
 
-        
         # clear figure/plot for next
         plt.clf()
 
