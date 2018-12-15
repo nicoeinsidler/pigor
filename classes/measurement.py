@@ -2,6 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import os.path
 from datetime import datetime
 
 class Measurement:
@@ -90,7 +91,7 @@ class Measurement:
         
 
 
-    def plot(self, column1=(0,1), column2=(1,1), fit=True, type_of_plot=""):
+    def plot(self, column1=(0,1), column2=(1,1), fit=True, type_of_plot="", override=True):
         """
         Creates a plot for the data. If fit is set to False the data fit won't be
         plotted, even if there exists one. Following parameters are possible:
@@ -124,8 +125,12 @@ class Measurement:
             n = self.directory + self.file_name.split('.')[0] + "[" + type_of_plot + "].png"
         else:
             n = self.directory + self.file_name.split('.')[0] + ".png"
-        # save plot to file
-        plt.savefig(n)
+
+        if override == False and not os.path.isfile(n):
+            # save plot to file
+            plt.savefig(n)
+
+        
         # clear figure/plot for next
         plt.clf()
 
