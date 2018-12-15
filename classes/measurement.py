@@ -2,6 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from datetime import datetime
 
 class Measurement:
     """
@@ -59,23 +60,72 @@ class Measurement:
         # import the data
         self.raw = [line.rstrip('\n') for line in open(directory + file_name)]
         
-        
+
     def clean_data(self):
         """
         Splits the raw data into head and data vars.
         """
 
+        # get the first lines for the header and split the lines by pipe char
         self.head = [line.split('|') for line in self.raw[0:self.N_HEADER]]
+        # get rest of the file and cast all numbers to float, then create numpy array
         self.data = np.array([[float(number) for number in line.split()] for line in self.raw[self.N_HEADER+1:-1]])
+        # get last line of head for axis labels for plots
+        self.desc = [' '.join(item) for item in [item.split() for item in [item.split(": ") for item in self.head[-1]][0]]]
 
-        for line in self.head:
-            print(line)
+        try:
+            self.settings = {
+                'timestamp'      : datetime.strptime(self.head[0][0].split()[-1], '%d/%m/%Y@%H:%M')
+            }
+            i = 0
+            for line in self.head:
+                for item in line:
+                    i += 1
+                    l = item.split(":")
+                    if i != 1:
+                        self.settings[l[0]] = l[1]
+        except Exception as e:
+            print(e)
+
         
 
 
+    def plot(self, column1=(0,1), column2=(1,1), fit=True, type_of_plot=""):
+        """
+        Creates a plot for the data. If fit is set to False the data fit won't be
+        plotted, even if there exists one. Following parameters are possible:
 
+            :param self: the object itself
+            :param column1=(0,1): (column, nth element) to choose the data from for x-axis
+            :param column2=(1,1): (column, nth element) to choose the data from for y-axis
+            :param fit=True: if set to False plotting of the fit will be supressed
+
+        """
+
+        # select the data to plot
+        x = self.data[::column1[1],column1[0]]
+        y = self.data[::column2[1],column2[0]]
+
+        # create label
+        title = self.file_name + "\n" + type_of_plot + self.settings['timestamp'].strftime("%Y-%m-%d %H:%M")
+
+        # plot
+        plt.plot(x,y)
+
+        # plot title
+        plt.title(title)
+
+        # axes labels
+        plt.xlabel(self.desc[column1[0]])
+        plt.ylabel(self.desc[column2[0]])
+
+        # save plot to file
+        plt.savefig('plot.png')
+        # clear figure/plot for next
+        plt.clf()
 
 
 
 if __name__ == "__main__":
     msrmt = Measurement("./testfiles/","2018-12-11-1000-dc1com.dat")
+    msrmt.plot()
