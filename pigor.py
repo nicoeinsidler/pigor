@@ -2,8 +2,19 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from os import walk
 
 PROGRAM_NAME = "PIGOR"
+
+f = []
+d = []
+for (dirpath, dirnames, filenames) in walk("."):
+    f.extend(filenames)
+    d.extend(dirnames)
+    break
+
+print(f)
+print(d)
 
 def print_header(text):
     """
@@ -36,6 +47,8 @@ def print_help(display="all"):
             print("{:.<4} {}".format(k,v))
     print("\n")
 
+
+# starting main loop
 print_header("Welcome to {}.".format(PROGRAM_NAME))
 while True:
     cmd = input()
