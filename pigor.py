@@ -2,6 +2,7 @@
 
 import re
 import numpy as np
+import multiprocessing as mp
 import matplotlib.pyplot as plt
 from os import walk
 import measurement
@@ -42,6 +43,12 @@ def print_help(display="all"):
     print("\n")
 
 def find_all_files(directory="."):
+    """
+    Finds all dat files recursively in all subdirectories ignoring hidden directories
+    and Python specific ones.
+
+        :param directory=".":   directory to start searching from 
+    """
     f = []
     d = []
     
@@ -52,9 +59,6 @@ def find_all_files(directory="."):
     
     # filter all dat files
     f = [a for a in f if re.search(r".dat$", a)]
-    #print(
-    #    "Found {} dat files in {} to analyze: \n{}".format(len(f),directory,f)
-    #)
 
     # filter directories
     d = [_ for _ in d if not (_.startswith('.') or _.startswith('__'))]
@@ -67,10 +71,15 @@ def find_all_files(directory="."):
     return f
 
 
+def analyse_files(files):
+    
+
+
 # starting main loop
 print_header("Welcome to {}.".format(PROGRAM_NAME))
 while True:
     
+    print("To proceed, please press any key.")
     cmd = input()
     if cmd == "q":
         break
@@ -78,4 +87,12 @@ while True:
         print_help()
     else:
         f = find_all_files()
-        print(f)
+        print(
+            "Found {} dat files to analyze. \nProceeding with analysis...".format(len(f))
+        )
+
+        analyse_files(f)
+
+        #with mp.Pool(processes=8) as pool:
+         #   pool.starmap(np.dot, zip(a[0:N:2], a[1:N-1:2]))
+        
