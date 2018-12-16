@@ -3,7 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from os import walk
-import classes/measurement.py
+import measurement
 
 PROGRAM_NAME = "PIGOR"
 
