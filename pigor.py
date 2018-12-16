@@ -72,7 +72,18 @@ def find_all_files(directory="."):
 
 
 def analyse_files(files):
-    
+    """
+    Analyses all given files in list.
+
+        :param files:       list of files to analyse
+    """
+    # list holding all measurement objects
+    m = []
+
+    m1 = measurement.Measurement(files[0])
+    print(m1)
+    # create measurement objects
+    m = [measurement.Measurement(f) for f in files]
 
 
 # starting main loop
