@@ -4,7 +4,7 @@ import re
 import numpy as np
 import multiprocessing as mp
 import matplotlib.pyplot as plt
-from os import walk
+import glob
 import measurement
 
 # name of the program
@@ -42,33 +42,14 @@ def print_help(display="all"):
             print("{:.<4} {}".format(k,v))
     print("\n")
 
-def find_all_files(directory="."):
+def find_all_files():
     """
     Finds all dat files recursively in all subdirectories ignoring hidden directories
     and Python specific ones.
 
-        :param directory=".":   directory to start searching from 
+    Returns a list of filepaths.
     """
-    f = []
-    d = []
-    
-    for (dirpath, dirnames, filenames) in walk(directory):
-        f.extend(filenames)
-        d.extend(dirnames)
-        break
-    
-    # filter all dat files
-    f = [a for a in f if re.search(r".dat$", a)]
-
-    # filter directories
-    d = [_ for _ in d if not (_.startswith('.') or _.startswith('__'))]
-
-    # check if there are subdirs
-    if len(d) > 0:
-        for _ in d:
-            f.extend(find_all_files(_))
-
-    return [directory + "/" + filename for filename in f]
+    return glob.glob('**/*.dat', recursive=True)
 
 
 def analyse_files(filepaths):
@@ -78,12 +59,33 @@ def analyse_files(filepaths):
         :param filepaths:       list of files to analyse with 
                                 their relative dir path added
     """
+    # split every filepath to directory and filename
+    files = [split_filepath(filepath) for filepath in filepaths]
+
     # list holding all measurement objects
     m = []
 
-    print(m1)
     # create measurement objects
-    m = [measurement.Measurement(f) for f in filepaths]
+    m = [measurement.Measurement(f[0],f[1]) for f in files]
+
+
+    with mp.Pool() as pool:
+        m = pool.starmap(measurement.Measurement, files)
+        pool.map(measurement.Measurement.plot, m)
+        pool.map(lambda obj: obj.plot(), m)
+
+
+
+def split_filepath(filepath):
+    """
+    Splits a filepath as a string into the directory path and the filename plus its extention.
+
+        :param filepath:        the filepath that will be split
+
+    Returns a tuple containing the directory first, filename second.
+    """
+    l = filepath.split('/')
+    return ("/".join(l[0:-1]) + "/",l[-1])
 
 
 # starting main loop
@@ -97,14 +99,10 @@ while True:
     elif cmd == "h":
         print_help()
     else:
-        f = find_all_files()
+        all_files = find_all_files()
         print(
-            "Found {} dat files to analyze. \nProceeding with analysis...".format(len(f))
+            "Found {} dat files to analyze. \nProceeding with analysis...".format(len(all_files))
         )
 
-        print(f)
-        #analyse_files(f)
-
-        #with mp.Pool(processes=8) as pool:
-         #   pool.starmap(np.dot, zip(a[0:N:2], a[1:N-1:2]))
+        analyse_files(all_files)
         
