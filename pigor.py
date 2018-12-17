@@ -69,10 +69,13 @@ def analyse_files(filepaths):
     m = [measurement.Measurement(f[0],f[1]) for f in files]
 
 
-    with mp.Pool() as pool:
-        m = pool.starmap(measurement.Measurement, files)
-        pool.map(measurement.Measurement.plot, m)
-        pool.map(lambda obj: obj.plot(), m)
+    # with mp.Pool() as pool:
+    #     m = pool.starmap(measurement.Measurement, files)
+    #     pool.map(measurement.Measurement.plot, m)
+    #     pool.map(lambda obj: obj.plot(), m)
+
+    # plotting all without multiprocessing
+    [_.plot() for _ in m]
 
 
 
