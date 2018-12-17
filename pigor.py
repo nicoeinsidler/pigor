@@ -68,22 +68,22 @@ def find_all_files(directory="."):
         for _ in d:
             f.extend(find_all_files(_))
 
-    return f
+    return [directory + "/" + filename for filename in f]
 
 
-def analyse_files(files):
+def analyse_files(filepaths):
     """
     Analyses all given files in list.
 
-        :param files:       list of files to analyse
+        :param filepaths:       list of files to analyse with 
+                                their relative dir path added
     """
     # list holding all measurement objects
     m = []
 
-    m1 = measurement.Measurement(files[0])
     print(m1)
     # create measurement objects
-    m = [measurement.Measurement(f) for f in files]
+    m = [measurement.Measurement(f) for f in filepaths]
 
 
 # starting main loop
@@ -102,7 +102,8 @@ while True:
             "Found {} dat files to analyze. \nProceeding with analysis...".format(len(f))
         )
 
-        analyse_files(f)
+        print(f)
+        #analyse_files(f)
 
         #with mp.Pool(processes=8) as pool:
          #   pool.starmap(np.dot, zip(a[0:N:2], a[1:N-1:2]))
