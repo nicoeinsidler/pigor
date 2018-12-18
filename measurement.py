@@ -115,7 +115,7 @@ class Measurement:
 
 
         # create label
-        title = self.file_name + "\n" + type_of_plot + self.settings['timestamp'].strftime("%Y-%m-%d %H:%M")
+        title = self.path.name + "\n" + type_of_plot + self.settings['timestamp'].strftime("%Y-%m-%d %H:%M")
 
         # plot title
         plt.title(title)
@@ -129,9 +129,9 @@ class Measurement:
 
         # file name
         if type_of_plot != "":
-            n = self.path.parent + self.path.stem + "[" + type_of_plot + "].png"
+            n = str(self.path.parent) + self.path.stem + "[" + type_of_plot + "].png"
         else:
-            n = self.path.parent + self.path.stem + ".png"
+            n = str(self.path.parent) + self.path.stem + ".png"
 
         #if (override == False and not os.path.isfile(n)):
             # save plot to file

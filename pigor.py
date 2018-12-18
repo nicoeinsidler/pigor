@@ -79,7 +79,7 @@ def analyse_files(filepaths):
     #[_.plot() for _ in m]
 
     for path in filepaths:
-        print("Analysis of {}{}".format(path))
+        print("Analysis of {}".format(path))
         msrmt = measurement.Measurement(path)
         msrmt.plot()
 
