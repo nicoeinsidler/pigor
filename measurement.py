@@ -11,7 +11,7 @@ class Measurement:
     text files.
     """
 
-    def __init__(self, directory, file_name):
+    def __init__(self, directory, file_name, type_of_measurement="default"):
         """
         The Measurement class provides an easy and quick way to read, 
         analyse and plot data from text files. When creating a new instance,
@@ -29,6 +29,8 @@ class Measurement:
 
         self.directory = directory
         self.file_name = file_name
+
+        self.type_of_measurement = type_of_measurement
 
         # try to read the data
         try:
