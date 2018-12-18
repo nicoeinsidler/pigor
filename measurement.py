@@ -154,7 +154,7 @@ class Measurement:
         plt.clf()
 
 
-
+# here you can test the class
 if __name__ == "__main__":
     msrmt = Measurement(Path("./testfiles/2018-12-11-1000-dc1com.dat"))
     msrmt.plot()
