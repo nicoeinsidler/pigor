@@ -85,18 +85,6 @@ def analyse_files(filepaths):
 
 
 
-def split_filepath(filepath):
-    """
-    Splits a filepath as a string into the directory path and the filename plus its extention.
-
-        :param filepath:        the filepath that will be split
-
-    Returns a tuple containing the directory first, filename second.
-    """
-    l = filepath.split('/')
-    return ("/".join(l[0:-1]) + "/",l[-1])
-
-
 # starting main loop
 print_header("Welcome to {}.".format(PROGRAM_NAME))
 while True:
