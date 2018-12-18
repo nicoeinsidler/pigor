@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os.path
 from datetime import datetime
+from pathlib import Path
 
 class Measurement:
     """
@@ -11,7 +12,7 @@ class Measurement:
     text files.
     """
 
-    def __init__(self, directory, file_name, type_of_measurement="default"):
+    def __init__(self, path, type_of_measurement="default"):
         """
         The Measurement class provides an easy and quick way to read, 
         analyse and plot data from text files. When creating a new instance,
@@ -27,14 +28,13 @@ class Measurement:
         # sets the number of lines of header of file (line 0 to N_HEADER)
         self.N_HEADER = 4
 
-        self.directory = directory
-        self.file_name = file_name
+        self.path = path
 
         self.type_of_measurement = type_of_measurement
 
         # try to read the data
         try:
-            self.read_data(directory, file_name)
+            self.read_data(path)
         except IOError as e20:
             print(e20)
         except Exception as e:
@@ -48,7 +48,7 @@ class Measurement:
         
         
 
-    def read_data(self, directory, file_name):
+    def read_data(self, path):
         """
         Reads data from file and stores it in the object.
 
@@ -61,7 +61,7 @@ class Measurement:
         """
 
         # import the data
-        self.raw = [line.rstrip('\n') for line in open(directory + file_name)]
+        self.raw = [line.rstrip('\n') for line in open(path)]
         
 
     def clean_data(self):
@@ -129,9 +129,9 @@ class Measurement:
 
         # file name
         if type_of_plot != "":
-            n = self.directory + self.file_name.split('.')[0] + "[" + type_of_plot + "].png"
+            n = self.path.parent + self.path.stem + "[" + type_of_plot + "].png"
         else:
-            n = self.directory + self.file_name.split('.')[0] + ".png"
+            n = self.path.parent + self.path.stem + ".png"
 
         #if (override == False and not os.path.isfile(n)):
             # save plot to file
@@ -143,5 +143,5 @@ class Measurement:
 
 
 if __name__ == "__main__":
-    msrmt = Measurement("./testfiles/","2018-12-11-1000-dc1com.dat")
+    msrmt = Measurement(Path("./testfiles/2018-12-11-1000-dc1com.dat"))
     msrmt.plot()
