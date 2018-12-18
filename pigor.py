@@ -66,7 +66,7 @@ def analyse_files(filepaths):
     m = []
 
     # create measurement objects
-    m = [measurement.Measurement(f[0],f[1]) for f in files]
+    #m = [measurement.Measurement(f[0],f[1]) for f in files]
 
 
     # with mp.Pool() as pool:
@@ -75,7 +75,12 @@ def analyse_files(filepaths):
     #     pool.map(lambda obj: obj.plot(), m)
 
     # plotting all without multiprocessing
-    [_.plot() for _ in m]
+    #[_.plot() for _ in m]
+
+    for directory, file_name in files:
+        print("Analysis of {}{}".format(directory,file_name))
+        msrmt = measurement.Measurement(directory,file_name)
+        msrmt.plot()
 
 
 
