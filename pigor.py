@@ -6,6 +6,7 @@ import multiprocessing as mp
 import matplotlib.pyplot as plt
 import glob
 import measurement
+from pathlib import Path
 
 # name of the program
 PROGRAM_NAME = "PIGOR"
@@ -49,7 +50,7 @@ def find_all_files():
 
     Returns a list of filepaths.
     """
-    return glob.glob('**/*.dat', recursive=True)
+    return [Path(path) for path in glob.glob('**/*.dat', recursive=True)]
 
 
 def analyse_files(filepaths):
@@ -60,7 +61,7 @@ def analyse_files(filepaths):
                                 their relative dir path added
     """
     # split every filepath to directory and filename
-    files = [split_filepath(filepath) for filepath in filepaths]
+    #files = [split_filepath(filepath) for filepath in filepaths]
 
     # list holding all measurement objects
     m = []
@@ -77,9 +78,9 @@ def analyse_files(filepaths):
     # plotting all without multiprocessing
     #[_.plot() for _ in m]
 
-    for directory, file_name in files:
-        print("Analysis of {}{}".format(directory,file_name))
-        msrmt = measurement.Measurement(directory,file_name)
+    for path in filepaths:
+        print("Analysis of {}{}".format(path))
+        msrmt = measurement.Measurement(path)
         msrmt.plot()
 
 
@@ -108,6 +109,7 @@ while True:
         print_help()
     else:
         all_files = find_all_files()
+        print(all_files)
         print(
             "Found {} dat files to analyze. \nProceeding with analysis...".format(len(all_files))
         )
