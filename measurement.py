@@ -129,9 +129,9 @@ class Measurement:
 
         # file name
         if type_of_plot != "":
-            n = str(self.path.parent) + self.path.stem + "[" + type_of_plot + "].png"
+            n = str(self.path.parent) + "/" + self.path.stem + "[" + type_of_plot + "].png"
         else:
-            n = str(self.path.parent) + self.path.stem + ".png"
+            n = str(self.path.parent) + "/" + self.path.stem + ".png"
 
         #if (override == False and not os.path.isfile(n)):
             # save plot to file
