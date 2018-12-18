@@ -45,7 +45,20 @@ class Measurement:
             self.clean_data()
         except Exception as e:
             print(e)
-        
+    
+    def measurement_type(self, type_of_measurement="default"):
+        """
+        Sets the type of the measurement if parameter type_of_measurement is set.
+
+            :param self:                            object itself
+            :param type_of_measurement="default":   new type of measurement
+
+        Returns the current type of measurement.
+        """
+        if type_of_measurement != "default":
+            self.type_of_measurement = type_of_measurement
+
+        return self.type_of_measurement
         
 
     def read_data(self, path):
