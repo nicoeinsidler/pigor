@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import os.path
 from datetime import datetime
 from pathlib import Path
+from scipy.optimize import curve_fit
 
 class Measurement:
     """
@@ -103,6 +104,16 @@ class Measurement:
         except Exception as e:
             print(e)
 
+
+    def fit(self, fit_function=None):
+
+
+        fit_function_list = {
+            'gauss'     :   self.gauss
+        }
+
+        if fit_function == None:
+            fit_function = fit_function_list[self.type_of_measurement]
         
 
 
@@ -152,6 +163,17 @@ class Measurement:
 
         # clear figure/plot for next
         plt.clf()
+
+    def gauss(x, a, x0, sigma):
+        """
+        Gaussian function, used for fitting data.
+
+            :param x:       parameter
+            :param a:       amplitude
+            :param x0:      maximum
+            :param sigma:   width
+        """
+        return a*np.exp(-(x-x0)**2/(2*sigma**2))
 
 
 # here you can test the class
