@@ -2,7 +2,7 @@
 
 Pigor is a lightweight analysis tool for the NEPTUN beam line at [Atominstitut](https://ati.tuwien.ac.at/startseite/) of [TU Wien](https://www.tuwien.ac.at/), Austria. For more information visit [our homepage](http://www.neutroninterferometry.com/).
 
-# Naming Convention
+## Naming Convention
 
 All files created at measurements should follow this naming convention:
 
