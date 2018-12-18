@@ -111,11 +111,9 @@ class Measurement:
         x = self.data[::column1[1],column1[0]]
         y = self.data[::column2[1],column2[0]]
 
+
         # create label
         title = self.file_name + "\n" + type_of_plot + self.settings['timestamp'].strftime("%Y-%m-%d %H:%M")
-
-        # plot
-        plt.plot(x,y)
 
         # plot title
         plt.title(title)
@@ -124,15 +122,18 @@ class Measurement:
         plt.xlabel(self.desc[column1[0]])
         plt.ylabel(self.desc[column2[0]])
 
+        # plot
+        plt.plot(x,y)
+
         # file name
         if type_of_plot != "":
             n = self.directory + self.file_name.split('.')[0] + "[" + type_of_plot + "].png"
         else:
             n = self.directory + self.file_name.split('.')[0] + ".png"
 
-        if override == False and not os.path.isfile(n):
+        #if (override == False and not os.path.isfile(n)):
             # save plot to file
-            plt.savefig(n)
+        plt.savefig(n)
 
         # clear figure/plot for next
         plt.clf()
