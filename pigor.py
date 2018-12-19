@@ -98,7 +98,6 @@ while True:
         print_help()
     else:
         all_files = find_all_files()
-        print(all_files)
         print(
             "Found {} dat files to analyze. \nProceeding with analysis...".format(len(all_files))
         )
