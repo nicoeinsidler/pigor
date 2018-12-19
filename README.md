@@ -14,7 +14,10 @@ where...
     + `dcX#`: DC coil (for the magnetic field in x-direction) scan for the DC coil with the number #. A sine fit is automatically applied, when `TYPE` is not set.
     + `dcZ#`: DC coil scan in z-direction (compensation field) for DC coil number #. Fitted with a polynomial of order 5 by default.
     + `pos#`: position scan with stage number #. Fitted with a Gaussian by default.
-+ `TYPE` specifies and overrides the type of fitting that should be applied by PIGOR.
++ `TYPE` specifies and overrides the type of fitting that should be applied by PIGOR. Possible values:
+    + `poly5`
+    + `sine_lin`
+    + `gauss`
 
 ## TODO
 

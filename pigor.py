@@ -60,29 +60,15 @@ def analyse_files(filepaths):
         :param filepaths:       list of files to analyse with 
                                 their relative dir path added
     """
-    # split every filepath to directory and filename
-    #files = [split_filepath(filepath) for filepath in filepaths]
 
     # list holding all measurement objects
     m = []
-
-
-    # create measurement objects
-    #m = [measurement.Measurement(f) for f in filepaths]
-
 
     with mp.Pool() as pool:
         m = pool.map(measurement.Measurement, filepaths)
         pool.map(measurement.Measurement.plot, m)
         #pool.map(lambda obj: obj.plot(), m)
 
-    # plotting all without multiprocessing
-    #[_.plot() for _ in m]
-
-    # for path in filepaths:
-    #     print("Analysis of {}".format(path))
-    #     msrmt = measurement.Measurement(path)
-    #     msrmt.plot()
 
 
 
