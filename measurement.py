@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
+import re
 import numpy as np
 import matplotlib.pyplot as plt
 import os.path
 from datetime import datetime
 from pathlib import Path
-#from scipy.optimize import curve_fit
+# from scipy.optimize import curve_fit
 
 class Measurement:
     """
@@ -13,7 +14,7 @@ class Measurement:
     text files.
     """
 
-    def __init__(self, path, type_of_measurement="default"):
+    def __init__(self, path, type_of_measurement="default", type_of_fit="gauss"):
         """
         The Measurement class provides an easy and quick way to read, 
         analyse and plot data from text files. When creating a new instance,
@@ -30,6 +31,13 @@ class Measurement:
         self.path = path
 
         self.type_of_measurement = type_of_measurement
+        self.type_of_fit         = type_of_fit
+
+        self.fit_function_list = {
+             'gauss'     :   self.gauss,
+             'sine_sin'  :   self.sine_lin,
+             'poly5'     :   self.poly5
+        }
 
         # try to read the data
         try:
@@ -59,6 +67,51 @@ class Measurement:
 
         return self.type_of_measurement
         
+    def detect_measurement_type(self):
+        
+        # if DC#X scan
+        if re.match(r"[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{4}_[dD][cC][0-9][xX]",self.path.name):
+
+            self.type_of_measurement = "DC"
+            self.type_of_fit = "sine_lin"
+            self.settings['DC Coil Axis'] = "X"
+
+            # get the number of the DC coil
+            match = re.search(r"(?i)dc(\d+)", self.path.name)
+            if match:
+                # write number into self.settings
+                self.settings['DC Coil Number'] = match.group(1)
+
+        # if DC#Z scan
+        elif re.match(r"[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{4}_[dD][cC][0-9][zZ]",self.path.name):
+
+            self.type_of_measurement = "DC"
+            self.type_of_fit = "poly5"
+            self.settings['DC Coil Axis'] = "Z"
+
+            # get the number of the DC coil
+            match = re.search(r"(?i)dc(\d+)", self.path.name)
+            if match:
+                # write number into self.settings
+                self.settings['DC Coil Number'] = match.group(1)
+
+        # if POS# scan
+        elif re.match(r"[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{4}_[pP][oO][sS][0-9]",self.path.name):
+
+            self.type_of_measurement = "POS"
+            self.type_of_fit = "gauss"
+
+            # get the number of the DC coil
+            match = re.search(r"(?i)pos(\d+)", self.path.name)
+            if match:
+                # write number into self.settings
+                self.settings['Linear Stage Axis'] = match.group(1)
+
+
+        # override type_of_fit if one of the key strings is matched
+        for k, v in self.fit_function_list:
+            if k in self.path.name: self.type_of_fit = k
+
 
     def read_data(self, path):
         """
@@ -74,6 +127,9 @@ class Measurement:
 
         # import the data
         self.raw = [line.rstrip('\n') for line in open(path)]
+
+        # detect type of measurement
+        self.detect_measurement_type()
         
 
     def clean_data(self):
@@ -87,6 +143,9 @@ class Measurement:
         self.data = np.array([[float(number) for number in line.split()] for line in self.raw[self.N_HEADER+1:-1]])
         # get last line of head for axis labels for plots
         self.desc = [' '.join(item) for item in [item.split() for item in [item.split(": ") for item in self.head[-1]][0]]]
+
+        # select columns for data
+        self.select_columns()
 
         try:
             self.settings = {
@@ -105,15 +164,14 @@ class Measurement:
 
     # def fit(self, fit_function=None):
 
-
-    #     fit_function_list = {
-    #         'gauss'     :   self.gauss
-    #     }
-
     #     if fit_function == None:
-    #         fit_function = fit_function_list[self.type_of_measurement]
-        
+    #         fit_function = self.fit_function_list[self.type_of_measurement]
 
+    #     return curve_fit(self.)
+        
+    def select_columns(self, column1=(0,1), column2=(1,1)):
+        self.x = self.data[::column1[1],column1[0]]
+        self.y = self.data[::column2[1],column2[0]]
 
     def plot(self, column1=(0,1), column2=(1,1), fit=True, type_of_plot="", override=True):
         """
@@ -172,6 +230,13 @@ class Measurement:
             :param sigma:   width
         """
         return a*np.exp(-(x-x0)**2/(2*sigma**2))
+
+    def sine_lin():
+        print('not yet implemented')
+
+    def poly5():
+        print('not yet implemented')
+    
 
 
 # here you can test the class
