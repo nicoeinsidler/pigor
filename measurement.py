@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import os.path
 from datetime import datetime
 from pathlib import Path
-from scipy.optimize import curve_fit
+#from scipy.optimize import curve_fit
 
 class Measurement:
     """
@@ -20,9 +20,7 @@ class Measurement:
         the following parameters have to be provided:
 
             :param self:        the object itself
-            :param directory:   the directory of the file to read data from
-            :param file_name:   the name of the file to read from (containing
-                                also its file extention)
+            :param path:        pathlib.Path object
 
         Returns nothing.
         """
@@ -105,15 +103,15 @@ class Measurement:
             print(e)
 
 
-    def fit(self, fit_function=None):
+    # def fit(self, fit_function=None):
 
 
-        fit_function_list = {
-            'gauss'     :   self.gauss
-        }
+    #     fit_function_list = {
+    #         'gauss'     :   self.gauss
+    #     }
 
-        if fit_function == None:
-            fit_function = fit_function_list[self.type_of_measurement]
+    #     if fit_function == None:
+    #         fit_function = fit_function_list[self.type_of_measurement]
         
 
 
