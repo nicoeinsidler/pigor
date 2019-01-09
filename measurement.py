@@ -30,11 +30,14 @@ class Measurement:
 
         self.path = path
 
-        self.type_of_measurement = type_of_measurement
-        self.type_of_fit         = type_of_fit
+        # change measurement type
+        self.type_of_measurement     = type_of_measurement
+        # change type of fit
+        self.type_of_fit             = type_of_fit
 
         self.fit_function_list = {
              'gauss'     :   self.gauss,
+             'sine'      :   self.sine,
              'sine_sin'  :   self.sine_lin,
              'poly5'     :   self.poly5
         }
@@ -144,8 +147,11 @@ class Measurement:
         # get last line of head for axis labels for plots
         self.desc = [' '.join(item) for item in [item.split() for item in [item.split(": ") for item in self.head[-1]][0]]]
 
-        # select columns for data
-        self.select_columns()
+        # if measurement is degree of polarisation measurement
+        if self.measurement_type == 'pol':
+            self.degree_of_polarisation()
+        else:
+            self.select_columns()
 
         try:
             self.settings = {
@@ -161,6 +167,10 @@ class Measurement:
         except Exception as e:
             print(e)
 
+
+    def degree_of_polarisation():
+        
+        pass
 
     # def fit(self, fit_function=None):
 
@@ -189,11 +199,6 @@ class Measurement:
 
         """
 
-        # select the data to plot
-        x = self.data[::column1[1],column1[0]]
-        y = self.data[::column2[1],column2[0]]
-
-
         # create label
         title = self.path.name + "\n" + type_of_plot + self.settings['timestamp'].strftime("%Y-%m-%d %H:%M")
 
@@ -205,7 +210,7 @@ class Measurement:
         plt.ylabel(self.desc[column2[0]])
 
         # plot
-        plt.plot(x,y)
+        plt.plot(self.x,self.y)
 
         # file name
         if type_of_plot != "":
@@ -235,6 +240,9 @@ class Measurement:
         print('not yet implemented')
 
     def poly5():
+        print('not yet implemented')
+
+    def sine():
         print('not yet implemented')
     
 

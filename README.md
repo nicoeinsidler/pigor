@@ -14,10 +14,16 @@ where...
     + `dcX#`: DC coil (for the magnetic field in x-direction) scan for the DC coil with the number #. A sine fit is automatically applied, when `TYPE` is not set.
     + `dcZ#`: DC coil scan in z-direction (compensation field) for DC coil number #. Fitted with a polynomial of order 5 by default.
     + `pos#`: position scan with stage number #. Fitted with a Gaussian by default.
-+ `TYPE` specifies and overrides the type of fitting that should be applied by PIGOR. Possible values:
-    + `poly5`
-    + `sine_lin`
-    + `gauss`
++ `TYPE` specifies and overrides the type of fitting/analysis that should be applied by PIGOR. Possible values:
+    + fitting types
+        + `poly5`: polynom of order 5
+        + `sine_lin`: sine plus additional added linear function
+        + `sine`: sine
+        + `gauss`: Gauß fit
+    + special analysis types
+        + `pol`: specifies that this measurement is a degree of polarisation measurement. This will automatically calculate the degree of polarisation for any given number of points (number of data points must be multiple of four)
+
+Types can be combined within a types group (gauss and pol for example, like "gauss_pol" or "pol_gauss").
 
 ## TODO
 
