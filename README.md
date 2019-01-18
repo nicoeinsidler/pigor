@@ -28,6 +28,7 @@ Types can be combined within a types group (gauss and pol for example, like "gau
 ## TODO
 
 + measurement time in plot
++ self.x_error: not yet implemented
 
 ## How to Install
 
