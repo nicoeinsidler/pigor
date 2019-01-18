@@ -185,12 +185,12 @@ class Measurement:
         raw_x = self.x
         raw_y = self.y
 
-        # set y axis values
-        self.y = raw_y[::4]
+        # set x axis values
+        self.x = raw_x[::4]
 
         # calculation of degree of polarization and its error
-        self.x = [raw_x[i] + raw_x[i+1] + raw_x[i+2] for i in range(0, len(raw_x), 4)] # TODO adding formular for degree of pol
-        self.x_error = [np.sqrt(raw_x[i]) + raw_x[i] + raw_x[i] for i in range(0, len(raw_x), 4)] # TODO adding formular for error degree of pol
+        self.y = [raw_y[i] + raw_y[i+1] + raw_y[i+2] for i in range(0, len(raw_y), 4)] # TODO adding formular for degree of pol
+        self.y_error = [np.sqrt(raw_y[i]) + raw_y[i] + raw_y[i] for i in range(0, len(raw_y), 4)] # TODO adding formular for error degree of pol
 
 
 
