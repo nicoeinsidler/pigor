@@ -73,7 +73,7 @@ class Measurement:
     def detect_measurement_type(self):
         
         # if DC#X scan
-        if re.match(r"[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{4}_[dD][cC][0-9][xX]",self.path.name):
+        if re.match(r"[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{4}_[dD][cC][0-9][xX]", self.path.name):
 
             self.type_of_measurement = "DC"
             self.type_of_fit = "sine_lin"
@@ -85,8 +85,8 @@ class Measurement:
                 # write number into self.settings
                 self.settings['DC Coil Number'] = match.group(1)
 
-        # if DC#Z scan
-        elif re.match(r"[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{4}_[dD][cC][0-9][zZ]",self.path.name):
+        # else if DC#Z scan
+        elif re.match(r"[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{4}_[dD][cC][0-9][zZ]", self.path.name):
 
             self.type_of_measurement = "DC"
             self.type_of_fit = "poly5"
@@ -98,8 +98,8 @@ class Measurement:
                 # write number into self.settings
                 self.settings['DC Coil Number'] = match.group(1)
 
-        # if POS# scan
-        elif re.match(r"[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{4}_[pP][oO][sS][0-9]",self.path.name):
+        # else if POS# scan
+        elif re.match(r"[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{4}_[pP][oO][sS][0-9]", self.path.name):
 
             self.type_of_measurement = "POS"
             self.type_of_fit = "gauss"
@@ -109,6 +109,15 @@ class Measurement:
             if match:
                 # write number into self.settings
                 self.settings['Linear Stage Axis'] = match.group(1)
+
+        else:
+            self.measurement_type()
+
+        # if degree of polarization measurement
+        if "pol" in self.path.name:
+            self.type_of_measurement = "POS"
+            self.type_of_fit = "gauss"
+            self.degree_of_polarisation()
 
 
         # override type_of_fit if one of the key strings is matched
@@ -169,8 +178,21 @@ class Measurement:
 
 
     def degree_of_polarisation(self):
-        
-        pass
+        # select default columns
+        self.select_columns()
+
+        # helper vars for raw data
+        raw_x = self.x
+        raw_y = self.y
+
+        # set y axis values
+        self.y = raw_y[::4]
+
+        # calculation of degree of polarization and its error
+        self.x = [raw_x[i] + raw_x[i+1] + raw_x[i+2] for i in range(0, len(raw_x), 4)] # TODO adding formular for degree of pol
+        self.x_error = [np.sqrt(raw_x[i]) + raw_x[i] + raw_x[i] for i in range(0, len(raw_x), 4)] # TODO adding formular for error degree of pol
+
+
 
     # def fit(self, fit_function=None):
 
