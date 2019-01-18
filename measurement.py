@@ -168,7 +168,7 @@ class Measurement:
             print(e)
 
 
-    def degree_of_polarisation():
+    def degree_of_polarisation(self):
         
         pass
 
@@ -225,7 +225,7 @@ class Measurement:
         # clear figure/plot for next
         plt.clf()
 
-    def gauss(x, a, x0, sigma):
+    def gauss(self, x, a, x0, sigma):
         """
         Gaussian function, used for fitting data.
 
@@ -236,13 +236,13 @@ class Measurement:
         """
         return a*np.exp(-(x-x0)**2/(2*sigma**2))
 
-    def sine_lin():
+    def sine_lin(self):
         print('not yet implemented')
 
-    def poly5():
+    def poly5(self):
         print('not yet implemented')
 
-    def sine():
+    def sine(self):
         print('not yet implemented')
     
 
