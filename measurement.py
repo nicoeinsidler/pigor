@@ -37,12 +37,13 @@ class Measurement:
         # change type of fit
         self.type_of_fit             = type_of_fit
 
+        # list of all available fitting functions with their bounds
         self.fit_function_list = {
-            'default'   :   self.gauss,
-            'gauss'     :   self.gauss,
-            'sine'      :   self.sine,
-            'sine_sin'  :   self.sine_lin,
-            'poly5'     :   self.poly5
+            'default'   :   (self.gauss, (0,[np.inf, np.inf, np.inf])), # a, x0, sigma
+            'gauss'     :   (self.gauss, (0,[np.inf, np.inf, np.inf])), # a, x0, sigma
+            'sine'      :   (self.sine, ([0, 0, 0, -np.inf],[np.inf, np.inf, np.inf, np.inf])), #  a, omega, phase, c
+            'sine_sin'  :   (self.sine_lin, ([0, 0, 0, -np.inf, 0],[np.inf, np.inf, np.inf, np.inf, np.inf])), # a, omega, phase, c, b
+            'poly5'     :   (self.poly5, (np.inf,np.inf)) # a5, a4, a3, a2, a1, a0
         }
 
 
@@ -230,7 +231,7 @@ class Measurement:
         # check if fit function is not explicitly set for fit()
         if fit_function == None:
             # default fit function for measurement type
-            func = self.fit_function_list[self.type_of_measurement]
+            func = self.fit_function_list[self.type_of_fit]
         else:
             func = self.fit_function_list[fit_function]
 
@@ -238,7 +239,7 @@ class Measurement:
         self.used_fit_function = func
 
         # make a curve fit and save values
-        self.popt, self.pcov = curve_fit(func, self.x, self.y)
+        self.popt, self.pcov = curve_fit(func[0], self.x, self.y, bounds=func[1])
         
     def select_columns(self, column1=(0,1), column2=(1,1)):
         self.x = self.data[::column1[1],column1[0]]
@@ -278,7 +279,7 @@ class Measurement:
         # plot fit if exists
         if fit == True and hasattr(self, 'used_fit_function'):
             x = np.linspace(self.x.min(), self.x.max(), self.FIT_RESOLUTION)
-            plt.plot(x, self.used_fit_function(x, *self.popt), '-', label='fit')
+            plt.plot(x, self.used_fit_function[0](x, *self.popt), '-', label='fit')
 
         # file name
         if type_of_plot != "":
@@ -304,13 +305,37 @@ class Measurement:
         """
         return a*np.exp(-(x-x0)**2/(2*sigma**2))
 
-    def sine_lin(self):
-        print('not yet implemented')
+    def sine_lin(self, x, a, omega, phase, c, b):
+        """
+        Sine function with linear term added for fitting data.
+            :param self:   
+            :param x:       parameter
+            :param a:       amplitude
+            :param omega:   frequency
+            :param phase:   phase
+            :param c:       offset
+            :param b:       slope
+        """   
+        return a*np.sin(x*omega + phase) + b*x + c
 
-    def poly5(self):
-        print('not yet implemented')
+    def poly5(self, x, a5, a4, a3, a2, a1, a0):
+        """Polynom 5th degree for fitting.
+        
+        Arguments:
+            x -- parameter
+            a5 -- coeff
+            a4 -- coeff
+            a3 -- coeff
+            a2 -- coeff
+            a1 -- coeff
+            a0 -- coeff
+        
+        Returns:
+            function -- polynomial 5th degree
+        """
+        return (((((a5*x + a4)*x + a3)*x + a2)*x + a1)*x + a0)
 
-    def sine(self, x, a, omega, phase):
+    def sine(self, x, a, omega, phase, c):
         """
         Sine function for fitting data.
             :param self:   
@@ -318,8 +343,34 @@ class Measurement:
             :param a:       amplitude
             :param omega:   frequency
             :param phase:   phase
+            :param c:       offset
         """   
-        return a*np.sin(x*omega + phase)
+        return a*np.sin(x*omega + phase) + c
+
+
+    def find_boundaries(self, fit_function=None):
+
+        # check if fit function is not explicitly set for fit()
+        if fit_function == None:
+            # default fit function for measurement type
+            func = self.type_of_fit
+        else:
+            func = fit_function
+
+        # cases for each type of fit
+        if func == "gauss":
+            # boundaries should be calculated here TODO
+            pass
+        elif func == "sine":
+            pass
+        elif func == "sine_lin":
+            pass
+        elif func == "poly5":
+            pass
+        else:
+            # reset boundaries goes here TODO
+            pass
+            
     
 
 
