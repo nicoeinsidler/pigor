@@ -59,10 +59,11 @@ Variables that won't be changed during runtime are capitalized.
 
 #### Fit variables
 
-| name                  | description                                            |
-| --------------------- | ------------------------------------------------------ |
-| self.type_of_fit      | contains the name of the function to fit the data with |
-| self.fit_fuction_list | a list of all possible fit functions                   |
+| name                   | description                                            |
+| ---------------------- | ------------------------------------------------------ |
+| self.type_of_fit       | contains the name of the function to fit the data with |
+| self.fit_fuction_list  | a list of all possible fit functions                   |
+| self.used_fit_function | contains the last used fitting function                |
 
 
 ### Methods
