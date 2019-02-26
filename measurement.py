@@ -42,8 +42,6 @@ class Measurement:
              'poly5'     :   self.poly5
         }
 
-        self.read_data(self.path)
-
         # try to read the data
         try:
             self.read_data(self.path)
