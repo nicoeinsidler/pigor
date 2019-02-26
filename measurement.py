@@ -27,6 +27,8 @@ class Measurement:
         """
         # sets the number of lines of header of file (line 0 to N_HEADER)
         self.N_HEADER = 4
+        # setting the fit resolution (how many points should be plotted)
+        self.FIT_RESOLUTION = 2000
 
         self.path = path
 
@@ -225,10 +227,18 @@ class Measurement:
 
     def fit(self, fit_function=None):
 
+        # check if fit function is not explicitly set for fit()
         if fit_function == None:
-            fit_function = self.fit_function_list[self.type_of_measurement]
+            # default fit function for measurement type
+            func = self.fit_function_list[self.type_of_measurement]
+        else:
+            func = self.fit_function_list[fit_function]
 
-        return curve_fit(fit_function, self.x, self.y)
+        # write used fit_function for plotting
+        self.used_fit_function = func
+
+        # make a curve fit and save values
+        self.popt, self.pcov = curve_fit(func, self.x, self.y)
         
     def select_columns(self, column1=(0,1), column2=(1,1)):
         self.x = self.data[::column1[1],column1[0]]
@@ -265,6 +275,11 @@ class Measurement:
         # plot
         plt.plot(self.x,self.y)
 
+        # plot fit if exists
+        if fit == True and hasattr(self, 'used_fit_function'):
+            x = np.linspace(self.x.min(), self.x.max(), self.FIT_RESOLUTION)
+            plt.plot(x, self.used_fit_function(x, *self.popt), '-', label='fit')
+
         # file name
         if type_of_plot != "":
             n = str(self.path.parent) + "/" + self.path.stem + "[" + type_of_plot + "].png"
@@ -295,8 +310,16 @@ class Measurement:
     def poly5(self):
         print('not yet implemented')
 
-    def sine(self):
-        print('not yet implemented')
+    def sine(self, x, a, omega, phase):
+        """
+        Sine function for fitting data.
+            :param self:   
+            :param x:       parameter
+            :param a:       amplitude
+            :param omega:   frequency
+            :param phase:   phase
+        """   
+        return a*np.sin(x*omega + phase)
     
 
 
@@ -304,6 +327,7 @@ class Measurement:
 if __name__ == "__main__":
     print('Testing the Measurement Class')
     #m = Measurement(Path("./testfiles/2018-11-23-1325-degree-of-pol.dat"))
-    m = Measurement(Path("./testfiles/2018-11-26-1300-scan-dc1coil.dat"))
-    m.plot()
+    m = Measurement(Path("./testfiles/2018-11-23-1545-scan-dc2x.dat"))
     m.fit()
+    m.plot()
+    
