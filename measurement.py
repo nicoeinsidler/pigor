@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import os.path
 from datetime import datetime
 from pathlib import Path
-# from scipy.optimize import curve_fit
+from scipy.optimize import curve_fit
 
 class Measurement:
     """
@@ -36,11 +36,13 @@ class Measurement:
         self.type_of_fit             = type_of_fit
 
         self.fit_function_list = {
-             'gauss'     :   self.gauss,
-             'sine'      :   self.sine,
-             'sine_sin'  :   self.sine_lin,
-             'poly5'     :   self.poly5
+            'default'   :   self.gauss,
+            'gauss'     :   self.gauss,
+            'sine'      :   self.sine,
+            'sine_sin'  :   self.sine_lin,
+            'poly5'     :   self.poly5
         }
+
 
         # try to read the data
         try:
@@ -174,6 +176,7 @@ class Measurement:
                     if i != 1:
                         self.settings[l[0]] = l[1]
         except Exception as e:
+            self.settings = {}
             print(e)
 
 
@@ -220,12 +223,12 @@ class Measurement:
 
 
 
-    # def fit(self, fit_function=None):
+    def fit(self, fit_function=None):
 
-    #     if fit_function == None:
-    #         fit_function = self.fit_function_list[self.type_of_measurement]
+        if fit_function == None:
+            fit_function = self.fit_function_list[self.type_of_measurement]
 
-    #     return curve_fit(self.fit_function)
+        return curve_fit(fit_function, self.x, self.y)
         
     def select_columns(self, column1=(0,1), column2=(1,1)):
         self.x = self.data[::column1[1],column1[0]]
@@ -300,5 +303,7 @@ class Measurement:
 # here you can test the class
 if __name__ == "__main__":
     print('Testing the Measurement Class')
-    m = Measurement(Path("./testfiles/2018-11-23-1325-degree-of-pol.dat"))
+    #m = Measurement(Path("./testfiles/2018-11-23-1325-degree-of-pol.dat"))
+    m = Measurement(Path("./testfiles/2018-11-26-1300-scan-dc1coil.dat"))
     m.plot()
+    m.fit()
