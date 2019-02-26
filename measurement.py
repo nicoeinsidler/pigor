@@ -197,6 +197,8 @@ class Measurement:
             b = raw_y[i+1]  # I_b
             c = raw_y[i+2]  # I_ab
             d = raw_y[i+3]  # I_off
+
+            # deviations
             da = np.sqrt[a]
             db = np.sqrt[b]
             dc = np.sqrt[c]
@@ -228,6 +230,8 @@ class Measurement:
     def select_columns(self, column1=(0,1), column2=(1,1)):
         self.x = self.data[::column1[1],column1[0]]
         self.y = self.data[::column2[1],column2[0]]
+
+        self.y_error = np.sqrt(self.y)
 
     def plot(self, column1=(0,1), column2=(1,1), fit=True, type_of_plot="", override=True):
         """
