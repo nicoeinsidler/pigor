@@ -42,9 +42,11 @@ class Measurement:
              'poly5'     :   self.poly5
         }
 
+        self.read_data(self.path)
+
         # try to read the data
         try:
-            self.read_data(path)
+            self.read_data(self.path)
         except IOError as e20:
             print(e20)
         except Exception as e:
@@ -117,11 +119,11 @@ class Measurement:
         if "pol" in self.path.name:
             self.type_of_measurement = "POS"
             self.type_of_fit = "gauss"
-            self.degree_of_polarisation()
+            #self.degree_of_polarisation()
 
 
         # override type_of_fit if one of the key strings is matched
-        for k, v in self.fit_function_list:
+        for k in self.fit_function_list:
             if k in self.path.name: self.type_of_fit = k
 
 
@@ -299,5 +301,6 @@ class Measurement:
 
 # here you can test the class
 if __name__ == "__main__":
-    msrmt = Measurement(Path("./testfiles/2018-12-11-1000-dc1com.dat"))
-    msrmt.plot()
+    print('Testing the Measurement Class')
+    m = Measurement(Path("./testfiles/2018-11-23-1325-degree-of-pol.dat"))
+    m.plot()
