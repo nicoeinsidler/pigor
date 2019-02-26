@@ -211,8 +211,9 @@ class Measurement:
             p1 = f2^2 * d2 * (c-b)^2
             p2 = f1^2 * f2^2 * d2
             p3 = f1^2 * d2 * (a-c)^2
+            p4 = (a^2*b + a*b * (b - c - 2*d) + c*d2)^2
 
-            self.y_error[i] = 0.5 * (p1*da + p2*dc + p3*db + p4*dd) / p0s
+            self.y_error[i] = 0.5 * (p1*da + p2*dc + p3*db + p4*dd) / p0
 
 
 
