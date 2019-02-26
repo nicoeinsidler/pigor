@@ -34,6 +34,10 @@ Types can be combined within a types group (gauss and pol for example, like "gau
 
 + measurement time in plot
 + self.x_error: not yet implemented
++ a lot of commenting
++ renew docstring style
++ fitting boundaries
++ fixing degree of pol
 
 ## How to Install
 
