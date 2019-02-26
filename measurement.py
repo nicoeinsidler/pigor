@@ -191,6 +191,7 @@ class Measurement:
         # calculation of degree of polarization and its error
         self.y = [np.sqrt(((raw_y[i] - raw_y[i+1]) * (raw_y[i] - raw_y[i+2]))/(raw_y[i]*raw_y[i+3] - raw_y[i+1]*raw_y[i+2])) for i in range(0, len(raw_y), 4)]
 
+        self.y_error = []
         for i in range(0, len(raw_y), 4):
             a = raw_y[i]    # I_a
             b = raw_y[i+1]  # I_b
@@ -213,7 +214,7 @@ class Measurement:
             p3 = f1^2 * d2 * (a-c)^2
             p4 = (a^2*b + a*b * (b - c - 2*d) + c*d2)^2
 
-            self.y_error[i] = 0.5 * (p1*da + p2*dc + p3*db + p4*dd) / p0
+            self.y_error.append(0.5 * (p1*da + p2*dc + p3*db + p4*dd) / p0)
 
 
 
