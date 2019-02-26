@@ -32,18 +32,20 @@ class Measurement:
 
         self.path = path
 
+        self.settings = {}
+
         # change measurement type
         self.type_of_measurement     = type_of_measurement
         # change type of fit
         self.type_of_fit             = type_of_fit
 
-        # list of all available fitting functions with their bounds
+        # list of all available fitting functions with their default bounds
         self.fit_function_list = {
-            'default'   :   (self.gauss, (0,[np.inf, np.inf, np.inf])), # a, x0, sigma
-            'gauss'     :   (self.gauss, (0,[np.inf, np.inf, np.inf])), # a, x0, sigma
-            'sine'      :   (self.sine, ([0, 0, 0, -np.inf],[np.inf, np.inf, np.inf, np.inf])), #  a, omega, phase, c
-            'sine_sin'  :   (self.sine_lin, ([0, 0, 0, -np.inf, 0],[np.inf, np.inf, np.inf, np.inf, np.inf])), # a, omega, phase, c, b
-            'poly5'     :   (self.poly5, (np.inf,np.inf)) # a5, a4, a3, a2, a1, a0
+            'default'   :   (self.gauss, (-np.inf, np.inf)), # a, x0, sigma
+            'gauss'     :   (self.gauss, (-np.inf, np.inf)), # a, x0, sigma
+            'sine'      :   (self.sine, (-np.inf, np.inf)), #  a, omega, phase, c
+            'sine_lin'  :   (self.sine_lin, (-np.inf, np.inf)), # a, omega, phase, c, b
+            'poly5'     :   (self.poly5, (-np.inf,np.inf)) # a5, a4, a3, a2, a1, a0
         }
 
 
@@ -79,7 +81,7 @@ class Measurement:
         
         # if DC#X scan
         if re.match(r"[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{4}_[dD][cC][0-9][xX]", self.path.name):
-
+            
             self.type_of_measurement = "DC"
             self.type_of_fit = "sine_lin"
             self.settings['DC Coil Axis'] = "X"
@@ -214,13 +216,13 @@ class Measurement:
             f1 = d-a
             f2 = d-b
 
-            d2 = d^2
+            d2 = d**2
 
-            p0 = f1*f2*(c*d-a*b)^3
-            p1 = f2^2 * d2 * (c-b)^2
-            p2 = f1^2 * f2^2 * d2
-            p3 = f1^2 * d2 * (a-c)^2
-            p4 = (a^2*b + a*b * (b - c - 2*d) + c*d2)^2
+            p0 = f1*f2*(c*d-a*b)**3
+            p1 = f2**2 * d2 * (c-b)**2
+            p2 = f1**2 * f2**2 * d2
+            p3 = f1**2 * d2 * (a-c)**2
+            p4 = (a**2*b + a*b * (b - c - 2*d) + c*d2)**2
 
             self.y_error.append(0.5 * (p1*da + p2*dc + p3*db + p4*dd) / p0)
 
@@ -232,14 +234,19 @@ class Measurement:
         if fit_function == None:
             # default fit function for measurement type
             func = self.fit_function_list[self.type_of_fit]
+            # try to find better bounds
+            self.find_bounds(fit_function=self.type_of_fit)
         else:
             func = self.fit_function_list[fit_function]
+            # try to find better bounds
+            self.find_bounds(fit_function=fit_function)
 
         # write used fit_function for plotting
         self.used_fit_function = func
 
         # make a curve fit and save values
-        self.popt, self.pcov = curve_fit(func[0], self.x, self.y, bounds=func[1])
+        self.popt, self.pcov = curve_fit(func[0], self.x, self.y, bounds=func[1], sigma=self.y_error, absolute_sigma=True)
+
         
     def select_columns(self, column1=(0,1), column2=(1,1)):
         self.x = self.data[::column1[1],column1[0]]
@@ -318,7 +325,7 @@ class Measurement:
         """   
         return a*np.sin(x*omega + phase) + b*x + c
 
-    def poly5(self, x, a5, a4, a3, a2, a1, a0):
+    def poly5(self, x, a5, a4, a3, a2, a1, a0): # should be implemented as generalization of nth degree
         """Polynom 5th degree for fitting.
         
         Arguments:
@@ -347,8 +354,7 @@ class Measurement:
         """   
         return a*np.sin(x*omega + phase) + c
 
-
-    def find_boundaries(self, fit_function=None):
+    def find_bounds(self, fit_function=None):
 
         # check if fit function is not explicitly set for fit()
         if fit_function == None:
@@ -357,28 +363,96 @@ class Measurement:
         else:
             func = fit_function
 
+        print(func)
+
+        # minima and maxima of x and y data
+        x_min = self.x.min()
+        x_max = self.x.max()
+        y_min = self.y.min()
+        y_max = self.y.max()
+
+        # x data where y is max or min
+        y_min_i = self.x[self.y.argmin()]
+        y_max_i = self.x[self.y.argmax()]
+
         # cases for each type of fit
         if func == "gauss":
             # boundaries should be calculated here TODO
             pass
         elif func == "sine":
-            pass
+            # calculation of amplitude
+            a = 0.5 * abs(y_max - y_min)
+            # guessing the offset
+            c = y_min + a
+            # guessing an omega
+            omega = np.pi / abs(y_max_i - y_min_i)
+            # guessing a phase, works for now, but big values TODO
+            phase = abs(y_max_i) + abs(y_min_i) / omega + np.pi/2
+
+            # scale factor
+            s = 0.5
+
+            self.fit_function_list['sine'] = (
+                self.sine, 
+                (
+                    [a - a*s, omega - omega*s, phase - phase*s, c - c*s], 
+                    [a + a*s, omega + omega*s, phase + phase*s, c + c*s]
+                )
+            ) # a, omega, phase, c
+
         elif func == "sine_lin":
-            pass
+             # calculation of amplitude
+            a = 0.5 * abs(y_max - y_min)
+            # guessing the offset
+            c = y_min + a
+            # guessing an omega
+            omega = np.pi / abs(y_max_i - y_min_i)
+            # guessing a phase, works for now, but big values TODO
+            phase = abs(y_max_i) + abs(y_min_i) / omega + np.pi/2
+            # calculation of slope of linear term (sloppy TODO)
+            b = abs(y_max - y_min) / abs(y_max_i-y_min_i)
+
+            # scale factor
+            s = 0.5
+
+            print(
+                [a - a*s, omega - omega*s, phase - phase*s, c - c*s, b - b*s], 
+                [a + a*s, omega + omega*s, phase + phase*s, c + c*s, b + b*s]
+            )
+
+            self.fit_function_list['sine_lin'] = (
+                self.sine_lin, 
+                (
+                    [a - a*s, omega - omega*s, phase - phase*s, c - c*s, - b*s], 
+                    [a + a*s, omega + omega*s, phase + phase*s, c + c*s, + b*s]
+                )
+            ) # a, omega, phase, c, b
+
+            
         elif func == "poly5":
+            # TODO
             pass
         else:
-            # reset boundaries goes here TODO
+            # rest bounds here useful?!
             pass
             
-    
+    def reset_bounds(self, fit_function=None):
+        # check if fit function is not explicitly set for fit()
+        if fit_function == None:
+            # default fit function for measurement type
+            func = self.type_of_fit
+        else:
+            func = fit_function
+
+        self.fit_function_list[func][1] = (-np.inf, np.inf)
 
 
 # here you can test the class
 if __name__ == "__main__":
     print('Testing the Measurement Class')
     #m = Measurement(Path("./testfiles/2018-11-23-1325-degree-of-pol.dat"))
-    m = Measurement(Path("./testfiles/2018-11-23-1545-scan-dc2x.dat"))
-    m.fit()
+    m = Measurement(Path("./testfiles/2019_02_20_1340_dc2z_scan.dat"))
+    m.find_bounds(fit_function='poly5')
+    m.fit(fit_function='poly5')
     m.plot()
     
