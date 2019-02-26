@@ -189,8 +189,30 @@ class Measurement:
         self.x = raw_x[::4]
 
         # calculation of degree of polarization and its error
-        self.y = [raw_y[i] + raw_y[i+1] + raw_y[i+2] for i in range(0, len(raw_y), 4)] # TODO adding formular for degree of pol
-        self.y_error = [np.sqrt(raw_y[i]) + raw_y[i] + raw_y[i] for i in range(0, len(raw_y), 4)] # TODO adding formular for error degree of pol
+        self.y = [np.sqrt(((raw_y[i] - raw_y[i+1]) * (raw_y[i] - raw_y[i+2]))/(raw_y[i]*raw_y[i+3] - raw_y[i+1]*raw_y[i+2])) for i in range(0, len(raw_y), 4)]
+
+        for i in range(0, len(raw_y), 4):
+            a = raw_y[i]    # I_a
+            b = raw_y[i+1]  # I_b
+            c = raw_y[i+2]  # I_ab
+            d = raw_y[i+3]  # I_off
+            da = np.sqrt[a]
+            db = np.sqrt[b]
+            dc = np.sqrt[c]
+            dd = np.sqrt[d]
+
+            # some helper vars
+            f1 = d-a
+            f2 = d-b
+
+            d2 = d^2
+
+            p0 = f1*f2*(c*d-a*b)^3
+            p1 = f2^2 * d2 * (c-b)^2
+            p2 = f1^2 * f2^2 * d2
+            p3 = f1^2 * d2 * (a-c)^2
+
+            self.y_error[i] = 0.5 * (p1*da + p2*dc + p3*db + p4*dd) / p0s
 
 
 
@@ -199,7 +221,7 @@ class Measurement:
     #     if fit_function == None:
     #         fit_function = self.fit_function_list[self.type_of_measurement]
 
-    #     return curve_fit(self.)
+    #     return curve_fit(self.fit_function)
         
     def select_columns(self, column1=(0,1), column2=(1,1)):
         self.x = self.data[::column1[1],column1[0]]
