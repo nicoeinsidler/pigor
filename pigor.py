@@ -72,7 +72,6 @@ def analyse_files(filepaths):
 
 
 
-
 def main():
     # starting main loop
     print_header("Welcome to {}.".format(PROGRAM_NAME))
