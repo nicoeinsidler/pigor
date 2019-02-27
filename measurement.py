@@ -39,7 +39,7 @@ class Measurement:
 
         
         # change type of fit
-        self.type_of_fit             = type_of_fit
+        self.type_of_fit = type_of_fit
 
         # list of all available fitting functions with their default bounds
         self.fit_function_list = {
@@ -63,7 +63,7 @@ class Measurement:
         # 2. measurement type
         if type_of_measurement != "default":
             # change measurement type
-            self.type_of_measurement     = type_of_measurement
+            self.type_of_measurement = type_of_measurement
         else:
             try:
                 # auto detect which type of measurement
@@ -104,14 +104,16 @@ class Measurement:
         """
         if type_of_measurement != "default":
             self.type_of_measurement = type_of_measurement
+        else:
+            # this is the default value of measurement type TODO
+            self.type_of_measurement = 'POS'
 
         return self.type_of_measurement
         
     def detect_measurement_type(self):
-        
         # if DC#X scan
-        if re.match(r"[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{4}_[dD][cC][0-9][xX]", self.path.name):
-            
+        if re.search(r"(?i)dc[0-9][xX]", self.path.name):
+            print('triggered?')
             self.type_of_measurement = "DC"
             self.type_of_fit = "sine_lin"
             self.settings['DC Coil Axis'] = "X"
@@ -123,7 +125,7 @@ class Measurement:
                 self.settings['DC Coil Number'] = match.group(1)
 
         # else if DC#Z scan
-        elif re.match(r"[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{4}_[dD][cC][0-9][zZ]", self.path.name):
+        elif re.search(r"(?i)dc[0-9][zZ]", self.path.name):
 
             self.type_of_measurement = "DC"
             self.type_of_fit = "poly5"
@@ -136,7 +138,7 @@ class Measurement:
                 self.settings['DC Coil Number'] = match.group(1)
 
         # else if POS# scan
-        elif re.match(r"[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{4}_[pP][oO][sS][0-9]", self.path.name):
+        elif re.search(r"(?i)pos[0-9]", self.path.name):
 
             self.type_of_measurement = "POS"
             self.type_of_fit = "gauss"
@@ -146,14 +148,16 @@ class Measurement:
             if match:
                 # write number into self.settings
                 self.settings['Linear Stage Axis'] = match.group(1)
-
+        # default case
         else:
+            # if degree of polarization measurement
+            if "pol" in self.path.name: 
+                self.type_of_measurement = "POL"
+                self.type_of_fit = "gauss"
+
             self.measurement_type()
 
-        # if degree of polarization measurement
-        if "pol" in self.path.name:
-            self.type_of_measurement = "POL"
-            self.type_of_fit = "gauss"
+        
 
 
         # override type_of_fit if one of the key strings is matched
@@ -537,14 +541,15 @@ if __name__ == "__main__":
     print('len for DoP:')
     print(len(m1.x))
     print(str(len(m1.y)) + "\n\n")
+    m1.plot()
 
     m2 = Measurement(Path("./testfiles/2018-11-23-1545-scan-dc2x.dat"))
+    print(m2.type_of_measurement)
+    m2.fit()
     m2.plot()
-    print('')
     #print(len(m2.y))
     #print(len(m2.x))
     #print(m2.head)
-    print("\n\n")
     #print(m2.data)
 
     #m.find_bounds()
