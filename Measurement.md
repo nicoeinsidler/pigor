@@ -5,6 +5,7 @@ This document will keep track of the structure the measurement class has and how
 
 - [Measurement Class](#measurement-class)
   - [Flow at Startup](#flow-at-startup)
+  - [Flow when Plotting](#flow-when-plotting)
   - [Structure of a Measurement Object](#structure-of-a-measurement-object)
     - [Variables](#variables)
       - [Constants](#constants)
@@ -25,9 +26,20 @@ graph LR;
     __init__ --> read_data
     __init__ --> clean_data
     read_data --> detect_measurement_type
+    detect_measurement_type --> measurement_type
     clean_data --> degree_of_polarisation
     clean_data --> select_columns
     degree_of_polarisation --> select_columns
+```
+
+Flow when Plotting
+------------------
+
+```mermaid
+graph LR;
+    plot --> fit
+    fit --> find_bounds
+
 ```
 
 
