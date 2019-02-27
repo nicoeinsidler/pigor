@@ -36,7 +36,7 @@ Types can be combined within a types group (gauss and pol for example, like "gau
 + self.x_error: not yet implemented
 + a lot of commenting
 + renew docstring style
-+ fitting boundaries
++ ~~fitting boundaries~~
 + fixing degree of pol
 
 ## How to Install
