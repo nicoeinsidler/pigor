@@ -157,8 +157,6 @@ class Measurement:
 
             self.measurement_type()
 
-        
-
 
         # override type_of_fit if one of the key strings is matched
         for k in self.fit_function_list:
@@ -236,16 +234,9 @@ class Measurement:
 
 
     def degree_of_polarisation(self):
-        print('in degree of pol')
 
         # select default columns
         self.select_columns()
-
-        print('len(x,y):')
-        print(
-            len(self.x),
-            len(self.y)    
-        )
 
         # helper vars for raw data
         raw_x = self.x
@@ -265,14 +256,6 @@ class Measurement:
 
         # calculation of degree of polarization and its error
         #self.y = [np.sqrt(((raw_y[i+2] - raw_y[i+3]) * (raw_y[i+2] - raw_y[i+1]))/(raw_y[i+2]*raw_y[i] - raw_y[i+3]*raw_y[i+1])) for i in range(0, len(raw_y)-len(raw_y) % 4, 4)]
-
-        print('Some useful infos about self.x,y,y_err')
-        print(
-            len(self.y),
-            len(self.x),
-            len(self.y_error),
-            range(0, len(raw_y), 4)
-            )
 
         self.y_error = []
         for i in range(0, len(raw_y) - len(raw_y)%4, 4):
@@ -312,8 +295,6 @@ class Measurement:
                     (p1*da + p2*dc + p3*db + p4*dd) / p0
                 )
             )
-
-        print(len(self.y_error))
 
 
     def fit(self, fit_function=None):
@@ -449,8 +430,6 @@ class Measurement:
         else:
             func = fit_function
 
-        print(func)
-
         # minima and maxima of x and y data
         x_min = self.x.min()
         x_max = self.x.max()
@@ -500,11 +479,6 @@ class Measurement:
 
             # scale factor
             s = 0.5
-
-            print(
-                [a - a*s, omega - omega*s, phase - phase*s, c - c*s, b - b*s], 
-                [a + a*s, omega + omega*s, phase + phase*s, c + c*s, b + b*s]
-            )
 
             self.fit_function_list['sine_lin'] = (
                 self.sine_lin, 
