@@ -197,14 +197,17 @@ class Measurement:
         self.x = raw_x[::4]
 
         # calculation of degree of polarization and its error
-        self.y = [np.sqrt(((raw_y[i] - raw_y[i+1]) * (raw_y[i] - raw_y[i+2]))/(raw_y[i]*raw_y[i+3] - raw_y[i+1]*raw_y[i+2])) for i in range(0, len(raw_y), 4)]
+        self.y = [np.sqrt(((raw_y[i+2] - raw_y[i+3]) * (raw_y[i+2] - raw_y[i+1]))/(raw_y[i+2]*raw_y[i] - raw_y[i+3]*raw_y[i+1])) for i in range(0, len(raw_y), 4)]
 
         self.y_error = []
         for i in range(0, len(raw_y), 4):
-            a = raw_y[i]    # I_a
-            b = raw_y[i+1]  # I_b
-            c = raw_y[i+2]  # I_ab
-            d = raw_y[i+3]  # I_off
+            a = raw_y[i+2]  # I_a
+            b = raw_y[i+3]  # I_b
+            c = raw_y[i+1]  # I_ab
+            d = raw_y[i]    # I_off
+
+            [Ioff_, Iab_, Ia_, Ib_]
+
 
             # deviations
             da = np.sqrt[a]
@@ -281,7 +284,7 @@ class Measurement:
         plt.ylabel(self.desc[column2[0]])
 
         # plot
-        plt.plot(self.x,self.y)
+        plt.errorbar(self.x, self.y, yerr = self.y_error)
 
         # plot fit if exists
         if fit == True and hasattr(self, 'used_fit_function'):
