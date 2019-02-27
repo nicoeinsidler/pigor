@@ -66,27 +66,32 @@ def analyse_files(filepaths):
 
     with mp.Pool() as pool:
         m = pool.map(measurement.Measurement, filepaths)
+        pool.map(measurement.Measurement.fit, m)
         pool.map(measurement.Measurement.plot, m)
         #pool.map(lambda obj: obj.plot(), m)
 
 
 
 
-# starting main loop
-print_header("Welcome to {}.".format(PROGRAM_NAME))
-while True:
-    
-    print("To proceed, please press any key.")
-    cmd = input()
-    if cmd == "q":
-        break
-    elif cmd == "h":
-        print_help()
-    else:
-        all_files = find_all_files()
-        print(
-            "Found {} dat files to analyze. \nProceeding with analysis...".format(len(all_files))
-        )
-
-        analyse_files(all_files)
+def main():
+    # starting main loop
+    print_header("Welcome to {}.".format(PROGRAM_NAME))
+    while True:
         
+        print("To proceed, please press any key.")
+        cmd = input()
+        if cmd == "q":
+            break
+        elif cmd == "h":
+            print_help()
+        else:
+            all_files = find_all_files()
+            print(
+                "Found {} dat files to analyze. \nProceeding with analysis...".format(len(all_files))
+            )
+
+            analyse_files(all_files)
+        
+if __name__ == '__main__':
+    mp.freeze_support()
+    main()
