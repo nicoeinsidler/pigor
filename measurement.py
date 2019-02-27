@@ -298,7 +298,6 @@ class Measurement:
 
 
     def fit(self, fit_function=None):
-
         # check if fit function is not explicitly set for fit()
         if fit_function == None:
             # try to find better bounds
@@ -310,8 +309,6 @@ class Measurement:
             self.find_bounds(fit_function=fit_function)
 
             func = self.fit_function_list[fit_function]
-            
-        print(self.fit_function_list)
 
         # write used fit_function for plotting
         self.used_fit_function = func
@@ -354,9 +351,14 @@ class Measurement:
         plt.errorbar(self.x, self.y, yerr = self.y_error)
 
         # plot fit if exists
-        if fit == True and hasattr(self, 'used_fit_function'):
+        if fit == True:
+            try:
+                fit_function = self.used_fit_function
+            except AttributeError:
+                self.fit()
+                fit_function = self.used_fit_function
             x = np.linspace(self.x.min(), self.x.max(), self.FIT_RESOLUTION)
-            plt.plot(x, self.used_fit_function[0](x, *self.popt), '-', label='fit')
+            plt.plot(x, fit_function[0](x, *self.popt), '-', label='fit')
 
         # file name
         if type_of_plot != "":
@@ -425,7 +427,6 @@ class Measurement:
         return a*np.sin(x*omega + phase) + c
 
     def find_bounds(self, fit_function=None):
-        print('find bounds active')
         # check if fit function is not explicitly set for fit()
         if fit_function == None:
             # default fit function for measurement type
