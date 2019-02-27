@@ -4,6 +4,8 @@ import re
 import numpy as np
 import matplotlib.pyplot as plt
 import os.path
+import glob
+import difflib
 from datetime import datetime
 from pathlib import Path
 from scipy.optimize import curve_fit
@@ -31,6 +33,7 @@ class Measurement:
         self.FIT_RESOLUTION = 2000
 
         self.path = path
+        self.pos_file_path = None
 
         self.settings = {}
 
@@ -56,6 +59,14 @@ class Measurement:
             print(e20)
         except Exception as e:
             print(e)
+
+        # if degree of pol measurement
+        if self.type_of_measurement == "POL":
+            # try to find a position file
+            try:
+                self.read_pos_file()
+            except Exception as e:
+                print(e)
 
         # try to cleanup the data
         try:
@@ -122,9 +133,8 @@ class Measurement:
 
         # if degree of polarization measurement
         if "pol" in self.path.name:
-            self.type_of_measurement = "POS"
+            self.type_of_measurement = "POL"
             self.type_of_fit = "gauss"
-            #self.degree_of_polarisation()
 
 
         # override type_of_fit if one of the key strings is matched
@@ -149,6 +159,25 @@ class Measurement:
 
         # detect type of measurement
         self.detect_measurement_type()
+
+    def read_pos_file(self):
+
+        # search for position file
+        files = [Path(path) for path in glob.glob('**/*.pos', recursive=True)]
+
+        # if there is only one file
+        if len(files) == 1:
+            self.pos_file_path = files[0]
+        # if there are more the closest will be chosen
+        elif len(files) > 1:
+            match = difflib.get_close_matches(self.path.name, files, n=1)
+
+            if not match:
+                self.pos_file_path = files[0]
+            else:
+                self.pos_file_path = match 
+        # TODO: check if len(pos_data) == len(self.y every 4th) for even better matches
+        self.pos_data = np.array([[float(number) for number in line.rstrip('\n').split('\t')] for line in open(self.pos_file_path)][0])
         
 
     def clean_data(self):
@@ -164,7 +193,7 @@ class Measurement:
         self.desc = [' '.join(item) for item in [item.split() for item in [item.split(": ") for item in self.head[-1]][0]]]
 
         # if measurement is degree of polarisation measurement
-        if self.measurement_type == 'pol':
+        if self.type_of_measurement == 'POL':
             self.degree_of_polarisation()
         else:
             self.select_columns()
@@ -185,7 +214,16 @@ class Measurement:
             print(e)
 
 
+    def select_columns(self, column1=(0,1), column2=(1,1)):
+        self.x = self.data[::column1[1],column1[0]]
+        self.y = self.data[::column2[1],column2[0]]
+
+        self.y_error = np.sqrt(self.y)
+
+
     def degree_of_polarisation(self):
+        print('in degree of pol')
+
         # select default columns
         self.select_columns()
 
@@ -193,21 +231,36 @@ class Measurement:
         raw_x = self.x
         raw_y = self.y
 
-        # set x axis values
-        self.x = raw_x[::4]
+
+        if len(self.pos_data) == len(raw_x):
+            # set x axis values from pos file
+            self.x = self.pos_data[::4]
+        elif len(self.pos_data) > len(raw_x):
+            print('Warning: Position file lenght and data file lenght are not equal. Maybe wrong position file?')
+            # set x axis values from pos file
+            self.x = self.pos_data[::4]
+        else:
+            print('Wrong position file!')
+
 
         # calculation of degree of polarization and its error
-        self.y = [np.sqrt(((raw_y[i+2] - raw_y[i+3]) * (raw_y[i+2] - raw_y[i+1]))/(raw_y[i+2]*raw_y[i] - raw_y[i+3]*raw_y[i+1])) for i in range(0, len(raw_y), 4)]
+        #self.y = [np.sqrt(((raw_y[i+2] - raw_y[i+3]) * (raw_y[i+2] - raw_y[i+1]))/(raw_y[i+2]*raw_y[i] - raw_y[i+3]*raw_y[i+1])) for i in range(0, len(raw_y)-len(raw_y) % 4, 4)]
+
+        print('Some useful infos about self.x,y,y_err')
+        print(
+            len(self.y),
+            len(self.x),
+            len(self.y_error),
+            range(0, len(raw_y), 4),
+            self.x
+            )
 
         self.y_error = []
-        for i in range(0, len(raw_y), 4):
+        for i in range(0, len(raw_y) - len(raw_y)%4, 4):
             a = raw_y[i+2]  # I_a
             b = raw_y[i+3]  # I_b
             c = raw_y[i+1]  # I_ab
             d = raw_y[i]    # I_off
-
-            [Ioff_, Iab_, Ia_, Ib_]
-
 
             # deviations
             da = np.sqrt[a]
@@ -227,8 +280,21 @@ class Measurement:
             p3 = f1**2 * d2 * (a-c)**2
             p4 = (a**2*b + a*b * (b - c - 2*d) + c*d2)**2
 
-            self.y_error.append(0.5 * (p1*da + p2*dc + p3*db + p4*dd) / p0)
+            # calculation of degree of polarisation
+            self.y.append(
+                np.sqrt(
+                    (-f1*f2)/(a*b-c*d)
+                )
+            )
 
+            # calculation of degree of polarisation error
+            self.y_error.append(
+                0.5 * np.sqrt(
+                    (p1*da + p2*dc + p3*db + p4*dd) / p0
+                )
+            )
+
+        print(len(self.y_error))
 
 
     def fit(self, fit_function=None):
@@ -251,11 +317,6 @@ class Measurement:
         self.popt, self.pcov = curve_fit(func[0], self.x, self.y, bounds=func[1], sigma=self.y_error, absolute_sigma=True)
 
         
-    def select_columns(self, column1=(0,1), column2=(1,1)):
-        self.x = self.data[::column1[1],column1[0]]
-        self.y = self.data[::column2[1],column2[0]]
-
-        self.y_error = np.sqrt(self.y)
 
     def plot(self, column1=(0,1), column2=(1,1), fit=True, type_of_plot="", override=True):
         """
@@ -274,7 +335,10 @@ class Measurement:
         """
 
         # create label
-        title = self.path.name + "\n" + type_of_plot + self.settings['timestamp'].strftime("%Y-%m-%d %H:%M")
+        if 'timestamp' in self.settings.values():
+            title = self.path.name + "\n" + type_of_plot + self.settings['timestamp'].strftime("%Y-%m-%d %H:%M")
+        else:
+            title = self.path.name + "\n" + type_of_plot
 
         # plot title
         plt.title(title)
@@ -454,8 +518,8 @@ class Measurement:
 if __name__ == "__main__":
     print('Testing the Measurement Class')
     #m = Measurement(Path("./testfiles/2018-11-23-1325-degree-of-pol.dat"))
-    m = Measurement(Path("./testfiles/2019_02_20_1340_dc2z_scan.dat"))
-    m.find_bounds(fit_function='poly5')
-    m.fit(fit_function='poly5')
-    m.plot()
+    m = Measurement(Path("./testfiles/2018-11-23-1325-degree-of-pol.dat"))
+    #m.find_bounds()
+    #m.fit()
+    #m.plot()
     
