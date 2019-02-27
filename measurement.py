@@ -37,8 +37,7 @@ class Measurement:
 
         self.settings = {}
 
-        # change measurement type
-        self.type_of_measurement     = type_of_measurement
+        
         # change type of fit
         self.type_of_fit             = type_of_fit
 
@@ -51,8 +50,9 @@ class Measurement:
             'poly5'     :   (self.poly5, (-np.inf,np.inf)) # a5, a4, a3, a2, a1, a0
         }
 
+        # starting init sequence -------------------------------
 
-        # try to read the data
+        # 1. try to read the data
         try:
             self.read_data(self.path)
         except IOError as e20:
@@ -60,7 +60,18 @@ class Measurement:
         except Exception as e:
             print(e)
 
-        # if degree of pol measurement
+        # 2. measurement type
+        if type_of_measurement != "default":
+            # change measurement type
+            self.type_of_measurement     = type_of_measurement
+        else:
+            try:
+                # auto detect which type of measurement
+                self.detect_measurement_type()
+            except Exception as e:
+                print(e)
+        
+        # 3. read position file if degree of polarisation measurement
         if self.type_of_measurement == "POL":
             # try to find a position file
             try:
@@ -68,11 +79,19 @@ class Measurement:
             except Exception as e:
                 print(e)
 
-        # try to cleanup the data
+        # 4. cleanup the data
         try:
             self.clean_data()
         except Exception as e:
             print(e)
+
+        # 5. selecting columns and writing self.x & self.y
+        try:
+            self.select_columns()
+        except Exception as e:
+            print(e)
+
+        # end of init sequence -------------------------------
     
     def measurement_type(self, type_of_measurement="default"):
         """
@@ -157,9 +176,6 @@ class Measurement:
         # import the data
         self.raw = [line.rstrip('\n') for line in open(path)]
 
-        # detect type of measurement
-        self.detect_measurement_type()
-
     def read_pos_file(self):
 
         # search for position file
@@ -191,12 +207,6 @@ class Measurement:
         self.data = np.array([[float(number) for number in line.split()] for line in self.raw[self.N_HEADER:]])
         # get last line of head for axis labels for plots
         self.desc = [' '.join(item) for item in [item.split() for item in [item.split(": ") for item in self.head[-1]][0]]]
-
-        # if measurement is degree of polarisation measurement
-        if self.type_of_measurement == 'POL':
-            self.degree_of_polarisation()
-        else:
-            self.select_columns()
 
         try:
             self.settings = {
