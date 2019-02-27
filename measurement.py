@@ -151,7 +151,7 @@ class Measurement:
             :param file_name:   the name of the file to read from (containing
                                 also its file extention)
         
-        Returns nothing if successfull, but rasies exception if not.
+        Returns nothing if successfull, but raises exception if not.
         """
 
         # import the data
@@ -188,7 +188,7 @@ class Measurement:
         # get the first lines for the header and split the lines by pipe char
         self.head = [line.split('|') for line in self.raw[0:self.N_HEADER]]
         # get rest of the file and cast all numbers to float, then create numpy array
-        self.data = np.array([[float(number) for number in line.split()] for line in self.raw[self.N_HEADER+1:-1]])
+        self.data = np.array([[float(number) for number in line.split()] for line in self.raw[self.N_HEADER:]])
         # get last line of head for axis labels for plots
         self.desc = [' '.join(item) for item in [item.split() for item in [item.split(": ") for item in self.head[-1]][0]]]
 
@@ -227,6 +227,12 @@ class Measurement:
         # select default columns
         self.select_columns()
 
+        print('len(x,y):')
+        print(
+            len(self.x),
+            len(self.y)    
+        )
+
         # helper vars for raw data
         raw_x = self.x
         raw_y = self.y
@@ -251,8 +257,7 @@ class Measurement:
             len(self.y),
             len(self.x),
             len(self.y_error),
-            range(0, len(raw_y), 4),
-            self.x
+            range(0, len(raw_y), 4)
             )
 
         self.y_error = []
@@ -517,8 +522,21 @@ class Measurement:
 # here you can test the class
 if __name__ == "__main__":
     print('Testing the Measurement Class')
-    #m = Measurement(Path("./testfiles/2018-11-23-1325-degree-of-pol.dat"))
-    m = Measurement(Path("./testfiles/2018-11-23-1325-degree-of-pol.dat"))
+    
+    m1 = Measurement(Path("./testfiles/subdirectory_test/2018-11-22-1125-degree-of-polarisation.dat"))
+    print('len for DoP:')
+    print(len(m1.x))
+    print(str(len(m1.y)) + "\n\n")
+
+    m2 = Measurement(Path("./testfiles/2018-11-23-1545-scan-dc2x.dat"))
+    m2.plot()
+    print('')
+    #print(len(m2.y))
+    #print(len(m2.x))
+    #print(m2.head)
+    print("\n\n")
+    #print(m2.data)
+
     #m.find_bounds()
     #m.fit()
     #m.plot()
