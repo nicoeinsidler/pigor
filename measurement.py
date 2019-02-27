@@ -60,6 +60,7 @@ class Measurement:
         except Exception as e:
             print(e)
 
+
         # 2. measurement type
         if type_of_measurement != "default":
             # change measurement type
@@ -113,7 +114,6 @@ class Measurement:
     def detect_measurement_type(self):
         # if DC#X scan
         if re.search(r"(?i)dc[0-9][xX]", self.path.name):
-            print('triggered?')
             self.type_of_measurement = "DC"
             self.type_of_fit = "sine_lin"
             self.settings['DC Coil Axis'] = "X"
@@ -301,14 +301,17 @@ class Measurement:
 
         # check if fit function is not explicitly set for fit()
         if fit_function == None:
-            # default fit function for measurement type
-            func = self.fit_function_list[self.type_of_fit]
             # try to find better bounds
             self.find_bounds(fit_function=self.type_of_fit)
+            # default fit function for measurement type
+            func = self.fit_function_list[self.type_of_fit]
         else:
-            func = self.fit_function_list[fit_function]
             # try to find better bounds
             self.find_bounds(fit_function=fit_function)
+
+            func = self.fit_function_list[fit_function]
+            
+        print(self.fit_function_list)
 
         # write used fit_function for plotting
         self.used_fit_function = func
@@ -422,7 +425,7 @@ class Measurement:
         return a*np.sin(x*omega + phase) + c
 
     def find_bounds(self, fit_function=None):
-
+        print('find bounds active')
         # check if fit function is not explicitly set for fit()
         if fit_function == None:
             # default fit function for measurement type
