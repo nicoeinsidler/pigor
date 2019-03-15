@@ -10,6 +10,11 @@ from datetime import datetime
 from pathlib import Path
 from scipy.optimize import curve_fit
 
+try:
+    import emoji
+except Except as e:
+    print("Could not import package emoji. {}".format(e))
+
 class Measurement:
     """
     This class provides an easy way to read, analyse and plot data from 
@@ -55,10 +60,11 @@ class Measurement:
         # 1. try to read the data
         try:
             self.read_data(self.path)
+            print(emoji.emojize(":open_book:  {}: Read data successfully.".format(self.path)))
         except IOError as e20:
-            print(e20)
+            print(emoji.emojize(":red_book:  {}: {}".format(self.path,e20)))
         except Exception as e:
-            print(e)
+            print(emoji.emojize(":red_circle:  {}: {}".format(self.path,e)))
 
 
         # 2. measurement type
@@ -69,36 +75,37 @@ class Measurement:
             try:
                 # auto detect which type of measurement
                 self.detect_measurement_type()
+                print(emoji.emojize(":white_heavy_check_mark:  {}: Detected measurement type {}.".format(self.path, self.type_of_measurement)))
             except Exception as e:
-                print(e)
+                print(emoji.emojize(":red_circle: {}: {}".format(self.path,e)))
         
         # 3. read position file if degree of polarisation measurement
         if self.type_of_measurement == "POL":
             # try to find a position file
             try:
                 self.read_pos_file()
-                print("Position file read at: {}".format(self.pos_file_path))
+                print(emoji.emojize(":round_pushpin:  {}: Position file read: {}".format(self.pos_file_path, self.path)))
             except Exception as e:
-                print(e)
+                print(emoji.emojize(":red_circle:  {}: {}".format(self.path,e)))
 
         # 4. cleanup the data
         try:
             self.clean_data()
         except Exception as e:
-            print(e)
+            print(emoji.emojize(":red_circle:  {}: {}".format(self.path,e)))
 
         # 5. selecting columns and writing self.x & self.y
         try:
             self.select_columns()
         except Exception as e:
-            print(e)
+            print(emoji.emojize(":red_circle:  {}: {}".format(self.path,e)))
 
         # 6. fire degree of polarisation if POL
         try:
             # calculate degree of polarisation
             self.degree_of_polarisation()
         except Exception as e:
-            print(e)
+            print(emoji.emojize(":red_circle:  {}: {}".format(self.path,e)))
 
         # end of init sequence -------------------------------
     
@@ -188,6 +195,7 @@ class Measurement:
         self.raw = [line.rstrip('\n') for line in open(path)]
 
     def read_pos_file(self):
+        # TODO::check if len(pos_data) == len(self.y every 4th) for even better matches
 
         # search for position file
         files = [Path(path) for path in glob.glob('**/*.pos', recursive=True)]
@@ -195,6 +203,8 @@ class Measurement:
         # if there is only one file
         if len(files) == 1:
             self.pos_file_path = files[0]
+            self.pos_data = np.array([[float(number) for number in line.rstrip('\n').split('\t')] for line in open(self.pos_file_path)][0])
+
         # if there are more the closest will be chosen
         elif len(files) > 1:
             match = difflib.get_close_matches(self.path.name, files, n=1)
@@ -203,8 +213,12 @@ class Measurement:
                 self.pos_file_path = files[0]
             else:
                 self.pos_file_path = match 
-        # TODO: check if len(pos_data) == len(self.y every 4th) for even better matches
-        self.pos_data = np.array([[float(number) for number in line.rstrip('\n').split('\t')] for line in open(self.pos_file_path)][0])
+            
+            self.pos_data = np.array([[float(number) for number in line.rstrip('\n').split('\t')] for line in open(self.pos_file_path)][0])
+
+        else:
+            print("{}: No position file found.".format(self.path))
+
         
 
     def clean_data(self):
@@ -302,10 +316,6 @@ class Measurement:
                         (p1*a + p2*c + p3*b + p4*d) / p0
                 )
             
-        print("HERE-----------")
-        print(self.x)
-        print(self.y)
-        print(self.y_error)
 
 
     def fit(self, fit_function=None):
@@ -527,11 +537,11 @@ if __name__ == "__main__":
     print('Testing the Measurement Class')
     
     m1 = Measurement(Path("./testfiles/subdirectory_test/2018-11-22-1125-degree-of-polarisation.dat"))
-    print('len for DoP:')
-    print(len(m1.x))
-    print(str(len(m1.y)) + "\n\n")
     print(m1.type_of_measurement)
-    #m1.fit()
+    print(m1.type_of_fit)
+    m1.fit()
+    print(m1.popt)
+    print(m1.pcov)
     m1.plot()
 
     #m2 = Measurement(Path("./testfiles/2018-11-23-1545-scan-dc2x.dat"))
