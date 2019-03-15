@@ -1,5 +1,4 @@
-Measurement Class
-=================
+# Measurement Class
 
 This document will keep track of the structure the measurement class has and how it functions.
 
@@ -17,34 +16,48 @@ This document will keep track of the structure the measurement class has and how
       - [Fitting data](#fitting-data)
       - [Other](#other)
 
-Flow at Startup
----------------
+## Flow at Startup
 
+1. read the data
+2. detect measurement type
+3. read position file if a position file exists
+4. clean up and description gathering
+5. select columns for plotting
 
 ```mermaid
-graph LR;
-    __init__ --> read_data
-    __init__ --> clean_data
-    read_data --> detect_measurement_type
-    detect_measurement_type --> measurement_type
-    clean_data --> degree_of_polarisation
-    clean_data --> select_columns
-    degree_of_polarisation --> select_columns
+graph TB
+    init["__init__()"] --> read_data["read_data()"]
+    init -- "if type_of_measurement != default"  --> detect_measurement_type["detect_measurement_type()"]
+    init -- "if type_of_measurement == POL"  --> read_pos_file["read_pos_file()"]
+    init --> clean_data["clean_data()"]
+    init --> select_columns["select_columns()"]
+    subgraph 5.
+      select_columns
+    end
+    subgraph 4.
+      clean_data
+    end
+    subgraph 3.
+      read_pos_file
+    end
+    subgraph 2.
+      detect_measurement_type --> measurement_type["measurement_type()"]
+    end
+    subgraph 1.
+      read_data
+    end
 ```
 
-Flow when Plotting
-------------------
+## Flow when Plotting
 
 ```mermaid
-graph LR;
+graph LR
     plot --> fit
     fit --> find_bounds
 
 ```
 
-
-Structure of a Measurement Object
----------------------------------
+## Structure of a Measurement Object
 
 ### Variables
 
@@ -52,9 +65,10 @@ Structure of a Measurement Object
 
 Variables that won't be changed during runtime are capitalized.
 
-| name          | description                                                        |
-| ------------- | ------------------------------------------------------------------ |
-| self.N_HEADER | number of header rows in dat file, won't be changed during runtime |
+| name                | description                                                        |
+| ------------------- | ------------------------------------------------------------------ |
+| self.N_HEADER       | number of header rows in dat file, won't be changed during runtime |
+| self.FIT_RESOLUTION | number of points to be calculated and plotted of fit               |
 
 #### Measurement data variables
 
@@ -82,7 +96,7 @@ Variables that won't be changed during runtime are capitalized.
 
 #### Reading files
 
-| name                           | description                                                                       | runs at \_\_init\_\_ | runs                                         |
+| name                           | description                                                                       | runs at \_\_init\_\_ | invokes                                      |
 | ------------------------------ | --------------------------------------------------------------------------------- | -------------------- | -------------------------------------------- |
 | self.measurement_type()        | sets measurement type and returns it see self.type_of_measurement                 | yes                  | none                                         |
 | self.detect_measurement_type() | autodetects self.type_of_measurement                                              | yes                  | measurement_type()                           |
@@ -94,23 +108,23 @@ Variables that won't be changed during runtime are capitalized.
 
 #### Plotting data
 
-| name        | description                     | runs at \_\_init\_\_ | runs |
-| ----------- | ------------------------------- | -------------------- | ---- |
-| self.plot() | plots the data and writes a png | no                   | none |
+| name        | description                     | runs at \_\_init\_\_ | invokes |
+| ----------- | ------------------------------- | -------------------- | ------- |
+| self.plot() | plots the data and writes a png | no                   | none    |
 
 #### Fitting data
 
-| name            | description                      | runs at \_\_init\_\_ | runs |
-| --------------- | -------------------------------- | -------------------- | ---- |
-| self.fit()      | fits data                        | no                   | none |
-| self.gauss()    | Gaußian                          | no                   | none |
-| self.sine_lin() | sine wave with added linear term | no                   | none |
-| self.poly5()    | polynom of grade 5               | no                   | none |
-| self.sine()     | sine wave only                   | no                   | none |
+| name            | description                      | runs at \_\_init\_\_ | invokes |
+| --------------- | -------------------------------- | -------------------- | ------- |
+| self.fit()      | fits data                        | no                   | none    |
+| self.gauss()    | Gaußian                          | no                   | none    |
+| self.sine_lin() | sine wave with added linear term | no                   | none    |
+| self.poly5()    | polynom of grade 5               | no                   | none    |
+| self.sine()     | sine wave only                   | no                   | none    |
 
 
 #### Other
 
-| name                | description | runs at \_\_init\_\_ | runs  |
-| ------------------- | ----------- | -------------------- | ----- |
-| self.\_\_init\_\_() |             | yes                  | a lot |
+| name                | description | runs at \_\_init\_\_ | invokes |
+| ------------------- | ----------- | -------------------- | ------- |
+| self.\_\_init\_\_() |             | yes                  | a lot   |
