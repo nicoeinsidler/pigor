@@ -38,6 +38,7 @@ Types can be combined within a types group (gauss and pol for example, like "gau
 + renew docstring style
 + ~~fitting boundaries~~
 + fixing degree of pol
++ error of fit
 
 ## How to Install
 
