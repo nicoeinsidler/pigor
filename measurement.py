@@ -77,6 +77,7 @@ class Measurement:
             # try to find a position file
             try:
                 self.read_pos_file()
+                print("Position file read at: {}".format(self.pos_file_path))
             except Exception as e:
                 print(e)
 
@@ -89,6 +90,13 @@ class Measurement:
         # 5. selecting columns and writing self.x & self.y
         try:
             self.select_columns()
+        except Exception as e:
+            print(e)
+
+        # 6. fire degree of polarisation if POL
+        try:
+            # calculate degree of polarisation
+            self.degree_of_polarisation()
         except Exception as e:
             print(e)
 
@@ -148,14 +156,15 @@ class Measurement:
             if match:
                 # write number into self.settings
                 self.settings['Linear Stage Axis'] = match.group(1)
+
         # default case
         else:
             # if degree of polarization measurement
             if "pol" in self.path.name: 
                 self.type_of_measurement = "POL"
                 self.type_of_fit = "gauss"
-
-            self.measurement_type()
+            else:
+                self.type_of_measurement = "POS"
 
 
         # override type_of_fit if one of the key strings is matched
@@ -249,26 +258,27 @@ class Measurement:
         elif len(self.pos_data) > len(raw_x):
             print('Warning: Position file lenght and data file lenght are not equal. Maybe wrong position file?')
             # set x axis values from pos file
-            self.x = self.pos_data[::4]
+            self.x = self.pos_data[::4][0:len(raw_x)//4]
         else:
-            print('Wrong position file!')
+            print('Could not use position file: Wrong position file!')
 
 
         # calculation of degree of polarization and its error
         #self.y = [np.sqrt(((raw_y[i+2] - raw_y[i+3]) * (raw_y[i+2] - raw_y[i+1]))/(raw_y[i+2]*raw_y[i] - raw_y[i+3]*raw_y[i+1])) for i in range(0, len(raw_y)-len(raw_y) % 4, 4)]
+        
 
-        self.y_error = []
-        for i in range(0, len(raw_y) - len(raw_y)%4, 4):
-            a = raw_y[i+2]  # I_a
-            b = raw_y[i+3]  # I_b
-            c = raw_y[i+1]  # I_ab
+        # lenght of input data that will be used
+        data_lenght = len(raw_y) - len(raw_y)%4
+
+        # allocate arrays to fill later (faster when using numpy)
+        self.y = np.zeros(data_lenght//4)
+        self.y_error = np.zeros(data_lenght//4)
+
+        for i in range(0, data_lenght, 4):
+            a = raw_y[i+1]  # I_a
+            b = raw_y[i+2]  # I_b
+            c = raw_y[i+3]  # I_ab
             d = raw_y[i]    # I_off
-
-            # deviations
-            da = np.sqrt[a]
-            db = np.sqrt[b]
-            dc = np.sqrt[c]
-            dd = np.sqrt[d]
 
             # some helper vars
             f1 = d-a
@@ -280,21 +290,22 @@ class Measurement:
             p1 = f2**2 * d2 * (c-b)**2
             p2 = f1**2 * f2**2 * d2
             p3 = f1**2 * d2 * (a-c)**2
-            p4 = (a**2*b + a*b * (b - c - 2*d) + c*d2)**2
+            p4 = (a**2 * b + a*b * (b - c - 2*d) + c*d2)**2
 
             # calculation of degree of polarisation
-            self.y.append(
-                np.sqrt(
-                    (-f1*f2)/(a*b-c*d)
+            self.y[i//4] = np.sqrt(
+                    (f1*f2)/(c*d-a*b)
                 )
-            )
 
             # calculation of degree of polarisation error
-            self.y_error.append(
-                0.5 * np.sqrt(
-                    (p1*da + p2*dc + p3*db + p4*dd) / p0
+            self.y_error[i//4] = 0.5 * np.sqrt(
+                        (p1*a + p2*c + p3*b + p4*d) / p0
                 )
-            )
+            
+        print("HERE-----------")
+        print(self.x)
+        print(self.y)
+        print(self.y_error)
 
 
     def fit(self, fit_function=None):
@@ -497,7 +508,7 @@ class Measurement:
             # TODO
             pass
         else:
-            # rest bounds here useful?!
+            # reset bounds here useful?!
             pass
             
     def reset_bounds(self, fit_function=None):
@@ -519,12 +530,14 @@ if __name__ == "__main__":
     print('len for DoP:')
     print(len(m1.x))
     print(str(len(m1.y)) + "\n\n")
+    print(m1.type_of_measurement)
+    #m1.fit()
     m1.plot()
 
-    m2 = Measurement(Path("./testfiles/2018-11-23-1545-scan-dc2x.dat"))
-    print(m2.type_of_measurement)
-    m2.fit()
-    m2.plot()
+    #m2 = Measurement(Path("./testfiles/2018-11-23-1545-scan-dc2x.dat"))
+    #print(m2.type_of_measurement)
+    #m2.fit()
+    #m2.plot()
     #print(len(m2.y))
     #print(len(m2.x))
     #print(m2.head)
