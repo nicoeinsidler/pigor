@@ -40,6 +40,8 @@ Types can be combined within a types group (gauss and pol for example, like "gau
 - ~~fixing degree of pol~~
 - error of fit
 - verbose mode on/off
+- find error with pcov
+- fix axis descriptions in pol plots
 
 ## How to Install
 
