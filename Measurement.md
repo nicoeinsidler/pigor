@@ -15,6 +15,7 @@ This document will keep track of the structure the measurement class has and how
       - [Plotting data](#plotting-data)
       - [Fitting data](#fitting-data)
       - [Other](#other)
+  - [Class Usecases](#class-usecases)
 
 ## Flow at Startup
 
@@ -128,3 +129,15 @@ Variables that won't be changed during runtime are capitalized.
 | name                | description | runs at \_\_init\_\_ | invokes |
 | ------------------- | ----------- | -------------------- | ------- |
 | self.\_\_init\_\_() |             | yes                  | a lot   |
+
+
+## Class Usecases
+
+There are many ways to interact with or use the Measurement class. Here are the three main ways:
+
+```mermaid
+graph TD
+  Measurement(Measurement Class) --> CLI
+  Measurement --> PIGOR
+  Measurement --> juypter[Jupyter Lab / Notebook]
+```
