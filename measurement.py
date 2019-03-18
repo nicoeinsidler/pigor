@@ -317,7 +317,6 @@ class Measurement:
             self.y_error[i//4] = 0.5 * np.sqrt(
                         np.abs((p1*a + p2*c + p3*b + p4*d) / p0)
                 )
-
             
 
     def fit(self, fit_function=None):
@@ -367,8 +366,12 @@ class Measurement:
         plt.title(title)
 
         # axes labels
-        plt.xlabel(self.desc[column1[0]])
-        plt.ylabel(self.desc[column2[0]])
+        if self.type_of_measurement == 'POL':
+            plt.xlabel('Position (steps)')
+            plt.ylabel('Degree of Polarisation')
+        else:
+            plt.xlabel(self.desc[column1[0]])
+            plt.ylabel(self.desc[column2[0]])
 
         # plot
         plt.errorbar(self.x, self.y, yerr = self.y_error)
