@@ -62,12 +62,18 @@ def analyse_files(filepaths):
     """
 
     # list holding all measurement objects
-    m = []
+    #m = []
 
-    with mp.Pool() as pool:
-        m = pool.map(measurement.Measurement, filepaths)
-        pool.map(measurement.Measurement.fit, m)
-        pool.map(measurement.Measurement.plot, m)
+    for p in filepaths:
+        m = measurement.Measurement(p)
+        m.plot()
+        
+
+    # with mp.Pool() as pool:
+    #     m = pool.map(measurement.Measurement, filepaths)
+    #     pool.map(measurement.Measurement.fit, m)
+    #     pool.map(measurement.Measurement.plot, m)
+        #pool.map(measurement.Measurement.pcov, m)
         #pool.map(lambda obj: obj.plot(), m)
 
 
