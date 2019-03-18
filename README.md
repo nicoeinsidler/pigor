@@ -43,6 +43,8 @@ Types can be combined within a types group (gauss and pol for example, like "gau
 - ~~find error with pcov~~
 - ~~fix axis descriptions in pol plots~~
 - getting PIGOR ready for shipment by creating a setup.py
+- fixing the image URI in the md meta data file
+- exporting md file into html or pdf
 
 ## How to Install
 
