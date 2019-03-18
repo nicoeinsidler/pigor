@@ -392,6 +392,8 @@ class Measurement:
         else:
             n = str(self.path.parent) + "/" + self.path.stem + ".png"
 
+        self.plot_path = Path(n)
+
         #if (override == False and not os.path.isfile(n)):
             # save plot to file
         plt.savefig(n)
@@ -560,17 +562,80 @@ class Measurement:
         self.fit_function_list[func][1] = (-np.inf, np.inf)
 
 
+    def export_meta(self):
+
+        header_to_write = {
+            'file_path'             :   '[{}]({})'.format(self.path, self.path),
+            'type_of_measurement'   :   self.type_of_measurement,
+            'type_of_fit'           :   self.type_of_fit,
+            'pos_file_path '        :   '[{}]({})'.format(self.pos_file_path, self.pos_file_path)
+        }
+
+        fit_types = {
+            'default'   :   ['a', 'x0', 'sigma'],
+            'gauss'     :   ['a', 'x0', 'sigma'],
+            'sine'      :   ['a', 'omega', 'phase', 'c'],
+            'sine_lin'  :   ['a', 'omega', 'phase', 'c', 'b'],
+            'poly5'     :   ['a5', 'a4', 'a3', 'a2', 'a1', 'a0']
+        }
+        
+        # save fit parameters in txt file
+        with open(self.path.with_suffix('.md'), 'w') as mdfile: # TODO: what happens if data is saved as .txt file!
+            mdfile.write('# Metadata for {}\n\n'.format(self.path.name))
+
+            try:
+                mdfile.write(
+                    '![{}](./{} "{}")\n\n'.format(self.path.name, self.plot_path.as_posix(), self.path.name)
+                )
+            except AttributeError:
+                pass
+
+            mdfile.write('## Basic Information\n\n')
+            mdfile.write('Here is some basic information about the measurement, which was either provided by you, or automatically detected.\n\n')
+            for k,v in header_to_write.items():
+                mdfile.write('- {}\t:\t{}\n'.format(k,v))
+            mdfile.write('\n\n')
+
+            mdfile.write('## Detector Information\n\n')
+            mdfile.write('This information was read from the measurement file at {}.\n\n'.format(header_to_write['file_path']))
+            for k,v in self.settings.items():
+                mdfile.write('- {}\t:\t{}\n'.format(k,v))
+            mdfile.write('\n\n')
+
+            mdfile.write('## Fit ({})\n\n'.format(self.type_of_fit))
+            mdfile.write('### Fit Parameters and Covariance\n\nParameters:\n\n')
+            for k,v in list(zip(fit_types[self.type_of_fit],self.popt)):
+                mdfile.write('- {} : `{}`\n'.format(k,v))
+            mdfile.write('\n\nCovariance:\n\n```')
+            mdfile.write(
+                np.array2string(
+                    self.pcov,
+                    separator=', '
+                )
+            )
+            mdfile.write('\n```\n\n')
+
+            mdfile.write('### Fit Boundaries\n\n')
+            a = fit_types[self.type_of_fit]
+            b = self.fit_function_list[self.type_of_fit][1][0]
+            c = self.fit_function_list[self.type_of_fit][1][1]
+            for k, v1, v2 in list(zip(a,b,c)):
+                mdfile.write("- {} : `[{} , {}]`\n".format(k,v1,v2))
+
+
+
 # here you can test the class
 if __name__ == "__main__":
     print('Testing the Measurement Class')
     
     m1 = Measurement(Path("./testfiles/subdirectory_test/2018-11-22-1125-degree-of-polarisation.dat"))
-    print(m1.type_of_measurement)
+    print(m1.path.name)
     print(m1.type_of_fit)
     m1.fit()
     print(m1.popt)
     print(m1.pcov)
     m1.plot()
+    m1.export_meta()
 
     #m2 = Measurement(Path("./testfiles/2018-11-23-1545-scan-dc2x.dat"))
     #print(m2.type_of_measurement)
