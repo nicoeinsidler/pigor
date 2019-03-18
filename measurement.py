@@ -101,11 +101,12 @@ class Measurement:
             print(emoji.emojize(":red_circle:  {}: {}".format(self.path,e)))
 
         # 6. fire degree of polarisation if POL
-        try:
-            # calculate degree of polarisation
-            self.degree_of_polarisation()
-        except Exception as e:
-            print(emoji.emojize(":red_circle:  {}: {}".format(self.path,e)))
+        if self.type_of_measurement == 'POL':
+            try:
+                # calculate degree of polarisation
+                self.degree_of_polarisation()
+            except Exception as e:
+                print(emoji.emojize(":red_circle:  {}: {}".format(self.path,e)))
 
         # end of init sequence -------------------------------
     
@@ -257,6 +258,7 @@ class Measurement:
 
 
     def degree_of_polarisation(self):
+        print('DoP triggered')
 
         # select default columns
         self.select_columns()
