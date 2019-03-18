@@ -12,7 +12,7 @@ from scipy.optimize import curve_fit
 
 try:
     import emoji
-except Except as e:
+except Exception as e:
     print("Could not import package emoji. {}".format(e))
 
 class Measurement:
@@ -258,7 +258,6 @@ class Measurement:
 
 
     def degree_of_polarisation(self):
-        print('DoP triggered')
 
         # select default columns
         self.select_columns()
@@ -276,7 +275,8 @@ class Measurement:
             # set x axis values from pos file
             self.x = self.pos_data[::4][0:len(raw_x)//4]
         else:
-            print('Could not use position file: Wrong position file!')
+            print('Could not use position file: Wrong position file!\nContinuing with arbitrary positions: 0 to 1 in {} steps.'.format(len(raw_x)//4))
+            self.x = np.linspace(0, 1, len(raw_x)//4) # worst case
 
 
         # calculation of degree of polarization and its error
@@ -310,15 +310,15 @@ class Measurement:
 
             # calculation of degree of polarisation
             self.y[i//4] = np.sqrt(
-                    (f1*f2)/(c*d-a*b)
+                    np.abs((f1*f2)/(c*d-a*b))
                 )
 
             # calculation of degree of polarisation error
             self.y_error[i//4] = 0.5 * np.sqrt(
-                        (p1*a + p2*c + p3*b + p4*d) / p0
+                        np.abs((p1*a + p2*c + p3*b + p4*d) / p0)
                 )
-            
 
+            
 
     def fit(self, fit_function=None):
         # check if fit function is not explicitly set for fit()
@@ -469,8 +469,31 @@ class Measurement:
 
         # cases for each type of fit
         if func == "gauss":
-            # boundaries should be calculated here TODO
-            pass
+            # estimate of height of Gaussian
+            a = y_max - y_min
+
+            # estimate of middle of Gaussian
+            x0 = y_max_i
+
+            # find FWHM first
+            fwhm = 2*np.abs(
+                self.x[np.abs(self.y - a/2).argmin()] - x0
+            )
+            # calculating sigma from FWHM
+            sigma = fwhm / 2.35
+
+            # scale factor
+            s = 0.5
+            
+            self.fit_function_list['gauss'] = (
+                self.gauss,
+                (
+                    [a - a*s, x0 - s*x0, sigma - s*sigma],
+                    [a + a*s, x0 + s*x0, sigma + s*sigma]
+                )
+            ) # a, x0, sigma
+
+
         elif func == "sine":
             # calculation of amplitude
             a = 0.5 * abs(y_max - y_min)
