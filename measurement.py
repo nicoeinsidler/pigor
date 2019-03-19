@@ -401,8 +401,7 @@ class Measurement:
             plt.ylabel(self.desc[column2[0]])
 
         # plot
-        plt.errorbar(self.x, self.y, yerr = self.y_error, label='data (Δt=)')
-        #print(self.settings)
+        plt.errorbar(self.x, self.y, yerr = self.y_error, label='data (Δt={}s)'.format(self.settings['measurement_time']))
 
         # plot fit if exists
         if fit == True:
