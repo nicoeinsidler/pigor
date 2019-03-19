@@ -643,6 +643,16 @@ class Measurement:
             plot_file_name = self.plot_path.name
         except AttributeError:
             plot_file_name = None
+
+        # minima and maxima of x and y data
+        x_min = self.x.min()
+        x_max = self.x.max()
+        y_min = self.y.min()
+        y_max = self.y.max()
+
+        # x data where y is max or min
+        y_min_i = self.x[self.y.argmin()]
+        y_max_i = self.x[self.y.argmax()]
         
         # text to write to file
         t = ['# Metadata for {}'.format(measurement_file_name)]
@@ -666,9 +676,22 @@ class Measurement:
                 ''
             ]
         )
+        
         t.extend(detector_information)
         t.extend(
             [
+                '## Extreme Values',
+                '',
+                '- x_min: `{}`'.format(x_min),
+                '- x_max: `{}`'.format(x_max),
+                '- y_min: `{}`'.format(y_min),
+                '- y_max: `{}`'.format(y_max),
+                '',
+                'Horizontal axis values where vertical axis is max or min:',
+                '',
+                '- y_min_i: `{}`'.format(y_min_i),
+                '- y_max_i: `{}`'.format(y_max_i),
+                '',
                 '## Fit ({})'.format(self.type_of_fit),
                 '### Fit Parameters and Covariance',
                 'Parameters:',
