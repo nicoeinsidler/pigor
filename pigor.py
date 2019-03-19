@@ -67,6 +67,7 @@ def analyse_files(filepaths):
     for p in filepaths:
         m = measurement.Measurement(p)
         m.plot()
+        m.export_meta(html=True)
         
 
     # with mp.Pool() as pool:
