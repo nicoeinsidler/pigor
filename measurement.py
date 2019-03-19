@@ -594,11 +594,19 @@ class Measurement:
                 fit_information.append('- {} : `{}`'.format(k,v))
 
         boundaries_information = []
-        a = fit_types[self.type_of_fit]
-        b = self.fit_function_list[self.type_of_fit][1][0]
-        c = self.fit_function_list[self.type_of_fit][1][1]
-        for k, v1, v2 in list(zip(a,b,c)):
-            boundaries_information.append("- {} : `[{} , {}]`".format(k,v1,v2))
+        try:
+            a = fit_types[self.type_of_fit]
+            b = self.fit_function_list[self.type_of_fit][1][0]
+            c = self.fit_function_list[self.type_of_fit][1][1]
+            for k, v1, v2 in list(zip(a,b,c)):
+                boundaries_information.append("- {} : `[{} , {}]`".format(k,v1,v2))
+        except Exception as e:
+            boundaries_information = [
+                'No information about the boundaries could be presented, because the following exception occured:',
+                str(e),
+                '',
+                'Please report this error by opening a new ticket in Bitbucket. Most likely, the function that should detect the boundaries was not defined yet.'
+            ]
 
         # often used paths
         measurement_file_name = self.path.name
@@ -641,8 +649,9 @@ class Measurement:
         t.extend(fit_information)
         t.extend(
             [
+                '',
                 'Covariance:',
-                '```\n{}\n```'.format(np.array2string(self.pcov, separator=', ')),
+                '```\n{}\n```'.format(np.array2string(self.pcov, separator=', \n')),
                 '### Fit Boundaries',
                 ''
             ]
