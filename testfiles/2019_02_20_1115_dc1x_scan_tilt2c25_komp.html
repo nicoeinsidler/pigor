@@ -434,16 +434,13 @@ html, body {
 <h2>Basic Information</h2>
 <p>Here is some basic information about the measurement, which was either provided by you, or automatically detected.</p>
 <ul>
-<li>file_path : <a href="testfiles\2019_02_20_1115_dc1x_scan_tilt2c25_komp.dat">testfiles\2019_02_20_1115_dc1x_scan_tilt2c25_komp.dat</a></li>
+<li>file_path : <a href="2019_02_20_1115_dc1x_scan_tilt2c25_komp.dat">testfiles\2019_02_20_1115_dc1x_scan_tilt2c25_komp.dat</a></li>
 <li>type_of_measurement : DC</li>
 <li>type_of_fit : sine_lin</li>
-<li>pos_file_path  : <a href="None">None</a></li>
 </ul>
 <h2>Detector Information</h2>
 <p>Here is some basic information about the measurement, which was either provided by you, or automatically detected.</p>
 <ul>
-<li>timestamp : 2019-02-20 11:16:00</li>
-<li>Measure Time (sec) : 100</li>
 <li>Bg detector (cnts/sec) : 0.330000</li>
 <li>Bg monitor (cnts/sec) : 0.000000100</li>
 <li>Mon.lim.  (cnts/sec) :   0</li>
@@ -455,28 +452,59 @@ html, body {
 <li>Power Supply 5 (mA) :  OFF</li>
 <li>Power Supply 6 (mA) :  OFF   </li>
 <li>I Scan (mA) :   Detector (cnts)</li>
+<li>time_stamp : 2019-02-20 11:16:00</li>
+<li>measurement_time : 100</li>
 </ul>
+<h2>Extreme Values</h2>
+<ul>
+<li>x_min: <code>-1500.0</code></li>
+<li>x_max: <code>1500.0</code></li>
+<li>y_min: <code>130.96</code></li>
+<li>y_max: <code>3587.0</code></li>
+</ul>
+<p>Horizontal axis values where vertical axis is max or min:</p>
+<ul>
+<li>y_min_i: <code>1050.0</code></li>
+<li>y_max_i: <code>0.0</code></li>
+</ul>
+<p>This gives a contrast of <code>0.9295527654950564</code>.</p>
 <h2>Fit (sine_lin)</h2>
-<h3>Fit Parameters and Covariance</h3>
+<h3>Fit Parameters, Covariance and Contrast</h3>
 <p>Parameters:</p>
 <ul>
 <li>a : <code>1727.4821256035113</code></li>
 <li>omega : <code>0.0028180380872000763</code></li>
 <li>phase : <code>350936.3519731053</code></li>
 <li>c : <code>1837.5366427283732</code></li>
-<li>b : <code>-0.002615318146000838</code>
-Covariance:
-<code>[[ 1.45490499e+02,  6.21567006e-06, -1.01813505e-04,  1.14257586e+02,
-  -3.74451405e-04],
- [ 6.21567006e-06,  3.23850698e-11, -4.64404755e-10,  2.50093487e-06,
-  -4.90741374e-10],
- [-1.01813505e-04, -4.64404755e-10,  3.45238374e-05, -4.92377402e-04,
-  -2.14984805e-06],
- [ 1.14257586e+02,  2.50093487e-06, -4.92377402e-04,  1.12551310e+02,
-  -1.95296244e-04],
- [-3.74451405e-04, -4.90741374e-10, -2.14984805e-06, -1.95296244e-04,
-   1.91934398e-05]]</code></li>
+<li>b : <code>-0.002615318146000838</code></li>
 </ul>
+<p>Covariance:
+<code>[[ 1.45490499e+02, 
+ 6.21567006e-06, 
+-1.01813505e-04, 
+ 1.14257586e+02,
+  -3.74451405e-04],
+ [ 6.21567006e-06, 
+ 3.23850698e-11, 
+-4.64404755e-10, 
+ 2.50093487e-06,
+  -4.90741374e-10],
+ [-1.01813505e-04, 
+-4.64404755e-10, 
+ 3.45238374e-05, 
+-4.92377402e-04,
+  -2.14984805e-06],
+ [ 1.14257586e+02, 
+ 2.50093487e-06, 
+-4.92377402e-04, 
+ 1.12551310e+02,
+  -1.95296244e-04],
+ [-3.74451405e-04, 
+-4.90741374e-10, 
+-2.14984805e-06, 
+-1.95296244e-04,
+   1.91934398e-05]]</code></p>
+<p>Contrast: <code>0.9416325750390269</code></p>
 <h3>Fit Boundaries</h3>
 <ul>
 <li>a : <code>[864.01 , 2592.0299999999997]</code></li>

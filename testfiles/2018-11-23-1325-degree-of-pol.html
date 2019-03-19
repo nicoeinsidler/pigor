@@ -434,16 +434,14 @@ html, body {
 <h2>Basic Information</h2>
 <p>Here is some basic information about the measurement, which was either provided by you, or automatically detected.</p>
 <ul>
-<li>file_path : <a href="testfiles\2018-11-23-1325-degree-of-pol.dat">testfiles\2018-11-23-1325-degree-of-pol.dat</a></li>
+<li>file_path : <a href="2018-11-23-1325-degree-of-pol.dat">testfiles\2018-11-23-1325-degree-of-pol.dat</a></li>
 <li>type_of_measurement : POL</li>
 <li>type_of_fit : gauss</li>
-<li>pos_file_path  : <a href="testfiles\subdirectory_test\2018-11-23-0900-degree-of-polarisation.pos">testfiles\subdirectory_test\2018-11-23-0900-degree-of-polarisation.pos</a></li>
+<li>pos_file_path : <a href="subdirectory_test\2018-11-23-0900-degree-of-polarisation.pos">testfiles\subdirectory_test\2018-11-23-0900-degree-of-polarisation.pos</a></li>
 </ul>
 <h2>Detector Information</h2>
 <p>Here is some basic information about the measurement, which was either provided by you, or automatically detected.</p>
 <ul>
-<li>timestamp : 2018-11-23 13:20:00</li>
-<li>Measure Time (sec) : 100</li>
 <li>Bg detector (cnts/sec) : 0.875000</li>
 <li>Bg monitor (cnts/sec) : 0.000000100</li>
 <li>Mon.lim.  (cnts/sec) :   0</li>
@@ -455,19 +453,41 @@ html, body {
 <li>Power Supply 5 (mA) :  OFF</li>
 <li>Power Supply 6 (mA) :  OFF   </li>
 <li>I Scan (mA) :   Detector (cnts)</li>
+<li>time_stamp : 2018-11-23 13:20:00</li>
+<li>measurement_time : 100</li>
 </ul>
+<h2>Extreme Values</h2>
+<ul>
+<li>x_min: <code>1220000.0</code></li>
+<li>x_max: <code>2060000.0</code></li>
+<li>y_min: <code>0.14774888355384544</code></li>
+<li>y_max: <code>0.9866109251166846</code></li>
+</ul>
+<p>Horizontal axis values where vertical axis is max or min:</p>
+<ul>
+<li>y_min_i: <code>1220000.0</code></li>
+<li>y_max_i: <code>1540000.0</code></li>
+</ul>
+<p>This gives a contrast of <code>0.7395026120909429</code>.</p>
 <h2>Fit (gauss)</h2>
-<h3>Fit Parameters and Covariance</h3>
+<h3>Fit Parameters, Covariance and Contrast</h3>
 <p>Parameters:</p>
 <ul>
 <li>a : <code>0.9783506167617136</code></li>
 <li>x0 : <code>1622885.524708897</code></li>
-<li>sigma : <code>663829.7872340403</code>
-Covariance:
-<code>[[ 1.52312372e-05,  4.66170928e+00, -1.35190558e+02],
- [ 4.66170928e+00,  1.29667061e+08, -1.86860487e+08],
- [-1.35190558e+02, -1.86860487e+08,  2.81185267e+09]]</code></li>
+<li>sigma : <code>663829.7872340403</code></li>
 </ul>
+<p>Covariance:
+<code>[[ 1.52312372e-05, 
+ 4.66170928e+00, 
+-1.35190558e+02],
+ [ 4.66170928e+00, 
+ 1.29667061e+08, 
+-1.86860487e+08],
+ [-1.35190558e+02, 
+-1.86860487e+08, 
+ 2.81185267e+09]]</code></p>
+<p>Contrast: <code>0.10797434301501299</code></p>
 <h3>Fit Boundaries</h3>
 <ul>
 <li>a : <code>[0.4194310207814196 , 1.2582930623442588]</code></li>
