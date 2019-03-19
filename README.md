@@ -36,14 +36,9 @@ Types can be combined within a types group (gauss and pol for example, like "gau
 - self.x_error: not yet implemented
 - a lot of commenting
 - renew docstring style
-- ~~fitting boundaries~~
-- ~~fixing degree of pol~~
 - error of fit
 - verbose mode on/off
-- ~~find error with pcov~~
-- ~~fix axis descriptions in pol plots~~
 - getting PIGOR ready for shipment by creating a setup.py
-- fixing the image URI in the md meta data file
 - exporting md file into html or pdf
 
 ## How to Install
