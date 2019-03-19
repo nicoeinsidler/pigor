@@ -235,10 +235,10 @@ class Measurement:
         # get last line of head for axis labels for plots
         self.desc = [' '.join(item) for item in [item.split() for item in [item.split(": ") for item in self.head[-1]][0]]]
 
+
+        # write information from head into settings
+        self.settings = {}
         try:
-            self.settings = {
-                'timestamp'      : datetime.strptime(self.head[0][0].split()[-1], '%d/%m/%Y@%H:%M')
-            }
             i = 0
             for line in self.head:
                 for item in line:
@@ -249,6 +249,32 @@ class Measurement:
         except Exception as e:
             self.settings = {}
             print(e)
+
+        
+        # try to find measurement time stamp
+        try:
+            self.settings['time_stamp'] = datetime.strptime(self.head[0][0].split()[-1], '%d/%m/%Y@%H:%M')
+        except:
+            pass
+
+        # try to find measurement time
+        try:
+            w = [
+                'measurement time',
+                'measure time',
+                'time'
+            ]
+            for word in w:
+                matches = difflib.get_close_matches(word, list(self.settings.keys()))
+                if matches != []:
+                    match = matches[0]
+                    break
+
+            self.settings['measurement_time'] = int(re.search(r'\d+', self.settings[match]).group())
+            self.settings.pop(match)
+        except:
+            pass
+        
 
 
     def select_columns(self, column1=(0,1), column2=(1,1)):
@@ -341,7 +367,7 @@ class Measurement:
 
         
 
-    def plot(self, column1=(0,1), column2=(1,1), fit=True, type_of_plot="", override=True):
+    def plot(self, column1=(0,1), column2=(1,1), fit=True, type_of_plot='', override=True):
         """
         Creates a plot for the data. If fit is set to False the data fit won't be
         plotted, even if there exists one. Following parameters are possible:
@@ -356,10 +382,10 @@ class Measurement:
                                     already exists
 
         """
-
+        
         # create label
-        if 'timestamp' in self.settings.values():
-            title = self.path.name + "\n" + type_of_plot + self.settings['timestamp'].strftime("%Y-%m-%d %H:%M")
+        if 'time_stamp' in self.settings:
+            title = self.path.name + '\n' + type_of_plot + '\n' + self.settings['time_stamp'].strftime("%Y-%m-%d %H:%M")
         else:
             title = self.path.name + "\n" + type_of_plot
 
@@ -375,7 +401,8 @@ class Measurement:
             plt.ylabel(self.desc[column2[0]])
 
         # plot
-        plt.errorbar(self.x, self.y, yerr = self.y_error)
+        plt.errorbar(self.x, self.y, yerr = self.y_error, label='data (Δt=)')
+        #print(self.settings)
 
         # plot fit if exists
         if fit == True:
@@ -386,6 +413,9 @@ class Measurement:
                 fit_function = self.used_fit_function
             x = np.linspace(self.x.min(), self.x.max(), self.FIT_RESOLUTION)
             plt.plot(x, fit_function[0](x, *self.popt), '-', label='fit')
+
+        # plot legend
+        plt.legend()
 
         # file name
         if type_of_plot != "":
@@ -705,7 +735,6 @@ if __name__ == "__main__":
     m1 = Measurement(Path("./testfiles/subdirectory_test/2018-11-22-1125-degree-of-polarisation.dat"))
     m1.fit()
     m1.plot()
-    m1.export_meta(html=True)
 
     #m2 = Measurement(Path("./testfiles/2018-11-23-1545-scan-dc2x.dat"))
     #print(m2.type_of_measurement)
