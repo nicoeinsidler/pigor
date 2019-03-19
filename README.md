@@ -39,7 +39,7 @@ Types can be combined within a types group (gauss and pol for example, like "gau
 - error of fit
 - verbose mode on/off
 - getting PIGOR ready for shipment by creating a setup.py
-- exporting md file into html or pdf
+- better display of self.pcov
 
 ## How to Install
 
