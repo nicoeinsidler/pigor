@@ -696,8 +696,10 @@ class Measurement:
                 '- y_min_i: `{}`'.format(y_min_i),
                 '- y_max_i: `{}`'.format(y_max_i),
                 '',
+                'This gives a contrast of `{}`.'.format(self.contrast(source='data')),
+                '',
                 '## Fit ({})'.format(self.type_of_fit),
-                '### Fit Parameters and Covariance',
+                '### Fit Parameters, Covariance and Contrast',
                 'Parameters:',
                 ''
             ]
@@ -708,6 +710,8 @@ class Measurement:
                 '',
                 'Covariance:',
                 '```\n{}\n```'.format(np.array2string(self.pcov, separator=', \n')),
+                '',
+                'Contrast: `{}`'.format(self.contrast(source='fit')),
                 '### Fit Boundaries',
                 ''
             ]
@@ -752,6 +756,31 @@ class Measurement:
                 for line in h2:
                     htmlfile.write('{}\n'.format(line))
 
+    def contrast(self, source='fit'):
+        # calculate contrast of fit
+        if source == 'fit':
+            try:
+                fit_function = self.used_fit_function
+            except AttributeError:
+                self.fit()
+                fit_function = self.used_fit_function
+
+            x = np.linspace(self.x.min(), self.x.max(), self.FIT_RESOLUTION)
+            f = fit_function[0](x, *self.popt)
+            min = f.min()
+            max = f.max()
+
+        # calculate contrast of real data
+        elif source == 'data':
+            min = self.y.min()
+            max = self.y.max()
+
+        # TODO: not ideal
+        else:
+            print(emoji.emojize(":red_circle:  {}: Could not calculate contrast.".format(self.path)))
+            max = min = 1
+        
+        return (max-min) / (max+min)
 
 
 # here you can test the class
