@@ -56,3 +56,4 @@ The following python packages should be installed:
 - datetime
 - pathlib
 - scipy
+- markdown
