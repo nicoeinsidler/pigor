@@ -585,7 +585,7 @@ class Measurement:
 
             try:
                 mdfile.write(
-                    '![{}](./{} "{}")\n\n'.format(self.path.name, self.plot_path.as_posix(), self.path.name)
+                    '![{}](./{} "{}")\n\n'.format(self.path.name, self.plot_path.name, self.path.name)
                 )
             except AttributeError:
                 pass

@@ -1,6 +1,6 @@
 # Metadata for 2018-11-22-1125-degree-of-polarisation.dat
 
-![2018-11-22-1125-degree-of-polarisation.dat](./testfiles/subdirectory_test/2018-11-22-1125-degree-of-polarisation.png "2018-11-22-1125-degree-of-polarisation.dat")
+![2018-11-22-1125-degree-of-polarisation.dat](./2018-11-22-1125-degree-of-polarisation.png "2018-11-22-1125-degree-of-polarisation.dat")
 
 ## Basic Information
 
