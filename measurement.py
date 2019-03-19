@@ -595,11 +595,15 @@ class Measurement:
     def export_meta(self, html=False, theme='github'):
 
         header_to_write = {
-            'file_path'             :   '[{}]({})'.format(self.path, self.path),
+            'file_path'             :   '[{}]({})'.format(self.path, self.path.name),
             'type_of_measurement'   :   self.type_of_measurement,
-            'type_of_fit'           :   self.type_of_fit,
-            'pos_file_path '        :   '[{}]({})'.format(self.pos_file_path, self.pos_file_path)
+            'type_of_fit'           :   self.type_of_fit
         }
+        if self.pos_file_path != None:
+            l_pos = self.pos_file_path.parts
+            l_dat = self.path.parts
+            p = Path('/'.join([x for x in l_pos if x not in l_dat]))
+            header_to_write['pos_file_path'] = '[{}]({})'.format(self.pos_file_path, p)
 
         fit_types = {
             'default'   :   ['a', 'x0', 'sigma'],
