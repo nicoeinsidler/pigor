@@ -239,10 +239,8 @@ class Measurement:
         # write information from head into settings
         self.settings = {}
         try:
-            i = 0
             for line in self.head:
-                for item in line:
-                    i += 1
+                for i, item in enumerate(line):
                     l = item.split(":")
                     if i != 1:
                         self.settings[l[0]] = l[1]
@@ -781,7 +779,6 @@ class Measurement:
             max = min = 1
         
         return (max-min) / (max+min)
-
 
 # here you can test the class
 if __name__ == "__main__":
