@@ -517,8 +517,8 @@ class Measurement:
             func = fit_function
 
         # minima and maxima of x and y data
-        x_min = self.x.min()
-        x_max = self.x.max()
+        #x_min = self.x.min()
+        #x_max = self.x.max()
         y_min = self.y.min()
         y_max = self.y.max()
 
