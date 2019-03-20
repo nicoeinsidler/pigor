@@ -82,9 +82,11 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">How to install PIGOR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="naming-convention.html">Measurement Naming Convention</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pigor.html">PIGOR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="measurement.html">The Measurement Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
 </ul>
 
             
@@ -155,12 +157,24 @@
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">How to install PIGOR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">How to install PIGOR</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installing-only-the-measurement-class">Installing only the Measurement Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installing-pigor">Installing PIGOR</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="naming-convention.html">Measurement Naming Convention</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pigor.html">PIGOR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="measurement.html">The Measurement Class</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="measurement.html#flow-at-startup">Flow at Startup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="measurement.html#flow-when-plotting">Flow when plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="measurement.html#class-usecases">Class Usecases</a></li>
 <li class="toctree-l2"><a class="reference internal" href="measurement.html#module-measurement">Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="deployment.html#deploying-measurement-module">Deploying Measurement Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment.html#deploying-pigor">Deploying PIGOR</a></li>
 </ul>
 </li>
 </ul>
@@ -169,10 +183,8 @@
 <h2>PIGOR &amp; Measurement Class ToDos<a class="headerlink" href="#pigor-measurement-class-todos" title="Permalink to this headline">¶</a></h2>
 <p>Here are all ToDos listed. Feel free to contribute and check this project out on Bitbucket.</p>
 <ul class="simple">
-<li>measurement time in plot</li>
 <li>self.x_error: not yet implemented</li>
 <li>a lot of commenting</li>
-<li>renew docstring style</li>
 <li>error of fit</li>
 <li>verbose mode on/off</li>
 <li>getting PIGOR ready for shipment by creating a setup.py</li>
@@ -182,20 +194,31 @@
 <li>use decorators to auto register fit functions with their input argument list</li>
 <li>setuptools in setup.py</li>
 <li><a class="reference external" href="https://click.palletsprojects.com/en/7.x/quickstart/">https://click.palletsprojects.com/en/7.x/quickstart/</a></li>
+<li>requirements.txt</li>
 </ul>
 </div>
 <div class="section" id="sphinx-documentation-todos">
 <h2>Sphinx documentation ToDos<a class="headerlink" href="#sphinx-documentation-todos" title="Permalink to this headline">¶</a></h2>
 <div class="admonition-todo admonition">
 <p class="first admonition-title">Todo</p>
-<p class="last">check if dependencies are correct with dependencies.txt</p>
-</div>
-<p class="todo-source">(The <a class="reference internal" href="#index-0"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\doc\index.rst, line 55.)</p>
-<div class="admonition-todo admonition">
-<p class="first admonition-title">Todo</p>
 <p class="last">Quickstart Guide</p>
 </div>
 <p class="todo-source">(The <a class="reference internal" href="quickstart.html#index-0"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\doc\quickstart.rst, line 4.)</p>
+<div class="admonition-todo admonition">
+<p class="first admonition-title">Todo</p>
+<p class="last">Deployment of PIGOR</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="deployment.html#index-0"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\doc\deployment.rst, line 24.)</p>
+<div class="admonition-todo admonition">
+<p class="first admonition-title">Todo</p>
+<p class="last">general installation</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="installation.html#index-0"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\doc\installation.rst, line 20.)</p>
+<div class="admonition-todo admonition">
+<p class="first admonition-title">Todo</p>
+<p class="last">check if dependencies are correct with dependencies.txt</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="#index-0"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\doc\index.rst, line 56.)</p>
 </div>
 <div class="section" id="project-dependencies">
 <h2>Project Dependencies<a class="headerlink" href="#project-dependencies" title="Permalink to this headline">¶</a></h2>

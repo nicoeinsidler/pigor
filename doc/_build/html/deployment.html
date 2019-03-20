@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Python Module Index &mdash; PIGOR  documentation</title>
+  <title>Deployment &mdash; PIGOR  documentation</title>
   
 
   
@@ -35,13 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
- 
-
-    <script type="text/javascript">
-      DOCUMENTATION_OPTIONS.COLLAPSE_INDEX = true;
-    </script>
-
-
+    <link rel="prev" title="The Measurement Class" href="measurement.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -86,13 +80,16 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">How to install PIGOR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="naming-convention.html">Measurement Naming Convention</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pigor.html">PIGOR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="measurement.html">The Measurement Class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#deploying-measurement-module">Deploying Measurement Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deploying-pigor">Deploying PIGOR</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -138,10 +135,14 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Python Module Index</li>
+      <li>Deployment</li>
     
     
       <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/deployment.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -153,29 +154,40 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-
-   <h1>Python Module Index</h1>
-
-   <div class="modindex-jumpbox">
-   <a href="#cap-m"><strong>m</strong></a>
-   </div>
-
-   <table class="indextable modindextable">
-     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
-     <tr class="cap" id="cap-m"><td></td><td>
-       <strong>m</strong></td><td></td></tr>
-     <tr>
-       <td></td>
-       <td>
-       <a href="measurement.html#module-measurement"><code class="xref">measurement</code></a></td><td>
-       <em></em></td></tr>
-   </table>
+  <div class="section" id="deployment">
+<h1>Deployment<a class="headerlink" href="#deployment" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="deploying-measurement-module">
+<span id="deployment-measurement-module"></span><h2>Deploying Measurement Module<a class="headerlink" href="#deploying-measurement-module" title="Permalink to this headline">¶</a></h2>
+<p>If a user whishes to use the Measurement class on its on, wether in the context of Jupyter Lab or Notebook files or to write his or her own script, he should be able to download a zip or tarball file. To create this required file, just run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python setup.py sdist
+</pre></div>
+</div>
+<p>Or - if you only happen to have a Windows command line available, type:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">sdist</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="deploying-pigor">
+<h2>Deploying PIGOR<a class="headerlink" href="#deploying-pigor" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">Deployment of PIGOR</p>
+</div>
+</div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="measurement.html" class="btn btn-neutral float-left" title="The Measurement Class" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

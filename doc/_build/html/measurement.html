@@ -36,6 +36,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Deployment" href="deployment.html" />
     <link rel="prev" title="PIGOR" href="pigor.html" /> 
 </head>
 
@@ -87,9 +88,12 @@
 <li class="toctree-l1"><a class="reference internal" href="pigor.html">PIGOR</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">The Measurement Class</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#flow-at-startup">Flow at Startup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#flow-when-plotting">Flow when plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#class-usecases">Class Usecases</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-measurement">Methods</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
 </ul>
 
             
@@ -194,6 +198,36 @@ end
 subgraph 1.
   read_data
 end
+        </div></div>
+<div class="section" id="flow-when-plotting">
+<h2>Flow when plotting<a class="headerlink" href="#flow-when-plotting" title="Permalink to this headline">¶</a></h2>
+
+            <style>
+            /* mermaid issue 527 workaround */
+            .section {
+                opacity: 1.0 !important;
+            }
+            </style>
+            <div class="mermaid">
+            graph LR
+  plot --&gt; fit
+  fit --&gt; find_bounds
+        </div></div>
+<div class="section" id="class-usecases">
+<h2>Class Usecases<a class="headerlink" href="#class-usecases" title="Permalink to this headline">¶</a></h2>
+<p>There are many ways to interact with or use the Measurement class. Here are the three main ways:</p>
+
+            <style>
+            /* mermaid issue 527 workaround */
+            .section {
+                opacity: 1.0 !important;
+            }
+            </style>
+            <div class="mermaid">
+            graph TD
+  Measurement(Measurement Class) --&gt; CLI
+  Measurement --&gt; PIGOR
+  Measurement --&gt; juypter[Jupyter Lab / Notebook]
         </div></div>
 <div class="section" id="module-measurement">
 <span id="methods"></span><h2>Methods<a class="headerlink" href="#module-measurement" title="Permalink to this headline">¶</a></h2>
@@ -480,6 +514,8 @@ also its file extention)</li>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="deployment.html" class="btn btn-neutral float-right" title="Deployment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="pigor.html" class="btn btn-neutral float-left" title="PIGOR" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

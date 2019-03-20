@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Python Module Index &mdash; PIGOR  documentation</title>
+  <title>Measurement Naming Convention &mdash; PIGOR  documentation</title>
   
 
   
@@ -35,13 +35,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
- 
-
-    <script type="text/javascript">
-      DOCUMENTATION_OPTIONS.COLLAPSE_INDEX = true;
-    </script>
-
-
+    <link rel="next" title="Quickstart Guide" href="quickstart.html" />
+    <link rel="prev" title="How to install PIGOR" href="installation.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -86,9 +81,9 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">How to install PIGOR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="naming-convention.html">Measurement Naming Convention</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Measurement Naming Convention</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pigor.html">PIGOR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="measurement.html">The Measurement Class</a></li>
@@ -138,10 +133,14 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Python Module Index</li>
+      <li>Measurement Naming Convention</li>
     
     
       <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/naming-convention.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -153,29 +152,66 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-
-   <h1>Python Module Index</h1>
-
-   <div class="modindex-jumpbox">
-   <a href="#cap-m"><strong>m</strong></a>
-   </div>
-
-   <table class="indextable modindextable">
-     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
-     <tr class="cap" id="cap-m"><td></td><td>
-       <strong>m</strong></td><td></td></tr>
-     <tr>
-       <td></td>
-       <td>
-       <a href="measurement.html#module-measurement"><code class="xref">measurement</code></a></td><td>
-       <em></em></td></tr>
-   </table>
+  <div class="section" id="measurement-naming-convention">
+<h1>Measurement Naming Convention<a class="headerlink" href="#measurement-naming-convention" title="Permalink to this headline">¶</a></h1>
+<p>In order for the Measurement class to work properly, the user should follow this naming convention:</p>
+<p><code class="code docutils literal notranslate"><span class="pre">YYYY_MM_DD_HHmm_IDENTIFIER_TYPE.dat</span></code> (not case sensitive)</p>
+<p>where…</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt><code class="code docutils literal notranslate"><span class="pre">IDENTIFIER</span></code> denotes the type of measurement or the reason for the measurement. The following values are common and recognized by PIGOR:</dt>
+<dd><ul class="first last">
+<li><code class="code docutils literal notranslate"><span class="pre">dcX#</span></code>: DC coil (for the magnetic field in x-direction) scan for the DC coil with the number #. A sine fit is automatically applied, when <code class="code docutils literal notranslate"><span class="pre">TYPE</span></code> is not set.</li>
+<li><code class="code docutils literal notranslate"><span class="pre">dcZ#</span></code>: DC coil scan in z-direction (compensation field) for DC coil number #. Fitted with a polynomial of order 5 by default.</li>
+<li><code class="code docutils literal notranslate"><span class="pre">pos#</span></code>: position scan with stage number #. Fitted with a Gaussian by default.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="code docutils literal notranslate"><span class="pre">TYPE</span></code> specifies and overrides the type of fitting/analysis that should be applied by PIGOR. Possible values:</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>fitting types</dt>
+<dd><ul class="first last">
+<li><code class="code docutils literal notranslate"><span class="pre">poly5</span></code>: polynom of order 5</li>
+<li><code class="code docutils literal notranslate"><span class="pre">sine_lin</span></code>: sine plus additional added linear function</li>
+<li><code class="code docutils literal notranslate"><span class="pre">sine</span></code>: sine</li>
+<li><code class="code docutils literal notranslate"><span class="pre">gauss</span></code>: Gauß fit</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>special analysis types</dt>
+<dd><ul class="first last">
+<li><code class="code docutils literal notranslate"><span class="pre">pol</span></code>: specifies that this measurement is a degree of polarisation measurement. This will automatically calculate the degree of polarisation for any given number of points (number of data points must be multiple of four)</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Types can be combined within a types group (gauss and pol for example, like “gauss_pol” or “pol_gauss”).</p>
+</div>
 
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="quickstart.html" class="btn btn-neutral float-right" title="Quickstart Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installation.html" class="btn btn-neutral float-left" title="How to install PIGOR" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

@@ -35,6 +35,27 @@ Flow at Startup
     end
 
 
+Flow when plotting
+------------------
+
+.. mermaid::
+
+  graph LR
+    plot --> fit
+    fit --> find_bounds
+
+Class Usecases
+--------------
+
+There are many ways to interact with or use the Measurement class. Here are the three main ways:
+
+.. mermaid::
+
+  graph TD
+    Measurement(Measurement Class) --> CLI
+    Measurement --> PIGOR
+    Measurement --> juypter[Jupyter Lab / Notebook]
+
 Methods
 -------
 
