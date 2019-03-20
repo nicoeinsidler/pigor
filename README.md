@@ -32,10 +32,8 @@ Types can be combined within a types group (gauss and pol for example, like "gau
 
 ## TODO
 
-- measurement time in plot
 - self.x_error: not yet implemented
 - a lot of commenting
-- renew docstring style
 - error of fit
 - verbose mode on/off
 - getting PIGOR ready for shipment by creating a setup.py
@@ -45,6 +43,7 @@ Types can be combined within a types group (gauss and pol for example, like "gau
 - use decorators to auto register fit functions with their input argument list
 - setuptools in setup.py
 - https://click.palletsprojects.com/en/7.x/quickstart/
+- requirements.txt
 
 ## How to Install
 
