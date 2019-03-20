@@ -40,6 +40,9 @@ Types can be combined within a types group (gauss and pol for example, like "gau
 - verbose mode on/off
 - getting PIGOR ready for shipment by creating a setup.py
 - better display of self.pcov
+- separation between pure functions and functions with context (methods)
+- auto comment decorator for functions
+- use decorators to auto register fit functions with their input argument list
 
 ## How to Install
 
