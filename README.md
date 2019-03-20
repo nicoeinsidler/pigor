@@ -43,6 +43,8 @@ Types can be combined within a types group (gauss and pol for example, like "gau
 - separation between pure functions and functions with context (methods)
 - auto comment decorator for functions
 - use decorators to auto register fit functions with their input argument list
+- setuptools in setup.py
+- https://click.palletsprojects.com/en/7.x/quickstart/
 
 ## How to Install
 
