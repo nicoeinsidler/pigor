@@ -244,11 +244,11 @@ class Measurement:
             for line in self.head:
                 for i, item in enumerate(line):
                     l = item.split(":")
-                    if i != 1:
+                    if i != 0:
                         self.settings[l[0]] = l[1]
         except Exception as e:
             self.settings = {}
-            print(e)
+            print(emoji.emojize(":red_circle:  {}: {}".format(self.path, e)))
 
         
         # try to find measurement time stamp
@@ -268,10 +268,10 @@ class Measurement:
                 matches = difflib.get_close_matches(word, list(self.settings.keys()))
                 if matches != []:
                     match = matches[0]
+                    self.settings['measurement_time'] = int(re.search(r'\d+', self.settings[match]).group())
+                    self.settings.pop(match)
                     break
 
-            self.settings['measurement_time'] = int(re.search(r'\d+', self.settings[match]).group())
-            self.settings.pop(match)
         except:
             pass
         
@@ -413,8 +413,14 @@ class Measurement:
             plt.xlabel(self.desc[column1[0]])
             plt.ylabel(self.desc[column2[0]])
 
+        # get measurement time if available
+        try:
+            measurement_time = self.settings['measurement_time']
+        except Exception as e:
+            print(emoji.emojize(":red_circle:  {}: {}".format(self.path,e)))
+
         # plot
-        plt.errorbar(self.x, self.y, yerr = self.y_error, label='data (Δt={}s)'.format(self.settings['measurement_time']))
+        plt.errorbar(self.x, self.y, yerr = self.y_error, label=f'data (Δt={measurement_time}s)')
 
         # plot fit if exists
         if fit == True:
