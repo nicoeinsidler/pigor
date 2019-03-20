@@ -16,11 +16,58 @@ Pigor is a lightweight analysis tool for the NEPTUN beam line at `Atominstitut`_
    :maxdepth: 2
    :caption: Contents:
 
+   installation
+   quickstart
+   pigor
    measurement
 
 
+
+PIGOR & Measurement Class ToDos
+-------------------------------
+
+Here are all ToDos listed. Feel free to contribute and check this project out on Bitbucket.
+
+- measurement time in plot
+- self.x_error: not yet implemented
+- a lot of commenting
+- renew docstring style
+- error of fit
+- verbose mode on/off
+- getting PIGOR ready for shipment by creating a setup.py
+- better display of self.pcov
+- separation between pure functions and functions with context (methods)
+- auto comment decorator for functions
+- use decorators to auto register fit functions with their input argument list
+- setuptools in setup.py
+- https://click.palletsprojects.com/en/7.x/quickstart/
+
+
+Sphinx documentation ToDos
+--------------------------
+
+.. todolist::
+
+
+Project Dependencies
+--------------------
+
+.. todo:: check if dependencies are correct with dependencies.txt
+
+- numpy
+- re
+- matplotlib
+- os.path
+- glob
+- difflib
+- datetime
+- pathlib
+- scipy
+- markdown
+
+
 Indices and tables
-==================
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`

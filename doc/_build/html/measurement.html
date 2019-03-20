@@ -1,52 +1,206 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>The Measurement Class &#8212; PIGOR  documentation</title>
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>The Measurement Class &mdash; PIGOR  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
     
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/mermaid@7.1.0/dist/mermaid.min.js"></script>
     
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Welcome to PIGOR’s documentation!" href="index.html" /> 
-  </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Welcome to PIGOR’s documentation!"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PIGOR  documentation</a> &#187;</li> 
-      </ul>
-    </div>  
+    <link rel="prev" title="PIGOR" href="pigor.html" /> 
+</head>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> PIGOR
+          
+
+          
+          </a>
+
+          
             
-  <div class="section" id="module-measurement">
-<span id="the-measurement-class"></span><h1>The Measurement Class<a class="headerlink" href="#module-measurement" title="Permalink to this headline">¶</a></h1>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">How to install PIGOR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pigor.html">PIGOR</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">The Measurement Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#flow-at-startup">Flow at Startup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-measurement">Methods</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PIGOR</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>The Measurement Class</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/measurement.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-measurement-class">
+<h1>The Measurement Class<a class="headerlink" href="#the-measurement-class" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="flow-at-startup">
+<h2>Flow at Startup<a class="headerlink" href="#flow-at-startup" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>read the data</li>
+<li>detect measurement type</li>
+<li>read position file if a position file exists</li>
+<li>clean up and description gathering</li>
+<li>select columns for plotting</li>
+</ol>
+
+            <style>
+            /* mermaid issue 527 workaround */
+            .section {
+                opacity: 1.0 !important;
+            }
+            </style>
+            <script>mermaid.initialize({startOnLoad:true});</script><div class="mermaid">
+            graph TB
+init[&quot;__init__()&quot;] --&gt; read_data[&quot;read_data()&quot;]
+init -- &quot;if type_of_measurement != default&quot;  --&gt; detect_measurement_type[&quot;detect_measurement_type()&quot;]
+init -- &quot;if type_of_measurement == POL&quot;  --&gt; read_pos_file[&quot;read_pos_file()&quot;]
+init --&gt; clean_data[&quot;clean_data()&quot;]
+init --&gt; select_columns[&quot;select_columns()&quot;]
+subgraph 5.
+  select_columns
+end
+subgraph 4.
+  clean_data
+end
+subgraph 3.
+  read_pos_file
+end
+subgraph 2.
+  detect_measurement_type --&gt; measurement_type[&quot;measurement_type()&quot;]
+end
+subgraph 1.
+  read_data
+end
+        </div></div>
+<div class="section" id="module-measurement">
+<span id="methods"></span><h2>Methods<a class="headerlink" href="#module-measurement" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="measurement.Measurement">
 <em class="property">class </em><code class="descclassname">measurement.</code><code class="descname">Measurement</code><span class="sig-paren">(</span><em>path</em>, <em>type_of_measurement='default'</em>, <em>type_of_fit='gauss'</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement" title="Permalink to this definition">¶</a></dt>
-<dd><p>This class provides an easy way to read, analyse and plot data from 
+<dd><p>This class provides an easy way to read, analyse and plot data from
 text files.</p>
 <dl class="method">
 <dt id="measurement.Measurement.clean_data">
@@ -55,44 +209,107 @@ text files.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="measurement.Measurement.gauss">
-<code class="descname">gauss</code><span class="sig-paren">(</span><em>x</em>, <em>a</em>, <em>x0</em>, <em>sigma</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.gauss" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gaussian function, used for fitting data.</p>
-<blockquote>
-<div><table class="docutils field-list" frame="void" rules="none">
+<dt id="measurement.Measurement.contrast">
+<code class="descname">contrast</code><span class="sig-paren">(</span><em>source='fit'</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.contrast" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param x:</th><td class="field-body">parameter</td>
-</tr>
-<tr class="field-even field"><th class="field-name">param a:</th><td class="field-body">amplitude</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">param x0:</th><td class="field-body">maximum</td>
-</tr>
-<tr class="field-even field"><th class="field-name">param sigma:</th><td class="field-body">width</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>source</strong> – (Default value = ‘fit’)</td>
 </tr>
 </tbody>
 </table>
-</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="measurement.Measurement.degree_of_polarisation">
+<code class="descname">degree_of_polarisation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.degree_of_polarisation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="measurement.Measurement.detect_measurement_type">
+<code class="descname">detect_measurement_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.detect_measurement_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="measurement.Measurement.export_meta">
+<code class="descname">export_meta</code><span class="sig-paren">(</span><em>html=False</em>, <em>theme='github'</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.export_meta" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>html</strong> – (Default value = False)</li>
+<li><strong>theme</strong> – (Default value = ‘github’)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="measurement.Measurement.find_bounds">
+<code class="descname">find_bounds</code><span class="sig-paren">(</span><em>fit_function=None</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.find_bounds" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fit_function</strong> – (Default value = None)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="measurement.Measurement.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>fit_function=None</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.fit" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fit_function</strong> – (Default value = None)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="measurement.Measurement.gauss">
+<code class="descname">gauss</code><span class="sig-paren">(</span><em>x</em>, <em>a</em>, <em>x0</em>, <em>sigma</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.gauss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gaussian function, used for fitting data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> – parameter</li>
+<li><strong>a</strong> – amplitude</li>
+<li><strong>x0</strong> – maximum</li>
+<li><strong>sigma</strong> – width</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="measurement.Measurement.measurement_type">
 <code class="descname">measurement_type</code><span class="sig-paren">(</span><em>type_of_measurement='default'</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.measurement_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the type of the measurement if parameter type_of_measurement is set.</p>
-<blockquote>
-<div><table class="docutils field-list" frame="void" rules="none">
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param self:</th><td class="field-body">object itself</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">param type_of_measurement=”default”:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">new type of measurement</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>self</strong> – object itself</li>
+<li><strong>type_of_measurement</strong> – default”:   new type of measurement</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
-</div></blockquote>
 <p>Returns the current type of measurement.</p>
 </dd></dl>
 
@@ -101,186 +318,206 @@ text files.</p>
 <code class="descname">plot</code><span class="sig-paren">(</span><em>column1=(0</em>, <em>1)</em>, <em>column2=(1</em>, <em>1)</em>, <em>fit=True</em>, <em>type_of_plot=''</em>, <em>override=True</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a plot for the data. If fit is set to False the data fit won’t be
 plotted, even if there exists one. Following parameters are possible:</p>
-<blockquote>
-<div><table class="docutils field-list" frame="void" rules="none">
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param self:</th><td class="field-body">the object itself</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">param column1=(0,1):</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(column, nth element) to choose the data from for x-axis</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">param column2=(1,1):</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(column, nth element) to choose the data from for y-axis</td>
-</tr>
-<tr class="field-even field"><th class="field-name">param fit=True:</th><td class="field-body">if set to False plotting of the fit will be supressed</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">param type_of_plot=”“:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">string to specify a certain plot type, which will be used
-in the file name as well as in the plot title</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">param override=True:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">determines if plot image should be recreated if it
-already exists</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>self</strong> – the object itself</li>
+<li><strong>column1</strong> – 0,1):   (column, nth element) to choose the data from for x-axis (Default value = (0)</li>
+<li><strong>column2</strong> – 1,1):   (column, nth element) to choose the data from for y-axis (Default value = (1)</li>
+<li><strong>fit</strong> – True:        if set to False plotting of the fit will be supressed (Default value = True)</li>
+<li><strong>type_of_plot</strong> – string to specify a certain plot type, which will be used
+in the file name as well as in the plot title (Default value = ‘’)</li>
+<li><strong>override</strong> – True:   determines if plot image should be recreated if it
+already exists (Default value = True)</li>
+<li><strong>1</strong><strong>)</strong> – </li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
-</div></blockquote>
 </dd></dl>
 
 <dl class="method">
 <dt id="measurement.Measurement.poly5">
 <code class="descname">poly5</code><span class="sig-paren">(</span><em>x</em>, <em>a5</em>, <em>a4</em>, <em>a3</em>, <em>a2</em>, <em>a1</em>, <em>a0</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.poly5" title="Permalink to this definition">¶</a></dt>
 <dd><p>Polynom 5th degree for fitting.</p>
-<dl class="docutils">
-<dt>Arguments:</dt>
-<dd>x – parameter
-a5 – coeff
-a4 – coeff
-a3 – coeff
-a2 – coeff
-a1 – coeff
-a0 – coeff</dd>
-<dt>Returns:</dt>
-<dd>function – polynomial 5th degree</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> – parameter</li>
+<li><strong>a5</strong> – coeff</li>
+<li><strong>a4</strong> – coeff</li>
+<li><strong>a3</strong> – coeff</li>
+<li><strong>a2</strong> – coeff</li>
+<li><strong>a1</strong> – coeff</li>
+<li><strong>a0</strong> – coeff</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">function – polynomial 5th degree</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="measurement.Measurement.read_data">
 <code class="descname">read_data</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.read_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads data from file and stores it in the object.</p>
-<blockquote>
-<div><table class="docutils field-list" frame="void" rules="none">
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param self:</th><td class="field-body">the object itself</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">param directory:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">the directory of the file to read data from</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">param file_name:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">the name of the file to read from (containing
-also its file extention)</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>self</strong> – the object itself</li>
+<li><strong>directory</strong> – the directory of the file to read data from</li>
+<li><strong>file_name</strong> – the name of the file to read from (containing
+also its file extention)</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
-</div></blockquote>
-<p>Returns nothing if successfull, but raises exception if not.</p>
+<p>Returns nothing if successfull, but raises exception if not.
+:param path:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="measurement.Measurement.read_pos_file">
+<code class="descname">read_pos_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.read_pos_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="measurement.Measurement.reset_bounds">
+<code class="descname">reset_bounds</code><span class="sig-paren">(</span><em>fit_function=None</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.reset_bounds" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fit_function</strong> – (Default value = None)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="measurement.Measurement.select_columns">
+<code class="descname">select_columns</code><span class="sig-paren">(</span><em>column1=(0</em>, <em>1)</em>, <em>column2=(1</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.select_columns" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>column1</strong> – (Default value = (0)</li>
+<li><strong>1</strong><strong>)</strong> – </li>
+<li><strong>column2</strong> – (Default value = (1)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="measurement.Measurement.sine">
 <code class="descname">sine</code><span class="sig-paren">(</span><em>x</em>, <em>a</em>, <em>omega</em>, <em>phase</em>, <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.sine" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Sine function for fitting data.</dt>
-<dd><table class="first last docutils field-list" frame="void" rules="none">
+<dd><p>Sine function for fitting data.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param self:</th><td class="field-body"></td>
-</tr>
-<tr class="field-even field"><th class="field-name">param x:</th><td class="field-body">parameter</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">param a:</th><td class="field-body">amplitude</td>
-</tr>
-<tr class="field-even field"><th class="field-name">param omega:</th><td class="field-body">frequency</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">param phase:</th><td class="field-body">phase</td>
-</tr>
-<tr class="field-even field"><th class="field-name">param c:</th><td class="field-body">offset</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>self</strong> – param x:       parameter</li>
+<li><strong>a</strong> – amplitude</li>
+<li><strong>omega</strong> – frequency</li>
+<li><strong>phase</strong> – phase</li>
+<li><strong>c</strong> – offset</li>
+<li><strong>x</strong> – </li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="measurement.Measurement.sine_lin">
 <code class="descname">sine_lin</code><span class="sig-paren">(</span><em>x</em>, <em>a</em>, <em>omega</em>, <em>phase</em>, <em>c</em>, <em>b</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.sine_lin" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Sine function with linear term added for fitting data.</dt>
-<dd><table class="first last docutils field-list" frame="void" rules="none">
+<dd><p>Sine function with linear term added for fitting data.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param self:</th><td class="field-body"></td>
-</tr>
-<tr class="field-even field"><th class="field-name">param x:</th><td class="field-body">parameter</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">param a:</th><td class="field-body">amplitude</td>
-</tr>
-<tr class="field-even field"><th class="field-name">param omega:</th><td class="field-body">frequency</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">param phase:</th><td class="field-body">phase</td>
-</tr>
-<tr class="field-even field"><th class="field-name">param c:</th><td class="field-body">offset</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">param b:</th><td class="field-body">slope</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>self</strong> – param x:       parameter</li>
+<li><strong>a</strong> – amplitude</li>
+<li><strong>omega</strong> – frequency</li>
+<li><strong>phase</strong> – phase</li>
+<li><strong>c</strong> – offset</li>
+<li><strong>b</strong> – slope</li>
+<li><strong>x</strong> – </li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
-</dd>
-</dl>
 </dd></dl>
 
 </dd></dl>
 
 </div>
+</div>
 
 
+           </div>
+           
           </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="pigor.html" class="btn btn-neutral float-left" title="PIGOR" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Nico Einsidler
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Welcome to PIGOR’s documentation!</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/measurement.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Welcome to PIGOR’s documentation!"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PIGOR  documentation</a> &#187;</li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2019, Nico Einsidler.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
 </html>
