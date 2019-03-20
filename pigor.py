@@ -13,8 +13,10 @@ PROGRAM_NAME = "PIGOR"
 
 
 def print_header(text):
-    """
-    This function prints a beautiful header followed by one empty line.
+    """This function prints a beautiful header followed by one empty line.
+
+    :param text: 
+
     """
     print("\n" + "=" * len(text))
     print(text)
@@ -24,10 +26,11 @@ def print_header(text):
     print_help(display="quick")
 
 def print_help(display="all"):
-    """
-    Prints a help menu on the screen for the user.
-
+    """Prints a help menu on the screen for the user.
+    
     display    ... specify the lenght of the help menu, options are 'all' or 'quick'
+
+    :param display:  (Default value = "all")
 
     """
     cmd_dict = {
@@ -44,21 +47,22 @@ def print_help(display="all"):
     print("\n")
 
 def find_all_files():
-    """
-    Finds all dat files recursively in all subdirectories ignoring hidden directories
+    """Finds all dat files recursively in all subdirectories ignoring hidden directories
     and Python specific ones.
-
+    
     Returns a list of filepaths.
+
+
     """
     return [Path(path) for path in glob.glob('**/*.dat', recursive=True)]
 
 
 def analyse_files(filepaths):
-    """
-    Analyses all given files in list.
+    """Analyses all given files in list.
 
-        :param filepaths:       list of files to analyse with 
+    :param filepaths: list of files to analyse with
                                 their relative dir path added
+
     """
 
     # list holding all measurement objects
@@ -80,6 +84,7 @@ def analyse_files(filepaths):
 
 
 def main():
+    """ Main Loop """
     # starting main loop
     print_header("Welcome to {}.".format(PROGRAM_NAME))
     while True:
