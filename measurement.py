@@ -17,9 +17,10 @@ except Exception as e:
     print("Could not import package emoji. {}".format(e))
 
 class Measurement:
-    """
-    This class provides an easy way to read, analyse and plot data from 
+    """This class provides an easy way to read, analyse and plot data from
     text files.
+
+
     """
 
     def __init__(self, path, type_of_measurement="default", type_of_fit="gauss"):
@@ -112,13 +113,13 @@ class Measurement:
         # end of init sequence -------------------------------
     
     def measurement_type(self, type_of_measurement="default"):
-        """
-        Sets the type of the measurement if parameter type_of_measurement is set.
+        """Sets the type of the measurement if parameter type_of_measurement is set.
 
-            :param self:                            object itself
-            :param type_of_measurement="default":   new type of measurement
-
+        :param self: object itself
+        :param type_of_measurement: default":   new type of measurement
+        
         Returns the current type of measurement.
+
         """
         if type_of_measurement != "default":
             self.type_of_measurement = type_of_measurement
@@ -129,6 +130,7 @@ class Measurement:
         return self.type_of_measurement
         
     def detect_measurement_type(self):
+        """ """
         # if DC#X scan
         if re.search(r"(?i)dc[0-9][xX]", self.path.name):
             self.type_of_measurement = "DC"
@@ -182,21 +184,23 @@ class Measurement:
 
 
     def read_data(self, path):
-        """
-        Reads data from file and stores it in the object.
+        """Reads data from file and stores it in the object.
 
-            :param self:        the object itself
-            :param directory:   the directory of the file to read data from
-            :param file_name:   the name of the file to read from (containing
+        :param self: the object itself
+        :param directory: the directory of the file to read data from
+        :param file_name: the name of the file to read from (containing
                                 also its file extention)
         
         Returns nothing if successfull, but raises exception if not.
+        :param path: 
+
         """
 
         # import the data
         self.raw = [line.rstrip('\n') for line in open(path)]
 
     def read_pos_file(self):
+        """ """
         # TODO::check if len(pos_data) == len(self.y every 4th) for even better matches
 
         # search for position file
@@ -224,9 +228,7 @@ class Measurement:
         
 
     def clean_data(self):
-        """
-        Splits the raw data into head and data vars.
-        """
+        """Splits the raw data into head and data vars."""
 
         # get the first lines for the header and split the lines by pipe char
         self.head = [line.split('|') for line in self.raw[0:self.N_HEADER]]
@@ -276,6 +278,13 @@ class Measurement:
 
 
     def select_columns(self, column1=(0,1), column2=(1,1)):
+        """
+
+        :param column1:  (Default value = (0)
+        :param 1): 
+        :param column2:  (Default value = (1)
+
+        """
         self.x = self.data[::column1[1],column1[0]]
         self.y = self.data[::column2[1],column2[0]]
 
@@ -283,6 +292,7 @@ class Measurement:
 
 
     def degree_of_polarisation(self):
+        """ """
 
         # select default columns
         self.select_columns()
@@ -345,6 +355,11 @@ class Measurement:
             
 
     def fit(self, fit_function=None):
+        """
+
+        :param fit_function:  (Default value = None)
+
+        """
         # check if fit function is not explicitly set for fit()
         if fit_function == None:
             # try to find better bounds
@@ -366,18 +381,18 @@ class Measurement:
         
 
     def plot(self, column1=(0,1), column2=(1,1), fit=True, type_of_plot='', override=True):
-        """
-        Creates a plot for the data. If fit is set to False the data fit won't be
+        """Creates a plot for the data. If fit is set to False the data fit won't be
         plotted, even if there exists one. Following parameters are possible:
 
-            :param self:            the object itself
-            :param column1=(0,1):   (column, nth element) to choose the data from for x-axis
-            :param column2=(1,1):   (column, nth element) to choose the data from for y-axis
-            :param fit=True:        if set to False plotting of the fit will be supressed
-            :param type_of_plot="": string to specify a certain plot type, which will be used
-                                    in the file name as well as in the plot title
-            :param override=True:   determines if plot image should be recreated if it
-                                    already exists
+        :param self: the object itself
+        :param column1: 0,1):   (column, nth element) to choose the data from for x-axis (Default value = (0)
+        :param column2: 1,1):   (column, nth element) to choose the data from for y-axis (Default value = (1)
+        :param fit: True:        if set to False plotting of the fit will be supressed (Default value = True)
+        :param type_of_plot: string to specify a certain plot type, which will be used
+                                    in the file name as well as in the plot title (Default value = '')
+        :param override: True:   determines if plot image should be recreated if it
+                                    already exists (Default value = True)
+        :param 1): 
 
         """
         
@@ -430,59 +445,64 @@ class Measurement:
         plt.clf()
 
     def gauss(self, x, a, x0, sigma):
-        """
-        Gaussian function, used for fitting data.
+        """Gaussian function, used for fitting data.
 
-            :param x:       parameter
-            :param a:       amplitude
-            :param x0:      maximum
-            :param sigma:   width
+        :param x: parameter
+        :param a: amplitude
+        :param x0: maximum
+        :param sigma: width
+
         """
         return a*np.exp(-(x-x0)**2/(2*sigma**2))
 
     def sine_lin(self, x, a, omega, phase, c, b):
+        """Sine function with linear term added for fitting data.
+
+        :param self: param x:       parameter
+        :param a: amplitude
+        :param omega: frequency
+        :param phase: phase
+        :param c: offset
+        :param b: slope
+        :param x: 
+
         """
-        Sine function with linear term added for fitting data.
-            :param self:   
-            :param x:       parameter
-            :param a:       amplitude
-            :param omega:   frequency
-            :param phase:   phase
-            :param c:       offset
-            :param b:       slope
-        """   
         return a*np.sin(x*omega + phase) + b*x + c
 
     def poly5(self, x, a5, a4, a3, a2, a1, a0): # should be implemented as generalization of nth degree
         """Polynom 5th degree for fitting.
-        
-        Arguments:
-            x -- parameter
-            a5 -- coeff
-            a4 -- coeff
-            a3 -- coeff
-            a2 -- coeff
-            a1 -- coeff
-            a0 -- coeff
-        
-        Returns:
-            function -- polynomial 5th degree
+
+        :param x: parameter
+        :param a5: coeff
+        :param a4: coeff
+        :param a3: coeff
+        :param a2: coeff
+        :param a1: coeff
+        :param a0: coeff
+        :returns: function -- polynomial 5th degree
+
         """
         return (((((a5*x + a4)*x + a3)*x + a2)*x + a1)*x + a0)
 
     def sine(self, x, a, omega, phase, c):
+        """Sine function for fitting data.
+
+        :param self: param x:       parameter
+        :param a: amplitude
+        :param omega: frequency
+        :param phase: phase
+        :param c: offset
+        :param x: 
+
         """
-        Sine function for fitting data.
-            :param self:   
-            :param x:       parameter
-            :param a:       amplitude
-            :param omega:   frequency
-            :param phase:   phase
-            :param c:       offset
-        """   
         return a*np.sin(x*omega + phase) + c
 
     def find_bounds(self, fit_function=None):
+        """
+
+        :param fit_function:  (Default value = None)
+
+        """
         # check if fit function is not explicitly set for fit()
         if fit_function == None:
             # default fit function for measurement type
@@ -580,6 +600,11 @@ class Measurement:
             pass
             
     def reset_bounds(self, fit_function=None):
+        """
+
+        :param fit_function:  (Default value = None)
+
+        """
         # check if fit function is not explicitly set for fit()
         if fit_function == None:
             # default fit function for measurement type
@@ -591,6 +616,12 @@ class Measurement:
 
 
     def export_meta(self, html=False, theme='github'):
+        """
+
+        :param html:  (Default value = False)
+        :param theme:  (Default value = 'github')
+
+        """
 
         header_to_write = {
             'file_path'             :   '[{}]({})'.format(self.path, self.path.name),
@@ -755,6 +786,11 @@ class Measurement:
                     htmlfile.write('{}\n'.format(line))
 
     def contrast(self, source='fit'):
+        """
+
+        :param source:  (Default value = 'fit')
+
+        """
         # calculate contrast of fit
         if source == 'fit':
             try:
@@ -779,6 +815,8 @@ class Measurement:
             max = min = 1
         
         return (max-min) / (max+min)
+
+    
 
 # here you can test the class
 if __name__ == "__main__":
