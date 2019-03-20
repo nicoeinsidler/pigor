@@ -306,11 +306,11 @@ class Measurement:
             # set x axis values from pos file
             self.x = self.pos_data[::4]
         elif len(self.pos_data) > len(raw_x):
-            print('Warning: Position file lenght and data file lenght are not equal. Maybe wrong position file?')
+            print(emoji.emojize(':warning:  {}: Position file lenght and data file lenght are not equal. Maybe wrong position file?'.format(self.path)))
             # set x axis values from pos file
             self.x = self.pos_data[::4][0:len(raw_x)//4]
         else:
-            print('Could not use position file: Wrong position file!\nContinuing with arbitrary positions: 0 to 1 in {} steps.'.format(len(raw_x)//4))
+            print(emoji.emojize(":warning:  {}: Could not use position file: Wrong position file!\nContinuing with arbitrary positions: 0 to 1 in {} steps.".format(self.path, len(raw_x)//4)))
             self.x = np.linspace(0, 1, len(raw_x)//4) # worst case
 
 
