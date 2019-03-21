@@ -83,8 +83,9 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">How to install PIGOR</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#installing-only-the-measurement-class">Installing only the Measurement Class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-pigor">Installing PIGOR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-only-the-measurement-class">Installing only the Measurement Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation-for-developers">Installation for Developers</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="naming-convention.html">Measurement Naming Convention</a></li>
@@ -158,20 +159,46 @@
             
   <div class="section" id="how-to-install-pigor">
 <h1>How to install PIGOR<a class="headerlink" href="#how-to-install-pigor" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installing-pigor">
+<h2>Installing PIGOR<a class="headerlink" href="#installing-pigor" title="Permalink to this headline">¶</a></h2>
+<p>Assuming you have a running installation of Python 3.7 or higher, to install PIGOR please follow these steps:</p>
+<ol class="arabic simple">
+<li><dl class="first docutils">
+<dt>Download the source from Bitbucket, this should include the following files:</dt>
+<dd><ul class="first last">
+<li><code class="code docutils literal notranslate"><span class="pre">measurement.py</span></code></li>
+<li><code class="code docutils literal notranslate"><span class="pre">pigor.py</span></code></li>
+<li><code class="code docutils literal notranslate"><span class="pre">README.md</span></code></li>
+<li><code class="code docutils literal notranslate"><span class="pre">requirements-measurement.py</span></code></li>
+<li><code class="code docutils literal notranslate"><span class="pre">requirements-pigor.py</span></code></li>
+<li><code class="code docutils literal notranslate"><span class="pre">requirements-dev.py</span></code></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>Install the required python packages with pip: <code class="code docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements-measurement.txt</span></code> (you may need to use pip3 instead of pip depending on your python installation)</li>
+<li>If you are going to use PIGOR, install the requirements with <code class="code docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements-pigor.txt</span></code></li>
+</ol>
+<p>You can now run PIGOR with the following command in the folder where the <code class="code docutils literal notranslate"><span class="pre">pigor.py</span></code> and <code class="code docutils literal notranslate"><span class="pre">measurement.py</span></code> files are located:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">pigor</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="installing-only-the-measurement-class">
 <h2>Installing only the Measurement Class<a class="headerlink" href="#installing-only-the-measurement-class" title="Permalink to this headline">¶</a></h2>
-<p>In some cases the user may only want to install the measurement module to use the Measurement class. A zip or tarball file should be provided for this use case. See <a class="reference internal" href="deployment.html#deployment-measurement-module"><span class="std std-ref">Deploying Measurement Module</span></a>.</p>
+<p>In some cases the user may only want to install the measurement module to use the Measurement class as one of their python installations modules. A zip or tarball file should be provided for this use case. See <a class="reference internal" href="deployment.html#deployment-measurement-module"><span class="std std-ref">Deploying Measurement Module</span></a>.</p>
 <p>To install (and copy into the user’s installed modules) simply unpack the zip or tarball. Head over to its directory and type from there:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python setup.py install
 </pre></div>
 </div>
 </div>
-<div class="section" id="installing-pigor">
-<h2>Installing PIGOR<a class="headerlink" href="#installing-pigor" title="Permalink to this headline">¶</a></h2>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">general installation</p>
+<div class="section" id="installation-for-developers">
+<h2>Installation for Developers<a class="headerlink" href="#installation-for-developers" title="Permalink to this headline">¶</a></h2>
+<p>A known working set of python modules used to create PIGOR can be found in <code class="code docutils literal notranslate"><span class="pre">requirements-dev.txt</span></code>. To install all these requirements, simply type:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">-</span><span class="n">dev</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
 </div>
+<p>It is recommended to use a virtual environment.</p>
 </div>
 </div>
 
