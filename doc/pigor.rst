@@ -1,4 +1,7 @@
 PIGOR
 =====
 
-TODO
+.. todo:: write PIGOR page
+
+.. automodule:: pigor
+    :members:
