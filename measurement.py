@@ -18,8 +18,12 @@ except Exception as e:
 
 class Measurement:
     """This class provides an easy way to read, analyse and plot data from
-    text files.
+    text files. 
 
+    There are two different file formats, which are used on the interferometry
+    as well as on the polarimeter station at Atominstitut of TU Wien. For more
+    information on the conventions please head to the docs or take a look at
+    the example files provided.
 
     """
 
@@ -29,33 +33,39 @@ class Measurement:
         analyse and plot data from text files. When creating a new instance,
         the following parameters have to be provided:
 
-            :param self:        the object itself
-            :param path:        pathlib.Path object
+            :param self:                the object itself
+            :param path:                pathlib.Path object
+            :param type_of_measurement: used to hard set the type of measurement
+                                        on instance creation (default value = 'default')
+            :param type_of_fit:         sets an initial fit type, which may be overridden
+                                        by detect_measurement_type() later (default value
+                                        = 'gauss')
+                                        TODO: change to be permanent?
 
         Returns nothing.
         """
         # sets the number of lines of header of file (line 0 to N_HEADER)
-        self.N_HEADER = 4
+        self.N_HEADER = 4 #: number of lines of header of measurement file
         # setting the fit resolution (how many points should be plotted)
-        self.FIT_RESOLUTION = 2000
+        self.FIT_RESOLUTION = 2000 #: number of points to calculate the fit for
 
-        self.path = path
-        self.pos_file_path = None
+        self.path = path #: path (pathlib.Path object) to the measurement file
+        self.pos_file_path = None #: path (pathlib.Path object) to the corresponding position file
 
-        self.settings = {}
+        self.settings = {} #: dict containing useful information read from files header in clean_data()
 
         
         # change type of fit
-        self.type_of_fit = type_of_fit
+        self.type_of_fit = type_of_fit #: type of fit to be applied to the data
 
-        # list of all available fitting functions with their default bounds
+        # list of all available fitting functions with their default bounds, TODO: auto register functions with decorations
         self.fit_function_list = {
             'default'   :   (self.gauss, (-np.inf, np.inf)), # a, x0, sigma
             'gauss'     :   (self.gauss, (-np.inf, np.inf)), # a, x0, sigma
             'sine'      :   (self.sine, (-np.inf, np.inf)), #  a, omega, phase, c
             'sine_lin'  :   (self.sine_lin, (-np.inf, np.inf)), # a, omega, phase, c, b
             'poly5'     :   (self.poly5, (-np.inf,np.inf)) # a5, a4, a3, a2, a1, a0
-        }
+        } #: dict containing all available fit functions and their bounds
 
         # starting init sequence -------------------------------
 
@@ -115,22 +125,42 @@ class Measurement:
     def measurement_type(self, type_of_measurement="default"):
         """Sets the type of the measurement if parameter type_of_measurement is set.
 
-        :param self: object itself
-        :param type_of_measurement: default":   new type of measurement
+        :param self:                            object itself
+        :param type_of_measurement: default":   new type of measurement (default 
+                                                value = 'default')
         
         Returns the current type of measurement.
+
+        TODO: evaluate if this method is needed
 
         """
         if type_of_measurement != "default":
             self.type_of_measurement = type_of_measurement
         else:
-            # this is the default value of measurement type TODO
+            # this is the default value of measurement type TODO: setting better default
             self.type_of_measurement = 'POS'
 
         return self.type_of_measurement
         
     def detect_measurement_type(self):
-        """ """
+        """ This function auto detects the type of measurement based on the file
+        name. This works best with a meaningful file name convention. For more
+        information please refer to the docs.
+        
+
+        Several :code:`type_of_measurement` can be detected:
+
+        - DC#X: x-field of DC coil number # scan -> sets :code:`type_of_fit = 'sine_lin'`
+        - DC#Z: z-field of DC coil number # scan -> sets :code:`type_of_fit = 'poly5'`
+        - POS: scan of different linear stage positions -> sets :code:`type_of_fit = 'gauss'`
+
+        :code:`type_of_fit` can be overridden by explicitly mentioning a fit function to use
+        in the name of the file. See docs for more information.
+
+        In addition to the type of fit and measurement type, some additional
+        information about the measurement is gathered in the :code:`settings` dict.
+
+        """
         # if DC#X scan
         if re.search(r"(?i)dc[0-9][xX]", self.path.name):
             self.type_of_measurement = "DC"
@@ -184,15 +214,11 @@ class Measurement:
 
 
     def read_data(self, path):
-        """Reads data from file and stores it in the object.
+        """Reads data from file and stores it in :code:`raw`.
 
         :param self: the object itself
-        :param directory: the directory of the file to read data from
-        :param file_name: the name of the file to read from (containing
-                                also its file extention)
-        
-        Returns nothing if successfull, but raises exception if not.
-        :param path: 
+        :param path: a pathlib.Path object pointing to a measurement file
+
 
         """
 
@@ -200,7 +226,7 @@ class Measurement:
         self.raw = [line.rstrip('\n') for line in open(path)]
 
     def read_pos_file(self):
-        """ """
+        """Looks for a position file and reads it into :code:`pos_data`."""
         # TODO::check if len(pos_data) == len(self.y every 4th) for even better matches
 
         # search for position file
@@ -223,12 +249,12 @@ class Measurement:
             self.pos_data = np.array([[float(number) for number in line.rstrip('\n').split('\t')] for line in open(self.pos_file_path)][0])
 
         else:
-            print("{}: No position file found.".format(self.path))
+            print(emoji.emojize(":red_book:  {}: No position file found.".format(self.path)))
 
         
 
     def clean_data(self):
-        """Splits the raw data into head and data vars."""
+        """Splits the :code:`raw` data into :code:`head` and :code:`data` vars."""
 
         # get the first lines for the header and split the lines by pipe char
         self.head = [line.split('|') for line in self.raw[0:self.N_HEADER]]
@@ -278,11 +304,19 @@ class Measurement:
 
 
     def select_columns(self, column1=(0,1), column2=(1,1)):
-        """
+        """ Selects two colums of the :code:`data` and saves them
+        in :code:`x` and :code:`y`.
 
-        :param column1:  (Default value = (0)
-        :param 1): 
-        :param column2:  (Default value = (1)
+        :code:`y_error` is calculated as sqrt(y)
+
+        :param column1:     tuple of integers defining the number of
+                            the column and which nth element should be
+                            read, so for example (2,3) would read the 
+                            second column and every 3rd element in it
+                            (Default value = (0,1))
+        :param column2:     tuple of integers defining the number of
+                            the column and which nth element should be
+                            read (Default value = (1,1))
 
         """
         self.x = self.data[::column1[1],column1[0]]
@@ -292,7 +326,7 @@ class Measurement:
 
 
     def degree_of_polarisation(self):
-        """ """
+        """ Calculates the degree of polarisation for each position in :code:`pos_data`. """
 
         # select default columns
         self.select_columns()
@@ -313,10 +347,6 @@ class Measurement:
             print(emoji.emojize(":warning:  {}: Could not use position file: Wrong position file!\nContinuing with arbitrary positions: 0 to 1 in {} steps.".format(self.path, len(raw_x)//4)))
             self.x = np.linspace(0, 1, len(raw_x)//4) # worst case
 
-
-        # calculation of degree of polarization and its error
-        #self.y = [np.sqrt(((raw_y[i+2] - raw_y[i+3]) * (raw_y[i+2] - raw_y[i+1]))/(raw_y[i+2]*raw_y[i] - raw_y[i+3]*raw_y[i+1])) for i in range(0, len(raw_y)-len(raw_y) % 4, 4)]
-        
 
         # lenght of input data that will be used
         data_lenght = len(raw_y) - len(raw_y)%4
@@ -355,9 +385,14 @@ class Measurement:
             
 
     def fit(self, fit_function=None):
-        """
+        """ Fits the data in :code:`x` and :code:`y` using the default fit function of each
+        :code:`type_of_fit` if not specified further by passing a certain fit function as an
+        argument.
 
-        :param fit_function:  (Default value = None)
+        :param fit_function:  fit function to use to fit the data with (Default value = None)
+
+        Stores the optimal values and the covariances in :code:`popt` and :code:`pcov` for
+        later use.
 
         """
         # check if fit function is not explicitly set for fit()
@@ -384,15 +419,13 @@ class Measurement:
         """Creates a plot for the data. If fit is set to False the data fit won't be
         plotted, even if there exists one. Following parameters are possible:
 
-        :param self: the object itself
-        :param column1: 0,1):   (column, nth element) to choose the data from for x-axis (Default value = (0)
-        :param column2: 1,1):   (column, nth element) to choose the data from for y-axis (Default value = (1)
-        :param fit: True:        if set to False plotting of the fit will be supressed (Default value = True)
-        :param type_of_plot: string to specify a certain plot type, which will be used
-                                    in the file name as well as in the plot title (Default value = '')
-        :param override: True:   determines if plot image should be recreated if it
-                                    already exists (Default value = True)
-        :param 1): 
+        :param self:            the object itself
+        :param column1:         (column, nth element) to choose the data from for x-axis (Default value = (0)
+        :param column2:         (column, nth element) to choose the data from for y-axis (Default value = (1)
+        :param fit:             if set to False plotting of the fit will be supressed (Default value = True)
+        :param type_of_plot:    string to specify a certain plot type, which will be used
+                                in the file name as well as in the plot title (Default value = '')
+        :param override:        determines if plot image should be recreated if it already exists (Default value = True)
 
         """
         
@@ -410,6 +443,7 @@ class Measurement:
             plt.xlabel('Position (steps)')
             plt.ylabel('Degree of Polarisation')
         else:
+            # TODO: this is only valid if select_columns was used with default values!
             plt.xlabel(self.desc[column1[0]])
             plt.ylabel(self.desc[column2[0]])
 
@@ -464,18 +498,17 @@ class Measurement:
     def sine_lin(self, x, a, omega, phase, c, b):
         """Sine function with linear term added for fitting data.
 
-        :param self: param x:       parameter
+        :param x: parameter
         :param a: amplitude
         :param omega: frequency
         :param phase: phase
         :param c: offset
         :param b: slope
-        :param x: 
 
         """
         return a*np.sin(x*omega + phase) + b*x + c
 
-    def poly5(self, x, a5, a4, a3, a2, a1, a0): # should be implemented as generalization of nth degree
+    def poly5(self, x, a5, a4, a3, a2, a1, a0): #TODO: should be implemented as generalization of nth degree
         """Polynom 5th degree for fitting.
 
         :param x: parameter
@@ -485,6 +518,7 @@ class Measurement:
         :param a2: coeff
         :param a1: coeff
         :param a0: coeff
+
         :returns: function -- polynomial 5th degree
 
         """
@@ -493,20 +527,21 @@ class Measurement:
     def sine(self, x, a, omega, phase, c):
         """Sine function for fitting data.
 
-        :param self: param x:       parameter
+        :param x: parameter
         :param a: amplitude
         :param omega: frequency
         :param phase: phase
         :param c: offset
-        :param x: 
 
         """
         return a*np.sin(x*omega + phase) + c
 
     def find_bounds(self, fit_function=None):
-        """
+        """ Automatically finds usefull fit bounds and updates them
+        in the :code:`fit_function_list` dict.
 
-        :param fit_function:  (Default value = None)
+        :param fit_function:    defines for which fit functions the
+                                bounds should be updated (Default value = None)
 
         """
         # check if fit function is not explicitly set for fit()
@@ -606,9 +641,13 @@ class Measurement:
             pass
             
     def reset_bounds(self, fit_function=None):
-        """
+        """ Resets the bounds of the measurement type's default fitting
+        function if not specified otherwise.
 
-        :param fit_function:  (Default value = None)
+        Reset values are :code:`(-np.inf, np.inf)`.
+
+        :param fit_function:    specifies the fit function for which the
+                                bounds should be reset (Default value = None)
 
         """
         # check if fit function is not explicitly set for fit()
@@ -622,10 +661,14 @@ class Measurement:
 
 
     def export_meta(self, html=False, theme='github'):
-        """
+        """ Exports all available information about the measurement into
+        a markdown file.
 
-        :param html:  (Default value = False)
-        :param theme:  (Default value = 'github')
+        :param html:    if set to True, an HTML file will be additionally
+                        created (Default value = False)
+        :param theme:   set the default theme for html export, all
+                        available themes can be found in the markdown_themes
+                        directory (Default value = 'github')
 
         """
 
@@ -792,9 +835,16 @@ class Measurement:
                     htmlfile.write('{}\n'.format(line))
 
     def contrast(self, source='fit'):
-        """
+        """ Calculates the contrast of source as:
 
-        :param source:  (Default value = 'fit')
+        :code:`contrast = (max-min) / (max+min)`
+
+        where :code:`min` and :code:`max` are the minima and maxima of the given data.
+
+        :param source:  defines the source of the data to calculate the contrast from,
+                        can be either set to 'fit' or 'data' (Default value = 'fit')
+
+        Returns the contrast.
 
         """
         # calculate contrast of fit
