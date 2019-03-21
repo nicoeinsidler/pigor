@@ -672,17 +672,12 @@ class Measurement:
 
         """
 
+        # helper vars to build information lists
         header_to_write = {
             'file_path'             :   '[{}]({})'.format(self.path, self.path.name),
             'type_of_measurement'   :   self.type_of_measurement,
             'type_of_fit'           :   self.type_of_fit
         }
-        if self.pos_file_path != None:
-            l_pos = self.pos_file_path.parts
-            l_dat = self.path.parts
-            p = Path('/'.join([x for x in l_pos if x not in l_dat]))
-            header_to_write['pos_file_path'] = '[{}]({})'.format(self.pos_file_path, p)
-
         fit_types = {
             'default'   :   ['a', 'x0', 'sigma'],
             'gauss'     :   ['a', 'x0', 'sigma'],
@@ -691,19 +686,30 @@ class Measurement:
             'poly5'     :   ['a5', 'a4', 'a3', 'a2', 'a1', 'a0']
         }
 
+        # create link to position file (can be in subdirectory of the markdown file)
+        if self.pos_file_path != None:
+            l_pos = self.pos_file_path.parts
+            l_dat = self.path.parts
+            p = Path('/'.join([x for x in l_pos if x not in l_dat]))
+            header_to_write['pos_file_path'] = '[{}]({})'.format(self.pos_file_path, p)
+
+
         # writing all basic information about measurement into var for later use
         basic_information = []
         for k,v in header_to_write.items():
                 basic_information.append('- {} : {}'.format(k,v))
 
+        # writing all detector information about measurement into var for later use
         detector_information = []
         for k,v in self.settings.items():
                 detector_information.append('- {} : {}'.format(k,v))
 
+        # writing all fit information about measurement into var for later use
         fit_information = []
         for k,v in list(zip(fit_types[self.type_of_fit],self.popt)):
                 fit_information.append('- {} : `{}`'.format(k,v))
 
+        # try to write boundaries of fit
         boundaries_information = []
         try:
             a = fit_types[self.type_of_fit]
@@ -712,6 +718,7 @@ class Measurement:
             for k, v1, v2 in list(zip(a,b,c)):
                 boundaries_information.append("- {} : `[{} , {}]`".format(k,v1,v2))
         except Exception as e:
+            print(emoji.emojize(":red_circle:  {}: Error writing boundaries into file: {}".format(self.path,e)))
             boundaries_information = [
                 'No information about the boundaries could be presented, because the following exception occured:',
                 str(e),
@@ -743,6 +750,7 @@ class Measurement:
         if plot_file_name:
             t.append('![{}](./{} "{}")'.format(measurement_file_name, plot_file_name, measurement_file_name))
         
+        # building the markdown
         t.extend(
             [
                 '## Basic Information',
@@ -796,7 +804,7 @@ class Measurement:
         )
         t.extend(boundaries_information)
 
-        # write markdown file
+        # write markdown file TODO: make this optional
         with open(self.path.with_suffix('.md'), 'w') as mdfile: 
             for line in t:
                 mdfile.write('{}\n'.format(line))
