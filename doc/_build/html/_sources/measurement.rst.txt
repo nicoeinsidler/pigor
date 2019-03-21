@@ -59,5 +59,7 @@ There are many ways to interact with or use the Measurement class. Here are the 
 Methods
 -------
 
+.. todo:: Method attributes are shown, but value is always None.
+
 .. automodule:: measurement
     :members:

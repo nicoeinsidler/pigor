@@ -84,13 +84,14 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">How to install PIGOR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="naming-convention.html">Measurement Naming Convention</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pigor.html">PIGOR</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">The Measurement Class</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#flow-at-startup">Flow at Startup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#flow-when-plotting">Flow when plotting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#class-usecases">Class Usecases</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-measurement">Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#methods">Methods</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
@@ -229,52 +230,127 @@ end
   Measurement --&gt; PIGOR
   Measurement --&gt; juypter[Jupyter Lab / Notebook]
         </div></div>
-<div class="section" id="module-measurement">
-<span id="methods"></span><h2>Methods<a class="headerlink" href="#module-measurement" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">Method attributes are shown, but value is always None.</p>
+</div>
+<span class="target" id="module-measurement"></span><dl class="class">
 <dt id="measurement.Measurement">
 <em class="property">class </em><code class="descclassname">measurement.</code><code class="descname">Measurement</code><span class="sig-paren">(</span><em>path</em>, <em>type_of_measurement='default'</em>, <em>type_of_fit='gauss'</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement" title="Permalink to this definition">¶</a></dt>
 <dd><p>This class provides an easy way to read, analyse and plot data from
 text files.</p>
+<p>There are two different file formats, which are used on the interferometry
+as well as on the polarimeter station at Atominstitut of TU Wien. For more
+information on the conventions please head to the docs or take a look at
+the example files provided.</p>
+<dl class="attribute">
+<dt id="measurement.Measurement.FIT_RESOLUTION">
+<code class="descname">FIT_RESOLUTION</code><em class="property"> = None</em><a class="headerlink" href="#measurement.Measurement.FIT_RESOLUTION" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of points to calculate the fit for</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="measurement.Measurement.N_HEADER">
+<code class="descname">N_HEADER</code><em class="property"> = None</em><a class="headerlink" href="#measurement.Measurement.N_HEADER" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of lines of header of measurement file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="measurement.Measurement.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>path</em>, <em>type_of_measurement='default'</em>, <em>type_of_fit='gauss'</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Measurement class provides an easy and quick way to read, 
+analyse and plot data from text files. When creating a new instance,
+the following parameters have to be provided:</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param self:</th><td class="field-body">the object itself</td>
+</tr>
+<tr class="field-even field"><th class="field-name">param path:</th><td class="field-body">pathlib.Path object</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">param type_of_measurement:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">used to hard set the type of measurement
+on instance creation (default value = ‘default’)</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">param type_of_fit:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">sets an initial fit type, which may be overridden
+by detect_measurement_type() later (default value
+= ‘gauss’)
+TODO: change to be permanent?</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>Returns nothing.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="measurement.Measurement.clean_data">
 <code class="descname">clean_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.clean_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Splits the raw data into head and data vars.</p>
+<dd><p>Splits the <code class="code docutils literal notranslate"><span class="pre">raw</span></code> data into <code class="code docutils literal notranslate"><span class="pre">head</span></code> and <code class="code docutils literal notranslate"><span class="pre">data</span></code> vars.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="measurement.Measurement.contrast">
 <code class="descname">contrast</code><span class="sig-paren">(</span><em>source='fit'</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.contrast" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Calculates the contrast of source as:</p>
+<p><code class="code docutils literal notranslate"><span class="pre">contrast</span> <span class="pre">=</span> <span class="pre">(max-min)</span> <span class="pre">/</span> <span class="pre">(max+min)</span></code></p>
+<p>where <code class="code docutils literal notranslate"><span class="pre">min</span></code> and <code class="code docutils literal notranslate"><span class="pre">max</span></code> are the minima and maxima of the given data.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>source</strong> – (Default value = ‘fit’)</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>source</strong> – defines the source of the data to calculate the contrast from,
+can be either set to ‘fit’ or ‘data’ (Default value = ‘fit’)</td>
 </tr>
 </tbody>
 </table>
+<p>Returns the contrast.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="measurement.Measurement.degree_of_polarisation">
 <code class="descname">degree_of_polarisation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.degree_of_polarisation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculates the degree of polarisation for each position in <code class="code docutils literal notranslate"><span class="pre">pos_data</span></code>.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="measurement.Measurement.detect_measurement_type">
 <code class="descname">detect_measurement_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.detect_measurement_type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This function auto detects the type of measurement based on the file
+name. This works best with a meaningful file name convention. For more
+information please refer to the docs.</p>
+<p>Several <code class="code docutils literal notranslate"><span class="pre">type_of_measurement</span></code> can be detected:</p>
+<ul class="simple">
+<li>DC#X: x-field of DC coil number # scan -&gt; sets <code class="code docutils literal notranslate"><span class="pre">type_of_fit</span> <span class="pre">=</span> <span class="pre">'sine_lin'</span></code></li>
+<li>DC#Z: z-field of DC coil number # scan -&gt; sets <code class="code docutils literal notranslate"><span class="pre">type_of_fit</span> <span class="pre">=</span> <span class="pre">'poly5'</span></code></li>
+<li>POS: scan of different linear stage positions -&gt; sets <code class="code docutils literal notranslate"><span class="pre">type_of_fit</span> <span class="pre">=</span> <span class="pre">'gauss'</span></code></li>
+</ul>
+<p><code class="code docutils literal notranslate"><span class="pre">type_of_fit</span></code> can be overridden by explicitly mentioning a fit function to use
+in the name of the file. See docs for more information.</p>
+<p>In addition to the type of fit and measurement type, some additional
+information about the measurement is gathered in the <code class="code docutils literal notranslate"><span class="pre">settings</span></code> dict.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="measurement.Measurement.export_meta">
 <code class="descname">export_meta</code><span class="sig-paren">(</span><em>html=False</em>, <em>theme='github'</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.export_meta" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Exports all available information about the measurement into
+a markdown file.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>html</strong> – (Default value = False)</li>
-<li><strong>theme</strong> – (Default value = ‘github’)</li>
+<li><strong>html</strong> – if set to True, an HTML file will be additionally
+created (Default value = False)</li>
+<li><strong>theme</strong> – set the default theme for html export, all
+available themes can be found in the markdown_themes
+directory (Default value = ‘github’)</li>
 </ul>
 </td>
 </tr>
@@ -285,11 +361,14 @@ text files.</p>
 <dl class="method">
 <dt id="measurement.Measurement.find_bounds">
 <code class="descname">find_bounds</code><span class="sig-paren">(</span><em>fit_function=None</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.find_bounds" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Automatically finds usefull fit bounds and updates them
+in the <code class="code docutils literal notranslate"><span class="pre">fit_function_list</span></code> dict.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fit_function</strong> – (Default value = None)</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fit_function</strong> – defines for which fit functions the
+bounds should be updated (Default value = None)</td>
 </tr>
 </tbody>
 </table>
@@ -298,14 +377,25 @@ text files.</p>
 <dl class="method">
 <dt id="measurement.Measurement.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><em>fit_function=None</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.fit" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Fits the data in <code class="code docutils literal notranslate"><span class="pre">x</span></code> and <code class="code docutils literal notranslate"><span class="pre">y</span></code> using the default fit function of each
+<code class="code docutils literal notranslate"><span class="pre">type_of_fit</span></code> if not specified further by passing a certain fit function as an
+argument.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fit_function</strong> – (Default value = None)</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fit_function</strong> – fit function to use to fit the data with (Default value = None)</td>
 </tr>
 </tbody>
 </table>
+<p>Stores the optimal values and the covariances in <code class="code docutils literal notranslate"><span class="pre">popt</span></code> and <code class="code docutils literal notranslate"><span class="pre">pcov</span></code> for
+later use.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="measurement.Measurement.fit_function_list">
+<code class="descname">fit_function_list</code><em class="property"> = None</em><a class="headerlink" href="#measurement.Measurement.fit_function_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>dict containing all available fit functions and their bounds</p>
 </dd></dl>
 
 <dl class="method">
@@ -338,13 +428,21 @@ text files.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>self</strong> – object itself</li>
-<li><strong>type_of_measurement</strong> – default”:   new type of measurement</li>
+<li><strong>type_of_measurement</strong> – default”:   new type of measurement (default 
+value = ‘default’)</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
 <p>Returns the current type of measurement.</p>
+<p>TODO: evaluate if this method is needed</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="measurement.Measurement.path">
+<code class="descname">path</code><em class="property"> = None</em><a class="headerlink" href="#measurement.Measurement.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>path (pathlib.Path object) to the measurement file</p>
 </dd></dl>
 
 <dl class="method">
@@ -358,14 +456,12 @@ plotted, even if there exists one. Following parameters are possible:</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>self</strong> – the object itself</li>
-<li><strong>column1</strong> – 0,1):   (column, nth element) to choose the data from for x-axis (Default value = (0)</li>
-<li><strong>column2</strong> – 1,1):   (column, nth element) to choose the data from for y-axis (Default value = (1)</li>
-<li><strong>fit</strong> – True:        if set to False plotting of the fit will be supressed (Default value = True)</li>
+<li><strong>column1</strong> – (column, nth element) to choose the data from for x-axis (Default value = (0)</li>
+<li><strong>column2</strong> – (column, nth element) to choose the data from for y-axis (Default value = (1)</li>
+<li><strong>fit</strong> – if set to False plotting of the fit will be supressed (Default value = True)</li>
 <li><strong>type_of_plot</strong> – string to specify a certain plot type, which will be used
 in the file name as well as in the plot title (Default value = ‘’)</li>
-<li><strong>override</strong> – True:   determines if plot image should be recreated if it
-already exists (Default value = True)</li>
-<li><strong>1</strong><strong>)</strong> – </li>
+<li><strong>override</strong> – determines if plot image should be recreated if it already exists (Default value = True)</li>
 </ul>
 </td>
 </tr>
@@ -399,41 +495,48 @@ already exists (Default value = True)</li>
 </table>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="measurement.Measurement.pos_file_path">
+<code class="descname">pos_file_path</code><em class="property"> = None</em><a class="headerlink" href="#measurement.Measurement.pos_file_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>path (pathlib.Path object) to the corresponding position file</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="measurement.Measurement.read_data">
 <code class="descname">read_data</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.read_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reads data from file and stores it in the object.</p>
+<dd><p>Reads data from file and stores it in <code class="code docutils literal notranslate"><span class="pre">raw</span></code>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>self</strong> – the object itself</li>
-<li><strong>directory</strong> – the directory of the file to read data from</li>
-<li><strong>file_name</strong> – the name of the file to read from (containing
-also its file extention)</li>
+<li><strong>path</strong> – a pathlib.Path object pointing to a measurement file</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p>Returns nothing if successfull, but raises exception if not.
-:param path:</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="measurement.Measurement.read_pos_file">
 <code class="descname">read_pos_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.read_pos_file" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Looks for a position file and reads it into <code class="code docutils literal notranslate"><span class="pre">pos_data</span></code>.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="measurement.Measurement.reset_bounds">
 <code class="descname">reset_bounds</code><span class="sig-paren">(</span><em>fit_function=None</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.reset_bounds" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Resets the bounds of the measurement type’s default fitting
+function if not specified otherwise.</p>
+<p>Reset values are <code class="code docutils literal notranslate"><span class="pre">(-np.inf,</span> <span class="pre">np.inf)</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fit_function</strong> – (Default value = None)</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fit_function</strong> – specifies the fit function for which the
+bounds should be reset (Default value = None)</td>
 </tr>
 </tbody>
 </table>
@@ -442,19 +545,33 @@ also its file extention)</li>
 <dl class="method">
 <dt id="measurement.Measurement.select_columns">
 <code class="descname">select_columns</code><span class="sig-paren">(</span><em>column1=(0</em>, <em>1)</em>, <em>column2=(1</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.select_columns" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Selects two colums of the <code class="code docutils literal notranslate"><span class="pre">data</span></code> and saves them
+in <code class="code docutils literal notranslate"><span class="pre">x</span></code> and <code class="code docutils literal notranslate"><span class="pre">y</span></code>.</p>
+<p><code class="code docutils literal notranslate"><span class="pre">y_error</span></code> is calculated as sqrt(y)</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>column1</strong> – (Default value = (0)</li>
-<li><strong>1</strong><strong>)</strong> – </li>
-<li><strong>column2</strong> – (Default value = (1)</li>
+<li><strong>column1</strong> – tuple of integers defining the number of
+the column and which nth element should be
+read, so for example (2,3) would read the 
+second column and every 3rd element in it
+(Default value = (0,1))</li>
+<li><strong>column2</strong> – tuple of integers defining the number of
+the column and which nth element should be
+read (Default value = (1,1))</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="measurement.Measurement.settings">
+<code class="descname">settings</code><em class="property"> = None</em><a class="headerlink" href="#measurement.Measurement.settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>dict containing useful information read from files header in clean_data()</p>
 </dd></dl>
 
 <dl class="method">
@@ -466,12 +583,11 @@ also its file extention)</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>self</strong> – param x:       parameter</li>
+<li><strong>x</strong> – parameter</li>
 <li><strong>a</strong> – amplitude</li>
 <li><strong>omega</strong> – frequency</li>
 <li><strong>phase</strong> – phase</li>
 <li><strong>c</strong> – offset</li>
-<li><strong>x</strong> – </li>
 </ul>
 </td>
 </tr>
@@ -488,18 +604,23 @@ also its file extention)</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>self</strong> – param x:       parameter</li>
+<li><strong>x</strong> – parameter</li>
 <li><strong>a</strong> – amplitude</li>
 <li><strong>omega</strong> – frequency</li>
 <li><strong>phase</strong> – phase</li>
 <li><strong>c</strong> – offset</li>
 <li><strong>b</strong> – slope</li>
-<li><strong>x</strong> – </li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="measurement.Measurement.type_of_fit">
+<code class="descname">type_of_fit</code><em class="property"> = None</em><a class="headerlink" href="#measurement.Measurement.type_of_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>type of fit to be applied to the data</p>
 </dd></dl>
 
 </dd></dl>
