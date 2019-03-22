@@ -2,6 +2,8 @@
 
 Pigor is a lightweight analysis tool for the NEPTUN beam line at [Atominstitut](https://ati.tuwien.ac.at/startseite/) of [TU Wien](https://www.tuwien.ac.at/), Austria. For more information visit [our homepage](http://www.neutroninterferometry.com/).
 
+**Documentation has moved:** The documentation has moved from this file and other markdown files in the root of this repository to a Sphinx documentation. You can find it under `doc/_build/html` or build it for your own with the `make html` command in the `doc/` directory. 
+
 - [PIGOR](#pigor)
   - [Naming Convention](#naming-convention)
   - [TODO](#todo)
@@ -32,32 +34,8 @@ Types can be combined within a types group (gauss and pol for example, like "gau
 
 ## TODO
 
-- self.x_error: not yet implemented
-- a lot of commenting
-- error of fit
-- verbose mode on/off
-- getting PIGOR ready for shipment by creating a setup.py
-- better display of self.pcov
-- separation between pure functions and functions with context (methods)
-- auto comment decorator for functions
-- use decorators to auto register fit functions with their input argument list
-- setuptools in setup.py
-- https://click.palletsprojects.com/en/7.x/quickstart/
-- requirements.txt
+=> TODOs have omoved to the Sphinx documentation.
 
 ## How to Install
 
-To 'install' PIGOR, just install Python on your machine and run `python3 pigor.py` in the same directory as the pigor.py file is stored from your preferred bash/shell.
-
-The following python packages should be installed:
-
-- numpy
-- re
-- matplotlib
-- os.path
-- glob
-- difflib
-- datetime
-- pathlib
-- scipy
-- markdown
+=> This section was moved to the Sphinx documentation.
