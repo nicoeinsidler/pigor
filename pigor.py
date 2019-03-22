@@ -15,7 +15,7 @@ PROGRAM_NAME = "PIGOR"
 def print_header(text):
     """This function prints a beautiful header followed by one empty line.
 
-    :param text: 
+    :param text: text to be displayed as header
 
     """
     print("\n" + "=" * len(text))
@@ -27,10 +27,8 @@ def print_header(text):
 
 def print_help(display="all"):
     """Prints a help menu on the screen for the user.
-    
-    display    ... specify the lenght of the help menu, options are 'all' or 'quick'
 
-    :param display:  (Default value = "all")
+    :param display: specify the lenght of the help menu, options are 'all' or 'quick' (Default value = "all")
 
     """
     cmd_dict = {
@@ -60,8 +58,8 @@ def find_all_files():
 def analyse_files(filepaths):
     """Analyses all given files in list.
 
-    :param filepaths: list of files to analyse with
-                                their relative dir path added
+    :param filepaths:   list of files to analyse with
+                        their relative dir path added
 
     """
 
@@ -84,7 +82,7 @@ def analyse_files(filepaths):
 
 
 def main():
-    """ Main Loop """
+    """Main Loop"""
     # starting main loop
     print_header("Welcome to {}.".format(PROGRAM_NAME))
     while True:
