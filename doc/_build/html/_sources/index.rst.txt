@@ -41,7 +41,6 @@ Here are all ToDos listed. Feel free to contribute and check this project out on
 - use decorators to auto register fit functions with their input argument list
 - setuptools in setup.py
 - https://click.palletsprojects.com/en/7.x/quickstart/
-- requirements.txt
 
 
 Sphinx documentation ToDos

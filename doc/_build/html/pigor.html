@@ -25,7 +25,6 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
-        <script type="text/javascript" src="https://unpkg.com/mermaid@7.1.0/dist/mermaid.min.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -86,7 +85,11 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">How to install PIGOR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="naming-convention.html">Measurement Naming Convention</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart Guide</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">PIGOR</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PIGOR</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-pigor-does">What PIGOR does</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pigor">PIGORs inner workings</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="measurement.html">The Measurement Class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
 </ul>
@@ -155,11 +158,24 @@
             
   <div class="section" id="pigor">
 <h1>PIGOR<a class="headerlink" href="#pigor" title="Permalink to this headline">¶</a></h1>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">write PIGOR page</p>
+<div class="section" id="what-pigor-does">
+<h2>What PIGOR does<a class="headerlink" href="#what-pigor-does" title="Permalink to this headline">¶</a></h2>
+<p>PIGOR (‘Python IGOR’ = PIGOR) aims to help physicists on the NEPTUN beamline to quickly extract the needed information when measuring and configuring or preparing an experiment. It will go through all files in its root folder and will continue to <strong>look for files in all subdirectories recursively</strong> as well. It will then <strong>auto detect</strong> <a class="footnote-reference" href="#f1" id="id1">[1]</a> <strong>the type of measurement</strong> and guess what the user wants to know. After analysis of all files, <strong>additional files will show up alongside the original measurement files</strong>:</p>
+<ul class="simple">
+<li>.png file: plot of the data</li>
+<li>.md file: usefull information gathered about the measurement in plain text as markdown</li>
+<li>.html file: same content as the markdown file, but nicely viewable in a modern browser</li>
+</ul>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>This will only work if the correct naming convention is used.</td></tr>
+</tbody>
+</table>
 </div>
-<span class="target" id="module-pigor"></span><dl class="function">
+<div class="section" id="module-pigor">
+<span id="pigors-inner-workings"></span><h2>PIGORs inner workings<a class="headerlink" href="#module-pigor" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
 <dt id="pigor.analyse_files">
 <code class="descclassname">pigor.</code><code class="descname">analyse_files</code><span class="sig-paren">(</span><em>filepaths</em><span class="sig-paren">)</span><a class="headerlink" href="#pigor.analyse_files" title="Permalink to this definition">¶</a></dt>
 <dd><p>Analyses all given files in list.</p>
@@ -196,7 +212,7 @@ and Python specific ones.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> – </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> – text to be displayed as header</td>
 </tr>
 </tbody>
 </table>
@@ -206,17 +222,17 @@ and Python specific ones.</p>
 <dt id="pigor.print_help">
 <code class="descclassname">pigor.</code><code class="descname">print_help</code><span class="sig-paren">(</span><em>display='all'</em><span class="sig-paren">)</span><a class="headerlink" href="#pigor.print_help" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints a help menu on the screen for the user.</p>
-<p>display    … specify the lenght of the help menu, options are ‘all’ or ‘quick’</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>display</strong> – (Default value = “all”)</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>display</strong> – specify the lenght of the help menu, options are ‘all’ or ‘quick’ (Default value = “all”)</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
+</div>
 </div>
 
 
