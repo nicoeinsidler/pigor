@@ -7,7 +7,7 @@ Installing PIGOR
 
 Assuming you have a running installation of Python 3.7 or higher, to install PIGOR please follow these steps:
 
-1. Download the source from Bitbucket, this should include the following files:
+1. Download the source from Bitbucket with :code:`git clone https://NE555@bitbucket.org/NE555/pigor.git`. This should include (at least) the following files:
     - :code:`measurement.py`
     - :code:`pigor.py`
     - :code:`README.md`
