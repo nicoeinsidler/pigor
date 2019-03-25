@@ -62,22 +62,13 @@ def analyse_files(filepaths):
                         their relative dir path added
 
     """
-
-    # list holding all measurement objects
-    #m = []
-
-    # for p in filepaths:
-    #     m = measurement.Measurement(p)
-    #     m.plot()
-    #     m.export_meta(html=True)
         
 
     with mp.Pool() as pool:
         m = pool.map(measurement.Measurement, filepaths)
         pool.map(measurement.Measurement.fit, m)
+        pool.map(measurement.Measurement.export_meta, m)
         pool.map(measurement.Measurement.plot, m)
-        #pool.map(measurement.Measurement.pcov, m)
-        #pool.map(lambda obj: obj.plot(), m)
 
 
 
