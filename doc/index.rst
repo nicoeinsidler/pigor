@@ -22,6 +22,7 @@ Pigor is a lightweight analysis tool for the NEPTUN beam line at `Atominstitut`_
    pigor
    measurement
    deployment
+   sprints
 
 
 
