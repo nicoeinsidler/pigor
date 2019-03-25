@@ -96,9 +96,16 @@ def analyse_files(filepaths='all'):
     if filepaths == 'all':
         filepaths = find_all_files()
 
+    for f in filepaths:
+        m = measurement.Measurement(f)
+        m.fit()
+        m.plot()
+        m.export_meta(html=True)
 
+
+@show_user
 def remove_generated_files(files='all'):
-    """Removes the generated png, html and md files.
+    """Removes the generated png, html and md files. This function can be used by the command [r].
     
     :param files:   list of Path objects to files that should be removed; if set to 'all' it will delete all generated files (Default value = 'all')
     """
