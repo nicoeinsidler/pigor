@@ -8,6 +8,7 @@ PIGOR
 
 1. Sprint
     - feature: remove all generated files (html, md, png)
+    - feature: 
     - improvement: auto register all functions for help menu (decorators)
 2. Sprint
     - feature: remove last generated files (html, md, png)
@@ -26,4 +27,5 @@ Measurement Class
 2. Sprint
     - feature: remove all associated files from file system, except the measurement file itself
     - improvement: auto register all available fit functions via decorators
+    - improvement: adding __repr__
 3. Sprint: not planned yet
