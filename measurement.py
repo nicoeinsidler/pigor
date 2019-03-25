@@ -706,7 +706,7 @@ class Measurement:
 
         # writing all fit information about measurement into var for later use
         fit_information = []
-        for k,v in list(zip(fit_types[self.type_of_fit],self.popt)):
+        for k,v in list(zip(fit_types[self.type_of_fit], self.popt)):
                 fit_information.append('- {} : `{}`'.format(k,v))
 
         # try to write boundaries of fit

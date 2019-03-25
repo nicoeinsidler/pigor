@@ -69,7 +69,7 @@ def find_all_files():
 
 
     """
-    return [Path(path) for path in glob.glob('**/*.dat', recursive=True)]
+    return [Path(path) for path in glob.glob('testfiles/**/*.dat', recursive=True)]
 
 @show_user
 def analyse_files(filepaths='all'):
@@ -79,9 +79,14 @@ def analyse_files(filepaths='all'):
                         their relative dir path added
 
     """
+    # m = []
+    # with mp.Pool() as pool:
+    #     m = pool.map(measurement.Measurement, filepaths)
+    #     pool.map(measurement.Measurement.fit, m)
+    #     pool.map(measurement.Measurement.plot, m)
 
-    # list holding all measurement objects
-    #m = []
+    # with mp.Pool() as pool:
+    #      pool.map(measurement.Measurement.export_meta, m)
 
     # for p in filepaths:
     #     m = measurement.Measurement(p)
@@ -91,13 +96,26 @@ def analyse_files(filepaths='all'):
     if filepaths == 'all':
         filepaths = find_all_files()
 
-    with mp.Pool() as pool:
-        m = pool.map(measurement.Measurement, filepaths)
-        pool.map(measurement.Measurement.fit, m)
-        pool.map(measurement.Measurement.plot, m)
-        #pool.map(measurement.Measurement.pcov, m)
-        #pool.map(lambda obj: obj.plot(), m)
 
+def remove_generated_files(files='all'):
+    """Removes the generated png, html and md files.
+    
+    :param files:   list of Path objects to files that should be removed; if set to 'all' it will delete all generated files (Default value = 'all')
+    """
+    if files == 'all':
+        files = find_all_files()
+    
+
+    # TODO: case when files is not a list of Paths
+    try:
+        for f in files:
+            f.with_suffix('.png').unlink()
+            f.with_suffix('.md').unlink()
+            f.with_suffix('.html').unlink()
+    except Exception as e:
+        print(e)
+        raise NotImplementedError
+    
 
 
 def main():
