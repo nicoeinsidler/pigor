@@ -34,6 +34,7 @@ def print_help(display="all"):
     cmd_dict = {
         'h' :   "displays a help menu",
         'q' :   "quit {}".format(PROGRAM_NAME)
+        'r' :   "removes all generated files"
     }
 
     if display == "quick":
@@ -52,7 +53,7 @@ def find_all_files():
 
 
     """
-    return [Path(path) for path in glob.glob('**/*.dat', recursive=True)]
+    return [Path(path) for path in glob.glob('testfiles/**/*.dat', recursive=True)]
 
 
 def analyse_files(filepaths):
@@ -62,14 +63,42 @@ def analyse_files(filepaths):
                         their relative dir path added
 
     """
-        
+    # m = []
+    # with mp.Pool() as pool:
+    #     m = pool.map(measurement.Measurement, filepaths)
+    #     pool.map(measurement.Measurement.fit, m)
+    #     pool.map(measurement.Measurement.plot, m)
 
-    with mp.Pool() as pool:
-        m = pool.map(measurement.Measurement, filepaths)
-        pool.map(measurement.Measurement.fit, m)
-        pool.map(measurement.Measurement.export_meta, m)
-        pool.map(measurement.Measurement.plot, m)
+    # with mp.Pool() as pool:
+    #      pool.map(measurement.Measurement.export_meta, m)
 
+    
+    for f in filepaths:
+        m = measurement.Measurement(f)
+        m.fit()
+        m.plot()
+        m.export_meta(html=True)
+
+
+def remove_generated_files(files='all'):
+    """Removes the generated png, html and md files.
+    
+    :param files:   list of Path objects to files that should be removed; if set to 'all' it will delete all generated files (Default value = 'all')
+    """
+    if files == 'all':
+        files = find_all_files()
+    
+
+    # TODO: case when files is not a list of Paths
+    try:
+        for f in files:
+            f.with_suffix('.png').unlink()
+            f.with_suffix('.md').unlink()
+            f.with_suffix('.html').unlink()
+    except Exception as e:
+        print(e)
+        raise NotImplementedError
+    
 
 
 def main():
@@ -84,12 +113,13 @@ def main():
             break
         elif cmd == "h":
             print_help()
+        elif cmd == 'r':
+            remove_generated_files()
         else:
             all_files = find_all_files()
             print(
                 "Found {} dat files to analyze. \nProceeding with analysis...".format(len(all_files))
             )
-
             analyse_files(all_files)
         
 if __name__ == '__main__':
