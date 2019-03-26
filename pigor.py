@@ -19,11 +19,12 @@ def show_user(func):
     """Register a function to be displayed to the user as an option"""
 
     try:
-        cmd = re.search('\[(.+?)\]', func.__doc__).group(1)
+        key = re.search('\[(.+?)\]', func.__doc__).group(1)
     except AttributeError as e:
+        key = func.__name__
         print(e)
 
-    USER_FUNCTIONS[func.__name__] = (cmd, func)
+    USER_FUNCTIONS[key] = func
     return func
 
 def print_header(text):
@@ -49,16 +50,16 @@ def print_help(display="all"):
     # print a list of all available commands
     if display == 'all':
         for k,v in USER_FUNCTIONS.items():
-            print(f'{v[0]} ... {k}')
+            print(f'{k} ... {v.__name__}')
         print(f'q ... quit {PROGRAM_NAME}\n')
+
     # show only the function that should be displayed, but this time with a docstring
     else:
         try:
-            f = USER_FUNCTIONS[display]
-            print(f'{display}: \n\n {f[1].__doc__}\n\n')
-        except Exception as e:
-            print(e)
-            raise ValueError
+            f = USER_FUNCTIONS[display[0]]
+            print(f'{display[0]}: \n\n {f.__doc__}\n\n')
+        except Exception:
+            print(f'Sorry, but there is not help page for {display[0]} available.\n')
 
 
 def find_all_files():
@@ -95,6 +96,8 @@ def analyse_files(filepaths='all'):
     
     if filepaths == 'all':
         filepaths = find_all_files()
+    elif filepaths == 'today':
+        pass # TODO: only analyse the files of today
 
     for f in filepaths:
         m = measurement.Measurement(f)
@@ -132,14 +135,20 @@ def main():
 
     while True:
         print("Please type a command you want to perform and press <ENTER>.")
-        cmd = input()
+
+        # get the user's input
+        user_input = input()
+        # split it for additional but optional arguments
+        cmd, *args = user_input.split(' ')
+
         if cmd == "q":
             break
-        elif cmd in [i[0] for i in list(USER_FUNCTIONS.values())]:
-            for v in USER_FUNCTIONS.values():
-                if v[0] == cmd:
-                    f = v[1]
-            f()
+        elif cmd in USER_FUNCTIONS.keys():
+            f = USER_FUNCTIONS[cmd]
+            if args:
+                f(args)
+            else:
+                f()
         else:
             print('The command you typed does not exist. Press h + <ENTER> for help.')
         
