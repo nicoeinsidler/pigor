@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
 import re
+import os
 import numpy as np
 import multiprocessing as mp
 import matplotlib.pyplot as plt
 import glob
 import measurement
+import datetime
 from pathlib import Path
 
 # name of the program
@@ -14,18 +16,162 @@ PROGRAM_NAME = "PIGOR"
 # functions that the user can utilize
 USER_FUNCTIONS = dict()
 
+# global vars for init() default
+PIGOR_ROOT              = Path(os.path.dirname(os.path.abspath(__file__)))
+PIGOR_ROOT_RECURSIVE    = True
+FILE_EXTENTION          = '.dat'
+CREATE_HTML             = True
+CREATE_MD               = True
 
+# decorator for registering functions
 def show_user(func):
     """Register a function to be displayed to the user as an option"""
 
+    global USER_FUNCTIONS
+
     try:
-        key = re.search('\[(.+?)\]', func.__doc__).group(1)
+        key = re.search(r'\[(.+?)\]', func.__doc__).group(1)
     except AttributeError as e:
         key = func.__name__
         print(e)
 
     USER_FUNCTIONS[key] = func
     return func
+
+@show_user
+def init(create_new_config_file=True):
+    """This function will read the config file and initialize some variables
+    accordingly. This function can be used by the command [i].
+
+    Available options:
+
+    - root directory where PIGOR will start to look for measurement files
+    - Should PIGOR look for files to analyse recursively?
+    - Which file extention do the measurement files posess?
+    - Should PIGOR automatically create an html file?
+    - Should PIGOR automatically create a md file?
+    
+    .. note:: If no config file can be found, it will create one.
+    
+    """
+    
+    global PIGOR_ROOT
+    global PIGOR_ROOT_RECURSIVE
+    global FILE_EXTENTION
+    global CREATE_HTML
+    global CREATE_MD
+
+    configuration = False
+    # try to read the configuration
+    try:
+        with open('pigor.config', 'r') as f:
+            configuration = dict()
+            for line in f.readlines():
+                if not line.startswith('#'):
+                    k, v = line.split('=')
+                    configuration[k.strip()] = v.strip()
+    except Exception:
+        print('Could not read configuration file. Creating a new one now:\n')
+
+    # try to read the values in configuration
+    if configuration:
+        for k, v in configuration.items():
+            if k == 'PIGOR_ROOT':
+                try:
+                    PIGOR_ROOT = Path(v)
+                except:
+                    pass
+            elif k == 'PIGOR_ROOT_RECURSIVE':
+                if v == 'True':
+                    PIGOR_ROOT_RECURSIVE = True
+                elif v == 'False':
+                    PIGOR_ROOT_RECURSIVE = False
+            elif k == 'CREATE_HTML':
+                if v == 'True':
+                    CREATE_HTML = True
+                elif v == 'False':
+                    CREATE_HTML = False
+            elif k == 'CREATE_MD':
+                if v == 'True':
+                    CREATE_MD = True
+                elif v == 'False':
+                    CREATE_MD = False
+            elif k == 'FILE_EXTENTION':
+                FILE_EXTENTION = v
+        
+    # ask for root directory TODO: make this if statement more compact
+    if not configuration or not 'PIGOR_ROOT' in configuration.keys() or create_new_config_file:
+        while True:
+            print(f'Where should {PROGRAM_NAME} start looking for measurement files? [{PIGOR_ROOT}]')
+            user_input = input()
+            try:
+                PIGOR_ROOT = Path(user_input)
+                break
+            except Exception:
+                print('The path you provided could not be read, please try again.')
+
+    # ask if recursion when searching for files
+    if not configuration or not 'PIGOR_ROOT_RECURSIVE' in configuration.keys() or create_new_config_file:
+        if PIGOR_ROOT_RECURSIVE:
+            default = 'y'
+        else:
+            default = 'n'
+        print(f'Should {PROGRAM_NAME} look for files in {PIGOR_ROOT} recursively? (y/n) [{default}]')
+        user_input = input()
+        if user_input == 'n':
+            PIGOR_ROOT_RECURSIVE = False
+        else:
+            PIGOR_ROOT_RECURSIVE = True
+
+    # ask for file extention to look for
+    if not configuration or not 'FILE_EXTENTION' in configuration.keys() or create_new_config_file:
+        print(f'Which file extention should {PROGRAM_NAME} look for? (string) [{FILE_EXTENTION}]')
+        user_input = input()
+        if user_input == '':
+            user_input = FILE_EXTENTION
+        if not user_input.startswith('.'):
+            FILE_EXTENTION = '.' + user_input
+        else:
+            FILE_EXTENTION = user_input
+
+    # ask if html files should be created
+    if not configuration or not 'CREATE_HTML' in configuration.keys() or create_new_config_file:
+        if CREATE_HTML:
+            default = 'y'
+        else:
+            default = 'n'
+        print(f'Should {PROGRAM_NAME} create an HTML file automatically after analysis? (y/n) [{default}]')
+        user_input = input()
+        if user_input == 'n':
+            CREATE_HTML = False
+        else:
+            CREATE_HTML = True
+
+    # ask if md files should be created
+    if not configuration or not 'CREATE_MD' in configuration.keys() or create_new_config_file:
+        if CREATE_MD:
+            default = 'y'
+        else:
+            default = 'n'
+        print(f'Should {PROGRAM_NAME} create a Markdown file automatically after analysis? (y/n) [{default}]')
+        user_input = input()
+        if user_input == 'n':
+            CREATE_MD = False
+        else:
+            CREATE_MD = True
+
+    t = [
+            '# PIGOR Configuration File',
+            f'# automatically created {datetime.datetime.now().date()}',
+            f'PIGOR_ROOT = {PIGOR_ROOT}',
+            f'PIGOR_ROOT_RECURSIVE = {PIGOR_ROOT_RECURSIVE}',
+            f'FILE_EXTENTION = {FILE_EXTENTION}',
+            f'CREATE_HTML = {CREATE_HTML}',
+            f'CREATE_MD = {CREATE_MD}'
+    ]
+    with open('pigor.config', 'w') as f:
+        for line in t:
+            f.write(line + '\n')
 
 def print_header(text):
     """This function prints a beautiful header followed by one empty line.
@@ -36,9 +182,6 @@ def print_header(text):
     print("\n" + "=" * len(text))
     print(text)
     print("=" * len(text) + "\n")
-
-    # print quick help
-    print_help(display="all")
 
 @show_user
 def print_help(display="all"):
@@ -70,7 +213,10 @@ def find_all_files():
 
 
     """
-    return [Path(path) for path in glob.glob('testfiles/**/*.dat', recursive=True)]
+    if PIGOR_ROOT_RECURSIVE:
+        return sorted(PIGOR_ROOT.rglob('*'+FILE_EXTENTION))
+    else:
+        return sorted(PIGOR_ROOT.glob('*'+FILE_EXTENTION))
 
 @show_user
 def analyse_files(filepaths='all'):
@@ -126,12 +272,27 @@ def remove_generated_files(files='all'):
         print(e)
         raise NotImplementedError
     
+@show_user
+def print_root():
+    """Prints the root for PIGOR, e.g. where it will look for files to analyse. This function
+    can be used by the command [x].
+    """
+    print(f"{PROGRAM_NAME} will look for measurement files in {PIGOR_ROOT.resolve()}.")
 
 
 def main():
     """Main Loop"""
+
+    # perform initialization
+    init(create_new_config_file=False)
+
     # starting main loop
     print_header("Welcome to {}.".format(PROGRAM_NAME))
+    # print help menu
+    print_help(display="all")
+    # print where PIGOR will look for files in
+    print_root()
+    print('If you need more information about a command, just type h + [command] + <ENTER> to get more help. For example: h + a + <ENTER>.\n')
 
     while True:
         print("Please type a command you want to perform and press <ENTER>.")
