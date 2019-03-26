@@ -96,6 +96,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sprints.html">Sprint Planning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">ToDo List</a></li>
 </ul>
 
             
@@ -246,6 +247,10 @@ text files.</p>
 as well as on the polarimeter station at Atominstitut of TU Wien. For more
 information on the conventions please head to the docs or take a look at
 the example files provided.</p>
+<div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">Auto register fit functions into fit_function_list.</p>
+</div>
 <dl class="attribute">
 <dt id="measurement.Measurement.FIT_RESOLUTION">
 <code class="descname">FIT_RESOLUTION</code><em class="property"> = None</em><a class="headerlink" href="#measurement.Measurement.FIT_RESOLUTION" title="Permalink to this definition">¶</a></dt>
@@ -286,6 +291,10 @@ TODO: change to be permanent?</td>
 </tbody>
 </table>
 </div></blockquote>
+<div class="admonition-todo admonition" id="index-2">
+<p class="first admonition-title">Todo</p>
+<p class="last">Is type_of_fit really needed?</p>
+</div>
 <p>Returns nothing.</p>
 </dd></dl>
 
@@ -311,6 +320,10 @@ can be either set to ‘fit’ or ‘data’ (Default value = ‘fit’)</td>
 </tbody>
 </table>
 <p>Returns the contrast.</p>
+<div class="admonition-todo admonition" id="index-3">
+<p class="first admonition-title">Todo</p>
+<p class="last">When calculation of contrast fails, what should this function return? Now it returns 0.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -357,6 +370,10 @@ directory (Default value = ‘github’)</li>
 </tr>
 </tbody>
 </table>
+<div class="admonition-todo admonition" id="index-4">
+<p class="first admonition-title">Todo</p>
+<p class="last">Make the creation of Markdown file optional.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -437,7 +454,14 @@ value = ‘default’)</li>
 </tbody>
 </table>
 <p>Returns the current type of measurement.</p>
-<p>TODO: evaluate if this method is needed</p>
+<div class="admonition-todo admonition" id="index-5">
+<p class="first admonition-title">Todo</p>
+<p class="last">Evaluate if this method (measurement_type()) is needed at all.</p>
+</div>
+<div class="admonition-todo admonition" id="index-6">
+<p class="first admonition-title">Todo</p>
+<p class="last">Set better default value for measurement type.</p>
+</div>
 </dd></dl>
 
 <dl class="attribute">
@@ -468,6 +492,10 @@ in the file name as well as in the plot title (Default value = ‘’)</li>
 </tr>
 </tbody>
 </table>
+<div class="admonition-todo admonition" id="index-7">
+<p class="first admonition-title">Todo</p>
+<p class="last">Make x and y labels more general, especially for interferometer files, where more that one y value list is needed.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -494,6 +522,10 @@ in the file name as well as in the plot title (Default value = ‘’)</li>
 </tr>
 </tbody>
 </table>
+<div class="admonition-todo admonition" id="index-8">
+<p class="first admonition-title">Todo</p>
+<p class="last">Make generalized polynomial generator function.</p>
+</div>
 </dd></dl>
 
 <dl class="attribute">
@@ -524,6 +556,10 @@ in the file name as well as in the plot title (Default value = ‘’)</li>
 <dt id="measurement.Measurement.read_pos_file">
 <code class="descname">read_pos_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.read_pos_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Looks for a position file and reads it into <code class="code docutils literal notranslate"><span class="pre">pos_data</span></code>.</p>
+<div class="admonition-todo admonition" id="index-9">
+<p class="first admonition-title">Todo</p>
+<p class="last">When searching for a position file, the lenght of the file should match. So it should be 1/4 of the size of the original measurement file.</p>
+</div>
 </dd></dl>
 
 <dl class="method">

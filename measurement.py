@@ -25,6 +25,8 @@ class Measurement:
     information on the conventions please head to the docs or take a look at
     the example files provided.
 
+    .. todo:: Auto register fit functions into fit_function_list.
+
     """
 
     def __init__(self, path, type_of_measurement="default", type_of_fit="gauss"):
@@ -41,6 +43,8 @@ class Measurement:
                                         by detect_measurement_type() later (default value
                                         = 'gauss')
                                         TODO: change to be permanent?
+
+        .. todo:: Is type_of_fit really needed?
 
         Returns nothing.
         """
@@ -131,7 +135,8 @@ class Measurement:
         
         Returns the current type of measurement.
 
-        TODO: evaluate if this method is needed
+        .. todo:: Evaluate if this method (measurement_type()) is needed at all.
+        .. todo:: Set better default value for measurement type.
 
         """
         if type_of_measurement != "default":
@@ -226,8 +231,11 @@ class Measurement:
         self.raw = [line.rstrip('\n') for line in open(path)]
 
     def read_pos_file(self):
-        """Looks for a position file and reads it into :code:`pos_data`."""
-        # TODO::check if len(pos_data) == len(self.y every 4th) for even better matches
+        """Looks for a position file and reads it into :code:`pos_data`.
+        
+        .. todo:: When searching for a position file, the lenght of the file should match. So it should be 1/4 of the size of the original measurement file.
+        """
+        # TODO: check if len(pos_data) == len(self.y every 4th) for even better matches
 
         # search for position file
         files = [Path(path) for path in glob.glob('**/*.pos', recursive=True)]
@@ -427,6 +435,7 @@ class Measurement:
                                 in the file name as well as in the plot title (Default value = '')
         :param override:        determines if plot image should be recreated if it already exists (Default value = True)
 
+        .. todo:: Make x and y labels more general, especially for interferometer files, where more that one y value list is needed.
         """
         
         # create label
@@ -521,6 +530,7 @@ class Measurement:
 
         :returns: function -- polynomial 5th degree
 
+        .. todo:: Make generalized polynomial generator function.
         """
         return (((((a5*x + a4)*x + a3)*x + a2)*x + a1)*x + a0)
 
@@ -670,6 +680,7 @@ class Measurement:
                         available themes can be found in the markdown_themes
                         directory (Default value = 'github')
 
+        .. todo:: Make the creation of Markdown file optional.
         """
 
         # helper vars to build information lists
@@ -854,6 +865,7 @@ class Measurement:
 
         Returns the contrast.
 
+        .. todo:: When calculation of contrast fails, what should this function return? Now it returns 0.
         """
         # calculate contrast of fit
         if source == 'fit':

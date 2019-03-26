@@ -23,11 +23,14 @@ Pigor is a lightweight analysis tool for the NEPTUN beam line at `Atominstitut`_
    measurement
    deployment
    sprints
+   todo
 
 
 
-PIGOR & Measurement Class ToDos
+Old ToDos
 -------------------------------
+
+.. note:: This list of ToDos should be integrated into the docstrings or into the sprint planning where those ToDos belong.
 
 Here are all ToDos listed. Feel free to contribute and check this project out on Bitbucket.
 
@@ -43,11 +46,6 @@ Here are all ToDos listed. Feel free to contribute and check this project out on
 - setuptools in setup.py
 - https://click.palletsprojects.com/en/7.x/quickstart/
 
-
-Sphinx documentation ToDos
---------------------------
-
-.. todolist::
 
 
 Project Dependencies

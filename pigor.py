@@ -52,6 +52,8 @@ def init(create_new_config_file=True):
     - Should PIGOR automatically create a md file?
     
     .. note:: If no config file can be found, it will create one.
+
+    .. todo:: Creating a loop that goes through each question.
     
     """
     
@@ -225,6 +227,10 @@ def analyse_files(filepaths='all'):
     :param filepaths:   list of files to analyse with
                         their relative dir path added
 
+    .. todo:: Change to no override mode. measurement.Measurement.plot(override=False)
+    .. todo:: a + today => only analyse files for today
+    .. todo:: a + override => override=True
+
     """
     # m = []
     # with mp.Pool() as pool:
@@ -257,6 +263,8 @@ def remove_generated_files(files='all'):
     """Removes the generated png, html and md files. This function can be used by the command [r].
     
     :param files:   list of Path objects to files that should be removed; if set to 'all' it will delete all generated files (Default value = 'all')
+
+    .. todo:: Cover the case when files are not a list of path, e.g. wrong input given.
     """
     if files == 'all':
         files = find_all_files()
