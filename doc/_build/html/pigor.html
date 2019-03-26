@@ -25,7 +25,6 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
-        <script type="text/javascript" src="https://unpkg.com/mermaid@7.1.0/dist/mermaid.min.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -179,8 +178,8 @@
 <span id="pigors-inner-workings"></span><h2>PIGORs inner workings<a class="headerlink" href="#module-pigor" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pigor.analyse_files">
-<code class="descclassname">pigor.</code><code class="descname">analyse_files</code><span class="sig-paren">(</span><em>filepaths</em><span class="sig-paren">)</span><a class="headerlink" href="#pigor.analyse_files" title="Permalink to this definition">¶</a></dt>
-<dd><p>Analyses all given files in list.</p>
+<code class="descclassname">pigor.</code><code class="descname">analyse_files</code><span class="sig-paren">(</span><em>filepaths='all'</em><span class="sig-paren">)</span><a class="headerlink" href="#pigor.analyse_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Analyses all given files in list. This function can be used by the command [a].</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -198,6 +197,25 @@ their relative dir path added</td>
 <dd><p>Finds all dat files recursively in all subdirectories ignoring hidden directories
 and Python specific ones.</p>
 <p>Returns a list of filepaths.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pigor.init">
+<code class="descclassname">pigor.</code><code class="descname">init</code><span class="sig-paren">(</span><em>create_new_config_file=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pigor.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will read the config file and initialize some variables
+accordingly. This function can be used by the command [i].</p>
+<p>Available options:</p>
+<ul class="simple">
+<li>root directory where PIGOR will start to look for measurement files</li>
+<li>Should PIGOR look for files to analyse recursively?</li>
+<li>Which file extention do the measurement files posess?</li>
+<li>Should PIGOR automatically create an html file?</li>
+<li>Should PIGOR automatically create a md file?</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If no config file can be found, it will create one.</p>
+</div>
 </dd></dl>
 
 <dl class="function">
@@ -223,7 +241,7 @@ and Python specific ones.</p>
 <dl class="function">
 <dt id="pigor.print_help">
 <code class="descclassname">pigor.</code><code class="descname">print_help</code><span class="sig-paren">(</span><em>display='all'</em><span class="sig-paren">)</span><a class="headerlink" href="#pigor.print_help" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prints a help menu on the screen for the user.</p>
+<dd><p>Prints a help menu on the screen for the user. This function can be used by the command [h].</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -232,6 +250,33 @@ and Python specific ones.</p>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pigor.print_root">
+<code class="descclassname">pigor.</code><code class="descname">print_root</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pigor.print_root" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the root for PIGOR, e.g. where it will look for files to analyse. This function
+can be used by the command [x].</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pigor.remove_generated_files">
+<code class="descclassname">pigor.</code><code class="descname">remove_generated_files</code><span class="sig-paren">(</span><em>files='all'</em><span class="sig-paren">)</span><a class="headerlink" href="#pigor.remove_generated_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the generated png, html and md files. This function can be used by the command [r].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>files</strong> – list of Path objects to files that should be removed; if set to ‘all’ it will delete all generated files (Default value = ‘all’)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pigor.show_user">
+<code class="descclassname">pigor.</code><code class="descname">show_user</code><span class="sig-paren">(</span><em>func</em><span class="sig-paren">)</span><a class="headerlink" href="#pigor.show_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register a function to be displayed to the user as an option</p>
 </dd></dl>
 
 </div>

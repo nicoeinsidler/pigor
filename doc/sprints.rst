@@ -7,10 +7,10 @@ PIGOR
 -----
 
 1. Sprint
-    - feature: remove all generated files (html, md, png)
-    - feature: introducing a config file (PIGOR start directory, ...)
-    - improvement: auto create config file if not present 
-    - improvement: auto register all functions for help menu (decorators)
+    - ✓ feature: remove all generated files (html, md, png)
+    - ✓ feature: introducing a config file (PIGOR start directory, ...)
+    - ✓ improvement: auto create config file if not present 
+    - ✓ improvement: auto register all functions for help menu (decorators)
 2. Sprint
     - feature: remove last generated files (html, md, png)
     - feature: remove all html/md or png files
