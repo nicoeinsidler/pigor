@@ -34,3 +34,15 @@ Measurement Class
         - Interferometer: adding custom maps to COLUMN_MAPS and overriding clean_data() and detect_measurement()
         - Polarimeter: adding custom maps to COLUMN_MAPS and overriding clean_data() and detect_measurement()
 4. Sprint: not planned yet
+
+
+Ideas
+-----
+
+Building Measurement from ground up with custom objects like:
+
+- data column: has data and a head, knows its name etc.; functions can easily be applied to it
+- fit object: used for fitting and finding bounds; each instance can have its own bounds
+- data set: these objects can be plotted by Measurement, so Measurement will try to create one of those objects; they consists of:
+    - data columns objects
+    - fit objects
