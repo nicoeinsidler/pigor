@@ -44,6 +44,15 @@ class Measurement:
                                         = 'gauss')
                                         TODO: change to be permanent?
 
+        The startup sequence is as follows:
+
+        1. try to read the data
+        2. measurement type (either set it, when given as input argument or try to detect it)
+        3. if measurement is POL, try to find a position file and read it
+        4. clean up the given data
+        5. select columns => write into self.x and self.y
+        6. if measurement is POL, calculate degree of polarisation
+
         .. todo:: Is type_of_fit really needed?
 
         Returns nothing.
@@ -52,6 +61,8 @@ class Measurement:
         self.N_HEADER = 4 #: number of lines of header of measurement file
         # setting the fit resolution (how many points should be plotted)
         self.FIT_RESOLUTION = 2000 #: number of points to calculate the fit for
+        # which columns should be used for what measurement
+        #self.COLUMN_MAPS = {}
 
         self.path = path #: path (pathlib.Path object) to the measurement file
         self.pos_file_path = None #: path (pathlib.Path object) to the corresponding position file
@@ -493,7 +504,8 @@ class Measurement:
         # clear figure/plot for next
         plt.clf()
 
-    def gauss(self, x, a, x0, sigma):
+    @staticmethod
+    def gauss(x, a, x0, sigma):
         """Gaussian function, used for fitting data.
 
         :param x: parameter
@@ -504,7 +516,8 @@ class Measurement:
         """
         return a*np.exp(-(x-x0)**2/(2*sigma**2))
 
-    def sine_lin(self, x, a, omega, phase, c, b):
+    @staticmethod
+    def sine_lin(x, a, omega, phase, c, b):
         """Sine function with linear term added for fitting data.
 
         :param x: parameter
@@ -517,7 +530,8 @@ class Measurement:
         """
         return a*np.sin(x*omega + phase) + b*x + c
 
-    def poly5(self, x, a5, a4, a3, a2, a1, a0): #TODO: should be implemented as generalization of nth degree
+    @staticmethod
+    def poly5(x, a5, a4, a3, a2, a1, a0): #TODO: should be implemented as generalization of nth degree
         """Polynom 5th degree for fitting.
 
         :param x: parameter
@@ -534,7 +548,8 @@ class Measurement:
         """
         return (((((a5*x + a4)*x + a3)*x + a2)*x + a1)*x + a0)
 
-    def sine(self, x, a, omega, phase, c):
+    @staticmethod
+    def sine(x, a, omega, phase, c):
         """Sine function for fitting data.
 
         :param x: parameter
@@ -892,7 +907,6 @@ class Measurement:
         
         return (max-min) / (max+min)
 
-    
 
 # here you can test the class
 if __name__ == "__main__":
