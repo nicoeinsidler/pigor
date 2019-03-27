@@ -378,11 +378,12 @@ class Measurement:
             if map_item and not column == []:
                 # if this is x axis, write self.x
                 if map_item[0] == 'x':
-                    self.x = column[::map_item[1]]
+                    self.x = np.array(column[::map_item[1]])
                 # if this is y axis, write new self.y and error
                 elif map_item[0] == 'y':
-                    self.y.append(column[::map_item[1]])
-                    self.y_error.append(np.sqrt(column[::map_item[1]]))
+                    self.y.append(np.array(column[::map_item[1]]))
+                    self.y_error.append(np.array(np.sqrt(column[::map_item[1]])))
+
         
 
 
@@ -410,7 +411,7 @@ class Measurement:
         data_lenght = len(raw_y) - len(raw_y)%4
 
         # allocate arrays to fill later (faster when using numpy)
-        self.y = np.zeros(data_lenght//4)
+        self.y[0] = np.zeros(data_lenght//4)
         self.y_error[0] = np.zeros(data_lenght//4)
 
         for i in range(0, data_lenght, 4):
@@ -468,8 +469,18 @@ class Measurement:
         # write used fit_function for plotting
         self.used_fit_function = func
 
-        # make a curve fit and save values
-        self.popt, self.pcov = curve_fit(func[0], self.x, self.y, bounds=func[1], sigma=self.y_error, absolute_sigma=True)
+        # create lists for fit
+        self.popt, self.pcov = list(), list()
+        for y, y_error in zip(self.y, self.y_error):
+            # make a curve fit and save values
+            popt, pcov = curve_fit(
+                func[0], self.x, y,
+                bounds=func[1],
+                sigma=y_error,
+                absolute_sigma=True
+            )
+            self.popt.append(popt)
+            self.pcov.append(pcov)
 
         
 
@@ -513,7 +524,8 @@ class Measurement:
             print(emoji.emojize(":red_circle:  {}: {}".format(self.path,e)))
 
         # plot
-        plt.errorbar(self.x, self.y, yerr = self.y_error, label=f'data (Δt={measurement_time}s)')
+        for y, y_error in zip(self.y,self.y_error):
+            plt.errorbar(self.x, y, yerr = y_error, label=f'data (Δt={measurement_time}s)')
 
         # plot fit if exists
         if fit == True:
@@ -523,7 +535,8 @@ class Measurement:
                 self.fit()
                 fit_function = self.used_fit_function
             x = np.linspace(self.x.min(), self.x.max(), self.FIT_RESOLUTION)
-            plt.plot(x, fit_function[0](x, *self.popt), '-', label='fit')
+            for i,popt in enumerate(self.popt):
+                plt.plot(x, fit_function[0](x, *popt), '-', label=f'fit #{i}')
 
         # plot legend
         plt.legend()
@@ -562,12 +575,12 @@ class Measurement:
         # minima and maxima of x and y data
         #x_min = self.x.min()
         #x_max = self.x.max()
-        y_min = self.y.min()
-        y_max = self.y.max()
+        y_min = self.y[0].min()
+        y_max = self.y[0].max()
 
         # x data where y is max or min
-        y_min_i = self.x[self.y.argmin()]
-        y_max_i = self.x[self.y.argmax()]
+        y_min_i = self.x[self.y[0].argmin()]
+        y_max_i = self.x[self.y[0].argmax()]
 
         # cases for each type of fit
         if func == "gauss":
@@ -624,9 +637,9 @@ class Measurement:
             c = y_min + a
             # guessing an omega
             omega = np.pi / abs(y_max_i - y_min_i)
-            # guessing a phase, works for now, but big values TODO
+            # guessing a phase, works for now, but big values TODO:
             phase = abs(y_max_i) + abs(y_min_i) / omega + np.pi/2
-            # calculation of slope of linear term (sloppy TODO)
+            # calculation of slope of linear term (sloppy TODO:)
             b = abs(y_max - y_min) / abs(y_max_i-y_min_i)
 
             # scale factor
@@ -642,7 +655,7 @@ class Measurement:
 
             
         elif func == "poly5":
-            # TODO
+            # TODO:
             pass
         else:
             # reset bounds here useful?!
@@ -668,7 +681,7 @@ class Measurement:
         self.fit_function_list[func][1] = (-np.inf, np.inf)
 
 
-    def export_meta(self, markdown=True, html=False, theme='github'):
+    def export_meta(self, make_md=True, make_html=False, theme='github'):
         """ Exports all available information about the measurement into
         a markdown file.
 
@@ -714,8 +727,9 @@ class Measurement:
 
         # writing all fit information about measurement into var for later use
         fit_information = []
-        for k,v in list(zip(fit_types[self.type_of_fit], self.popt)):
-                fit_information.append('- {} : `{}`'.format(k,v))
+        for i, popt in enumerate(self.popt):
+            for k,v in list(zip(fit_types[self.type_of_fit], popt)):
+                    fit_information.append('- Fit #{} {} : `{}`'.format(i,k,v))
 
         # try to write boundaries of fit
         boundaries_information = []
@@ -744,12 +758,12 @@ class Measurement:
         # minima and maxima of x and y data
         x_min = self.x.min()
         x_max = self.x.max()
-        y_min = self.y.min()
-        y_max = self.y.max()
+        y_min = [y.min() for y in self.y]
+        y_max = [y.max() for y in self.y]
 
         # x data where y is max or min
-        y_min_i = self.x[self.y.argmin()]
-        y_max_i = self.x[self.y.argmax()]
+        y_min_i = [self.x[y.argmin()] for y in self.y]
+        y_max_i = [self.x[y.argmax()] for y in self.y]
         
         # text to write to file
         t = ['# Metadata for {}'.format(measurement_file_name)]
@@ -761,6 +775,7 @@ class Measurement:
         # building the markdown
         t.extend(
             [
+                '',
                 '## Basic Information',
                 'Here is some basic information about the measurement, which was either provided by you, or automatically detected.',
                 ''
@@ -769,6 +784,7 @@ class Measurement:
         t.extend(basic_information)
         t.extend(
             [
+                '',
                 '## Detector Information',
                 'Here is some basic information about the measurement, which was either provided by you, or automatically detected.',
                 ''
@@ -778,6 +794,7 @@ class Measurement:
         t.extend(detector_information)
         t.extend(
             [
+                '',
                 '## Extreme Values',
                 '',
                 '- x_min: `{}`'.format(x_min),
@@ -793,19 +810,27 @@ class Measurement:
                 'This gives a contrast of `{}`.'.format(self.contrast(source='data')),
                 '',
                 '## Fit ({})'.format(self.type_of_fit),
+                '',
                 '### Fit Parameters, Covariance and Contrast',
+                '',
                 'Parameters:',
                 ''
             ]
         )
         t.extend(fit_information)
+        covariance_as_string = ["".join(np.array2string(pcov, separator=', \n')) for pcov in self.pcov]
         t.extend(
             [
                 '',
                 'Covariance:',
-                '```\n{}\n```'.format(np.array2string(self.pcov, separator=', \n')),
+                '```\n{}\n```'.format(covariance_as_string),
+                ''
+            ]
+        )
+        for i, contrast in enumerate(self.contrast(source='fit')):
+            t.extend([f'Contrast for fit #{i}: `{contrast}`'])
+        t.extend([
                 '',
-                'Contrast: `{}`'.format(self.contrast(source='fit')),
                 '### Fit Boundaries',
                 ''
             ]
@@ -813,13 +838,13 @@ class Measurement:
         t.extend(boundaries_information)
 
         # write markdown file
-        if markdown == True:
+        if make_md == True:
             with open(self.path.with_suffix('.md'), 'w') as mdfile: 
                 for line in t:
                     mdfile.write('{}\n'.format(line))
 
         # write html file
-        if html == True:
+        if make_html == True:
             h1 = [
                 '<!DOCTYPE html>',
                 '<html>',
@@ -833,7 +858,8 @@ class Measurement:
                 '</head>',
                 '<body>',
                 markdown('\n'.join(t)),
-                '</body></html>'
+                '</body>',
+                '</html>'
             ]
             
             with open(self.path.with_suffix('.html'), 'w') as htmlfile:
@@ -861,11 +887,15 @@ class Measurement:
         :param source:  defines the source of the data to calculate the contrast from,
                         can be either set to 'fit' or 'data' (Default value = 'fit')
 
-        Returns the contrast.
+        Returns a list of contrasts.
 
-        .. todo:: When calculation of contrast fails, what should this function return? Now it returns 0.
+        .. todo:: When calculation of contrast fails, what should this function return? Now it returns [0].
         """
-        # calculate contrast of fit
+
+        _min = list()
+        _max = list()
+
+        # calculate min and max of fit
         if source == 'fit':
             try:
                 fit_function = self.used_fit_function
@@ -874,21 +904,24 @@ class Measurement:
                 fit_function = self.used_fit_function
 
             x = np.linspace(self.x.min(), self.x.max(), self.FIT_RESOLUTION)
-            f = fit_function[0](x, *self.popt)
-            min = f.min()
-            max = f.max()
+            for popt in self.popt:
+                f = fit_function[0](x, *popt)
+                _min.append(f.min())
+                _max.append(f.max())
 
-        # calculate contrast of real data
+        # calculate min and max of real data
         elif source == 'data':
-            min = self.y.min()
-            max = self.y.max()
+            for y in self.y:
+                _min.append(y.min())
+                _max.append(y.max())
 
         # TODO: not ideal
         else:
             print(emoji.emojize(":red_circle:  {}: Could not calculate contrast.".format(self.path)))
-            max = min = 1
+            _max = _min = [1]
         
-        return (max-min) / (max+min)
+        # return list of contrasts
+        return [(a-b) / (a+b) for a, b in zip(_min,_max)]
 
 
 
@@ -900,10 +933,10 @@ if __name__ == "__main__":
     m1.fit()
     m1.plot()
 
-    #m2 = Measurement(Path("./testfiles/2018-11-23-1545-scan-dc2x.dat"))
+    m2 = Measurement(Path("./testfiles/2018-11-23-1545-scan-dc2x.dat"))
     #print(m2.type_of_measurement)
-    #m2.fit()
-    #m2.plot()
+    m2.fit()
+    m2.plot()
     #print(len(m2.y))
     #print(len(m2.x))
     #print(m2.head)

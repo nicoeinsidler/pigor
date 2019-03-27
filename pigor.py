@@ -255,7 +255,7 @@ def analyse_files(filepaths='all'):
         m = measurement.Measurement(f)
         m.fit()
         m.plot()
-        m.export_meta(html=True)
+        m.export_meta(make_html=True)
 
 
 @show_user
