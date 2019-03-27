@@ -625,7 +625,7 @@ class Measurement:
         self.fit_function_list[func][1] = (-np.inf, np.inf)
 
 
-    def export_meta(self, html=False, theme='github'):
+    def export_meta(self, markdown=True, html=False, theme='github'):
         """ Exports all available information about the measurement into
         a markdown file.
 
@@ -770,10 +770,11 @@ class Measurement:
         )
         t.extend(boundaries_information)
 
-        # write markdown file TODO: make this optional
-        with open(self.path.with_suffix('.md'), 'w') as mdfile: 
-            for line in t:
-                mdfile.write('{}\n'.format(line))
+        # write markdown file
+        if markdown == True:
+            with open(self.path.with_suffix('.md'), 'w') as mdfile: 
+                for line in t:
+                    mdfile.write('{}\n'.format(line))
 
         # write html file
         if html == True:
