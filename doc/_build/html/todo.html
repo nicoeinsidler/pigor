@@ -87,6 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pigor.html">PIGOR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="measurement.html">The Measurement Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fit-functions.html">Fit Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sprints.html">Sprint Planning</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ToDo List</a></li>
@@ -163,9 +164,14 @@
 <p class="todo-source">(The <a class="reference internal" href="deployment.html#index-0"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\doc\deployment.rst, line 24.)</p>
 <div class="admonition-todo admonition">
 <p class="first admonition-title">Todo</p>
+<p class="last">Make generalized polynomial generator function.</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="fit-functions.html#index-0"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\fit_functions.py:docstring of fit_functions.poly5, line 13.)</p>
+<div class="admonition-todo admonition">
+<p class="first admonition-title">Todo</p>
 <p class="last">check if dependencies are correct with dependencies.txt</p>
 </div>
-<p class="todo-source">(The <a class="reference internal" href="index.html#index-0"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\doc\index.rst, line 54.)</p>
+<p class="todo-source">(The <a class="reference internal" href="index.html#index-0"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\doc\index.rst, line 55.)</p>
 <div class="admonition-todo admonition">
 <p class="first admonition-title">Todo</p>
 <p class="last">Method attributes are shown, but value is always None.</p>
@@ -178,34 +184,29 @@
 <p class="todo-source">(The <a class="reference internal" href="measurement.html#index-1"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\measurement.py:docstring of measurement.Measurement.__init__, line 23.)</p>
 <div class="admonition-todo admonition">
 <p class="first admonition-title">Todo</p>
-<p class="last">When calculation of contrast fails, what should this function return? Now it returns 0.</p>
+<p class="last">When calculation of contrast fails, what should this function return? Now it returns [0].</p>
 </div>
 <p class="todo-source">(The <a class="reference internal" href="measurement.html#index-2"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\measurement.py:docstring of measurement.Measurement.contrast, line 12.)</p>
 <div class="admonition-todo admonition">
 <p class="first admonition-title">Todo</p>
-<p class="last">Make the creation of Markdown file optional.</p>
-</div>
-<p class="todo-source">(The <a class="reference internal" href="measurement.html#index-3"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\measurement.py:docstring of measurement.Measurement.export_meta, line 10.)</p>
-<div class="admonition-todo admonition">
-<p class="first admonition-title">Todo</p>
 <p class="last">Evaluate if this method (measurement_type()) is needed at all.</p>
 </div>
-<p class="todo-source">(The <a class="reference internal" href="measurement.html#index-4"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\measurement.py:docstring of measurement.Measurement.measurement_type, line 9.)</p>
+<p class="todo-source">(The <a class="reference internal" href="measurement.html#index-3"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\measurement.py:docstring of measurement.Measurement.measurement_type, line 9.)</p>
 <div class="admonition-todo admonition">
 <p class="first admonition-title">Todo</p>
 <p class="last">Set better default value for measurement type.</p>
 </div>
-<p class="todo-source">(The <a class="reference internal" href="measurement.html#index-5"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\measurement.py:docstring of measurement.Measurement.measurement_type, line 10.)</p>
+<p class="todo-source">(The <a class="reference internal" href="measurement.html#index-4"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\measurement.py:docstring of measurement.Measurement.measurement_type, line 10.)</p>
 <div class="admonition-todo admonition">
 <p class="first admonition-title">Todo</p>
 <p class="last">Make x and y labels more general, especially for interferometer files, where more that one y value list is needed.</p>
 </div>
-<p class="todo-source">(The <a class="reference internal" href="measurement.html#index-6"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\measurement.py:docstring of measurement.Measurement.plot, line 12.)</p>
+<p class="todo-source">(The <a class="reference internal" href="measurement.html#index-5"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\measurement.py:docstring of measurement.Measurement.plot, line 12.)</p>
 <div class="admonition-todo admonition">
 <p class="first admonition-title">Todo</p>
 <p class="last">When searching for a position file, the lenght of the file should match. So it should be 1/4 of the size of the original measurement file.</p>
 </div>
-<p class="todo-source">(The <a class="reference internal" href="measurement.html#index-7"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\measurement.py:docstring of measurement.Measurement.read_pos_file, line 3.)</p>
+<p class="todo-source">(The <a class="reference internal" href="measurement.html#index-6"><em>original entry</em></a> is located in C:\Users\Nico Einsidler\Documents\pigor\measurement.py:docstring of measurement.Measurement.read_pos_file, line 3.)</p>
 <div class="admonition-todo admonition">
 <p class="first admonition-title">Todo</p>
 <p class="last">Change to no override mode. measurement.Measurement.plot(override=False)</p>

@@ -88,10 +88,15 @@
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pigor.html">PIGOR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="measurement.html">The Measurement Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fit-functions.html">Fit Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="deployment.html">Deployment</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Sprint Planning</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pigor">PIGOR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#measurement-class">Measurement Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ideas">Ideas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#column-class">Column Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fit-function-class">Fit Function Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fit-class">Fit Class</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="todo.html">ToDo List</a></li>
@@ -230,6 +235,111 @@
 </li>
 <li>Sprint: not planned yet</li>
 </ol>
+</div>
+<div class="section" id="ideas">
+<h2>Ideas<a class="headerlink" href="#ideas" title="Permalink to this headline">¶</a></h2>
+<p>Building Measurement from ground up with custom objects like:</p>
+<ul class="simple">
+<li>data column: has data and a head, knows its name etc.; functions can easily be applied to it</li>
+<li>fit object: used for fitting and finding bounds; each instance can have its own bounds</li>
+<li><dl class="first docutils">
+<dt>data set: these objects can be plotted by Measurement, so Measurement will try to create one of those objects; they consists of:</dt>
+<dd><ul class="first last">
+<li>data columns objects</li>
+<li>fit objects</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+            <style>
+            /* mermaid issue 527 workaround */
+            .section {
+                opacity: 1.0 !important;
+            }
+            </style>
+            <script>mermaid.initialize({startOnLoad:true});</script><div class="mermaid">
+            graph TD
+    subgraph column class
+    desc(column.desc) --&gt; column{column object}
+    data(column.data) --&gt; column{column object}
+    end
+
+    column --&gt; set{data set object}
+
+    subgraph fit function class
+    parameters(fit_function.parameters) --&gt; ff
+    find_bounds[find_bounds] --&gt; fb
+    fb(fit_function.bounds) --&gt; ff
+    end
+
+    ff{fit function class} --&gt; find_fit[find_fit]
+    ff --&gt; fit_function
+    set --&gt; fdata(fit.data)
+
+    subgraph fit class
+    find_fit --&gt; fit
+    popt(fit.popt) --&gt; fit
+    pcovt(fit.pcov) --&gt; fit
+    fit_function(fit.fit_function) --&gt; fit
+    ft(fit.type) --&gt; fit
+    fdata --&gt; fit
+    end
+
+    fit{fit object} --&gt; m
+    set --&gt; m{measurement object}
+
+    subgraph measurement class
+    m --&gt; plot[plot]
+    m --&gt; export[export_meta]
+    end
+
+    subgraph legend
+    l1{class}
+    l2(variable)
+    l3[function]
+    end
+        </div></div>
+<div class="section" id="column-class">
+<h2>Column Class<a class="headerlink" href="#column-class" title="Permalink to this headline">¶</a></h2>
+<p>Methods:</p>
+<ul class="simple">
+<li><code class="code docutils literal notranslate"><span class="pre">reverse()</span></code>: reverse order of data</li>
+<li><code class="code docutils literal notranslate"><span class="pre">__init__(self,</span> <span class="pre">desc,</span> <span class="pre">data)</span></code></li>
+<li><code class="code docutils literal notranslate"><span class="pre">__repr__()</span></code>: plots ‘&lt;column object ‘desc’ of lenght len(data)&gt;’ or something like that</li>
+</ul>
+<p>Variables:</p>
+<ul class="simple">
+<li><code class="code docutils literal notranslate"><span class="pre">columns.data</span></code>: holds the data as numpy array in float64</li>
+<li><code class="code docutils literal notranslate"><span class="pre">columns.desc</span></code>: holds the name of the columns heading as string</li>
+</ul>
+</div>
+<div class="section" id="fit-function-class">
+<h2>Fit Function Class<a class="headerlink" href="#fit-function-class" title="Permalink to this headline">¶</a></h2>
+<p>Method:</p>
+<ul class="simple">
+<li><code class="code docutils literal notranslate"><span class="pre">fit_function()</span></code></li>
+<li><code class="code docutils literal notranslate"><span class="pre">find_bounds()</span></code>: tries to find the bounds</li>
+<li><code class="code docutils literal notranslate"><span class="pre">bounds</span></code>: holds the bounds to be used when fitting as array of tuples</li>
+</ul>
+<p>Variables:</p>
+<ul class="simple">
+<li><code class="code docutils literal notranslate"><span class="pre">parameters</span></code>: dictionary holding the names of the parameters and the parameters themselves</li>
+</ul>
+</div>
+<div class="section" id="fit-class">
+<h2>Fit Class<a class="headerlink" href="#fit-class" title="Permalink to this headline">¶</a></h2>
+<p>Variables:</p>
+<ul class="simple">
+<li><code class="code docutils literal notranslate"><span class="pre">type</span></code> with which function the fit should be carried out, string</li>
+<li><code class="code docutils literal notranslate"><span class="pre">popt</span></code></li>
+<li><code class="code docutils literal notranslate"><span class="pre">pcov</span></code></li>
+</ul>
+<p>Methods:</p>
+<ul class="simple">
+<li><code class="code docutils literal notranslate"><span class="pre">fit()</span></code></li>
+</ul>
 </div>
 </div>
 

@@ -46,3 +46,90 @@ Building Measurement from ground up with custom objects like:
 - data set: these objects can be plotted by Measurement, so Measurement will try to create one of those objects; they consists of:
     - data columns objects
     - fit objects
+
+.. mermaid::
+
+    graph TD
+        subgraph column class
+        desc(column.desc) --> column{column object}
+        data(column.data) --> column{column object}
+        end
+
+        column --> set{data set object}
+
+        subgraph fit function class
+        parameters(fit_function.parameters) --> ff
+        find_bounds[find_bounds] --> fb
+        fb(fit_function.bounds) --> ff
+        end
+
+        ff{fit function class} --> find_fit[find_fit]
+        ff --> fit_function
+        set --> fdata(fit.data)
+
+        subgraph fit class
+        find_fit --> fit
+        popt(fit.popt) --> fit
+        pcovt(fit.pcov) --> fit
+        fit_function(fit.fit_function) --> fit
+        ft(fit.type) --> fit
+        fdata --> fit
+        end
+
+        fit{fit object} --> m
+        set --> m{measurement object}
+
+        subgraph measurement class
+        m --> plot[plot]
+        m --> export[export_meta]
+        end
+
+        subgraph legend
+        l1{class}
+        l2(variable)
+        l3[function]
+        end
+
+
+Column Class
+------------
+
+Methods:
+
+- :code:`reverse()`: reverse order of data
+- :code:`__init__(self, desc, data)`
+- :code:`__repr__()`: plots '<column object 'desc' of lenght len(data)>' or something like that
+
+
+Variables:
+
+- :code:`columns.data`: holds the data as numpy array in float64
+- :code:`columns.desc`: holds the name of the columns heading as string
+
+
+Fit Function Class
+------------------
+
+Method:
+
+- :code:`fit_function()`
+- :code:`find_bounds()`: tries to find the bounds
+- :code:`bounds`: holds the bounds to be used when fitting as array of tuples
+
+Variables:
+
+- :code:`parameters`: dictionary holding the names of the parameters and the parameters themselves
+
+
+Fit Class
+---------
+
+Variables:
+
+- :code:`type` with which function the fit should be carried out, string
+- :code:`popt`
+- :code:`pcov`
+
+Methods:
+
+- :code:`fit()`
