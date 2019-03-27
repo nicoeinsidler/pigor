@@ -533,28 +533,44 @@ bounds should be reset (Default value = None)</td>
 
 <dl class="method">
 <dt id="measurement.Measurement.select_columns">
-<code class="descname">select_columns</code><span class="sig-paren">(</span><em>column1=(0</em>, <em>1)</em>, <em>column2=(1</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.select_columns" title="Permalink to this definition">¶</a></dt>
-<dd><p>Selects two colums of the <code class="code docutils literal notranslate"><span class="pre">data</span></code> and saves them
-in <code class="code docutils literal notranslate"><span class="pre">x</span></code> and <code class="code docutils literal notranslate"><span class="pre">y</span></code>.</p>
-<p><code class="code docutils literal notranslate"><span class="pre">y_error</span></code> is calculated as sqrt(y)</p>
+<code class="descname">select_columns</code><span class="sig-paren">(</span><em>m=None</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.select_columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Selects columns of the <code class="code docutils literal notranslate"><span class="pre">data</span></code> as specified in m (map) and
+saves in <code class="code docutils literal notranslate"><span class="pre">x</span></code> and <code class="code docutils literal notranslate"><span class="pre">y[]</span></code>.</p>
+<p>..note:: <code class="code docutils literal notranslate"><span class="pre">y_error[]</span></code> is calculated as sqrt(y)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>column1</strong> – tuple of integers defining the number of
-the column and which nth element should be
-read, so for example (2,3) would read the 
-second column and every 3rd element in it
-(Default value = (0,1))</li>
-<li><strong>column2</strong> – tuple of integers defining the number of
-the column and which nth element should be
-read (Default value = (1,1))</li>
-</ul>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>m</strong> – map, e.g. list of tuples or None values; if m=None
+select_columns will be skipped (Default value = None)</td>
 </tr>
 </tbody>
 </table>
+<p>The map <code class="code docutils literal notranslate"><span class="pre">m</span></code> definies which columns of the original measurement
+data will be used later. Only one x-axis can be defined, but multiple
+y-axes may be used. The lenght of the map must not exceed the number
+of the columns in <code class="code docutils literal notranslate"><span class="pre">data</span></code>, but can be less or equal.</p>
+<p>Each map is a list of items, which can either be tuples or None
+values, if a column should be skipped. In the case of a tuple, the
+first value must be a string, either ‘x’ or ‘y’, which determines
+if the column should be interpreted as an x- or y-axis. Its second
+value describes what nth element of the columns should be selected.</p>
+<p>A few examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>This will select the first column as x-axis and take every (1st)
+element of it, and the second column as y-axis, also using every
+element of that column.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="kc">None</span><span class="p">,(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>Here we will take every second element of column 1, 3 and 4, but
+skip column 2.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the lenght of the map is less than the number of columns in <code class="code docutils literal notranslate"><span class="pre">data</span></code>, every column that has no corresponding map element will be skipped.</p>
+</div>
 </dd></dl>
 
 <dl class="attribute">

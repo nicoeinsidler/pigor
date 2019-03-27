@@ -62,7 +62,12 @@ class Measurement:
         # setting the fit resolution (how many points should be plotted)
         self.FIT_RESOLUTION = 2000 #: number of points to calculate the fit for
         # which columns should be used for what measurement
-        #self.COLUMN_MAPS = {}
+        self.COLUMN_MAPS = {
+            'default'   :   [('x',1),('y',1)],
+            'POL'       :   [('x',1),('y',1)],
+            'DC'        :   [('x',1),('y',1)],
+            'rocking'   :   [('x',1),None,('y',1),('y',1),('y',1),('y',1)]
+        }
 
         self.path = path #: path (pathlib.Path object) to the measurement file
         self.pos_file_path = None #: path (pathlib.Path object) to the corresponding position file
@@ -75,7 +80,7 @@ class Measurement:
 
         # list of all available fitting functions with their default bounds
         global fit_function_list
-        self.fit_function_list = fit_function_list
+        self.fit_function_list = fit_function_list #: list of fit functions that can be used; imported from fit_functions.py
 
         # starting init sequence -------------------------------
 
@@ -118,7 +123,7 @@ class Measurement:
 
         # 5. selecting columns and writing self.x & self.y
         try:
-            self.select_columns()
+            self.select_columns(m=self.COLUMN_MAPS[type_of_measurement])
         except Exception as e:
             print(emoji.emojize(":red_circle:  {}: {}".format(self.path,e)))
 
@@ -318,37 +323,75 @@ class Measurement:
         
 
 
-    def select_columns(self, column1=(0,1), column2=(1,1)):
-        """ Selects two colums of the :code:`data` and saves them
-        in :code:`x` and :code:`y`.
+    def select_columns(self, m=None):
+        """ Selects columns of the :code:`data` as specified in m (map) and
+        saves in :code:`x` and :code:`y[]`.
 
-        :code:`y_error` is calculated as sqrt(y)
+        ..note:: :code:`y_error[]` is calculated as sqrt(y)
 
-        :param column1:     tuple of integers defining the number of
-                            the column and which nth element should be
-                            read, so for example (2,3) would read the 
-                            second column and every 3rd element in it
-                            (Default value = (0,1))
-        :param column2:     tuple of integers defining the number of
-                            the column and which nth element should be
-                            read (Default value = (1,1))
+        :param m:   map, e.g. list of tuples or None values; if m=None
+                    select_columns will be skipped (Default value = None)
+        
+        The map :code:`m` definies which columns of the original measurement
+        data will be used later. Only one x-axis can be defined, but multiple
+        y-axes may be used. The lenght of the map must not exceed the number
+        of the columns in :code:`data`, but can be less or equal.
+
+        Each map is a list of items, which can either be tuples or None
+        values, if a column should be skipped. In the case of a tuple, the
+        first value must be a string, either 'x' or 'y', which determines
+        if the column should be interpreted as an x- or y-axis. Its second
+        value describes what nth element of the columns should be selected.
+
+        A few examples:
+        ::
+
+            m = [('x',1),('y',1)]
+
+        This will select the first column as x-axis and take every (1st)
+        element of it, and the second column as y-axis, also using every
+        element of that column.
+        ::
+
+            m = [('y',2),None,('x',2),('y',2)]
+
+        Here we will take every second element of column 1, 3 and 4, but
+        skip column 2.
+
+        .. note:: If the lenght of the map is less than the number of columns in :code:`data`, every column that has no corresponding map element will be skipped.
 
         """
-        self.x = self.data[::column1[1],column1[0]]
-        self.y = self.data[::column2[1],column2[0]]
 
-        self.y_error = np.sqrt(self.y)
+        if m == None:
+            print('No map given!')
+            raise AttributeError
+
+        # transpose the data
+        transposed_data = [list(i) for i in zip(*self.data)]
+
+        # create lists
+        self.y = list()
+        self.y_error = list()
+        # go through every column and every map item
+        for map_item, column in zip(m, transposed_data):
+            # if map item is None, skip
+            if map_item and not column == []:
+                # if this is x axis, write self.x
+                if map_item[0] == 'x':
+                    self.x = column[::map_item[1]]
+                # if this is y axis, write new self.y and error
+                elif map_item[0] == 'y':
+                    self.y.append(column[::map_item[1]])
+                    self.y_error.append(np.sqrt(column[::map_item[1]]))
+        
 
 
     def degree_of_polarisation(self):
         """ Calculates the degree of polarisation for each position in :code:`pos_data`. """
 
-        # select default columns
-        self.select_columns()
-
         # helper vars for raw data
         raw_x = self.x
-        raw_y = self.y
+        raw_y = self.y[0]
 
 
         if len(self.pos_data) == len(raw_x):
@@ -368,7 +411,7 @@ class Measurement:
 
         # allocate arrays to fill later (faster when using numpy)
         self.y = np.zeros(data_lenght//4)
-        self.y_error = np.zeros(data_lenght//4)
+        self.y_error[0] = np.zeros(data_lenght//4)
 
         for i in range(0, data_lenght, 4):
             a = raw_y[i+1]  # I_a
@@ -389,12 +432,12 @@ class Measurement:
             p4 = (a**2 * b + a*b * (b - c - 2*d) + c*d2)**2
 
             # calculation of degree of polarisation
-            self.y[i//4] = np.sqrt(
+            self.y[0][i//4] = np.sqrt(
                     np.abs((f1*f2)/(c*d-a*b))
                 )
 
             # calculation of degree of polarisation error
-            self.y_error[i//4] = 0.5 * np.sqrt(
+            self.y_error[0][i//4] = 0.5 * np.sqrt(
                         np.abs((p1*a + p2*c + p3*b + p4*d) / p0)
                 )
             
