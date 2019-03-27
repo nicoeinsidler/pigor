@@ -635,7 +635,6 @@ class Measurement:
                         available themes can be found in the markdown_themes
                         directory (Default value = 'github')
 
-        .. todo:: Make the creation of Markdown file optional.
         """
 
         # helper vars to build information lists

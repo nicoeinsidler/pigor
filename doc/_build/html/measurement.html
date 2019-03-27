@@ -357,7 +357,7 @@ information about the measurement is gathered in the <code class="code docutils 
 
 <dl class="method">
 <dt id="measurement.Measurement.export_meta">
-<code class="descname">export_meta</code><span class="sig-paren">(</span><em>html=False</em>, <em>theme='github'</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.export_meta" title="Permalink to this definition">¶</a></dt>
+<code class="descname">export_meta</code><span class="sig-paren">(</span><em>markdown=True</em>, <em>html=False</em>, <em>theme='github'</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.export_meta" title="Permalink to this definition">¶</a></dt>
 <dd><p>Exports all available information about the measurement into
 a markdown file.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -375,10 +375,6 @@ directory (Default value = ‘github’)</li>
 </tr>
 </tbody>
 </table>
-<div class="admonition-todo admonition" id="index-3">
-<p class="first admonition-title">Todo</p>
-<p class="last">Make the creation of Markdown file optional.</p>
-</div>
 </dd></dl>
 
 <dl class="method">
@@ -433,11 +429,11 @@ value = ‘default’)</li>
 </tbody>
 </table>
 <p>Returns the current type of measurement.</p>
-<div class="admonition-todo admonition" id="index-4">
+<div class="admonition-todo admonition" id="index-3">
 <p class="first admonition-title">Todo</p>
 <p class="last">Evaluate if this method (measurement_type()) is needed at all.</p>
 </div>
-<div class="admonition-todo admonition" id="index-5">
+<div class="admonition-todo admonition" id="index-4">
 <p class="first admonition-title">Todo</p>
 <p class="last">Set better default value for measurement type.</p>
 </div>
@@ -471,7 +467,7 @@ in the file name as well as in the plot title (Default value = ‘’)</li>
 </tr>
 </tbody>
 </table>
-<div class="admonition-todo admonition" id="index-6">
+<div class="admonition-todo admonition" id="index-5">
 <p class="first admonition-title">Todo</p>
 <p class="last">Make x and y labels more general, especially for interferometer files, where more that one y value list is needed.</p>
 </div>
@@ -505,7 +501,7 @@ in the file name as well as in the plot title (Default value = ‘’)</li>
 <dt id="measurement.Measurement.read_pos_file">
 <code class="descname">read_pos_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.read_pos_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Looks for a position file and reads it into <code class="code docutils literal notranslate"><span class="pre">pos_data</span></code>.</p>
-<div class="admonition-todo admonition" id="index-7">
+<div class="admonition-todo admonition" id="index-6">
 <p class="first admonition-title">Todo</p>
 <p class="last">When searching for a position file, the lenght of the file should match. So it should be 1/4 of the size of the original measurement file.</p>
 </div>
