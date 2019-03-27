@@ -25,7 +25,6 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
-        <script type="text/javascript" src="https://unpkg.com/mermaid@7.1.0/dist/mermaid.min.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -205,8 +204,25 @@
 <dt>Sprint</dt>
 <dd><ul class="first last">
 <li>feature: remove all associated files from file system, except the measurement file itself</li>
-<li>improvement: auto register all available fit functions via decorators</li>
+<li>✓ improvement: auto register all available fit functions via decorators</li>
 <li>improvement: adding __repr__</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Sprint: finish branch <code class="code docutils literal notranslate"><span class="pre">feature/interferometer</span></code></dt>
+<dd><ul class="first last">
+<li>fixing / understanding inheritance of instance variables (see python test file in branch)</li>
+<li><dl class="first docutils">
+<dt>creating subclasses from Measurement:</dt>
+<dd><ul class="first last">
+<li>Interferometer: adding custom maps to COLUMN_MAPS and overriding clean_data() and detect_measurement()</li>
+<li>Polarimeter: adding custom maps to COLUMN_MAPS and overriding clean_data() and detect_measurement()</li>
+</ul>
+</dd>
+</dl>
+</li>
 </ul>
 </dd>
 </dl>

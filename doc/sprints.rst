@@ -26,6 +26,11 @@ Measurement Class
     - feature: auto detect interferometer measurements
 2. Sprint
     - feature: remove all associated files from file system, except the measurement file itself
-    - improvement: auto register all available fit functions via decorators
+    - ✓ improvement: auto register all available fit functions via decorators
     - improvement: adding __repr__
-3. Sprint: not planned yet
+3. Sprint: finish branch :code:`feature/interferometer`
+    - fixing / understanding inheritance of instance variables (see python test file in branch)
+    - creating subclasses from Measurement:
+        - Interferometer: adding custom maps to COLUMN_MAPS and overriding clean_data() and detect_measurement()
+        - Polarimeter: adding custom maps to COLUMN_MAPS and overriding clean_data() and detect_measurement()
+4. Sprint: not planned yet
