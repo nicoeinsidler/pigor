@@ -1,4 +1,3 @@
-MeasurementClass
 numpy==1.16.0
 matplotlib==3.0.2
 scipy==1.2.1
