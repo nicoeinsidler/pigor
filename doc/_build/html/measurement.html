@@ -247,10 +247,6 @@ text files.</p>
 as well as on the polarimeter station at Atominstitut of TU Wien. For more
 information on the conventions please head to the docs or take a look at
 the example files provided.</p>
-<div class="admonition-todo admonition" id="index-1">
-<p class="first admonition-title">Todo</p>
-<p class="last">Auto register fit functions into fit_function_list.</p>
-</div>
 <dl class="attribute">
 <dt id="measurement.Measurement.FIT_RESOLUTION">
 <code class="descname">FIT_RESOLUTION</code><em class="property"> = None</em><a class="headerlink" href="#measurement.Measurement.FIT_RESOLUTION" title="Permalink to this definition">¶</a></dt>
@@ -291,7 +287,16 @@ TODO: change to be permanent?</td>
 </tbody>
 </table>
 </div></blockquote>
-<div class="admonition-todo admonition" id="index-2">
+<p>The startup sequence is as follows:</p>
+<ol class="arabic simple">
+<li>try to read the data</li>
+<li>measurement type (either set it, when given as input argument or try to detect it)</li>
+<li>if measurement is POL, try to find a position file and read it</li>
+<li>clean up the given data</li>
+<li>select columns =&gt; write into self.x and self.y</li>
+<li>if measurement is POL, calculate degree of polarisation</li>
+</ol>
+<div class="admonition-todo admonition" id="index-1">
 <p class="first admonition-title">Todo</p>
 <p class="last">Is type_of_fit really needed?</p>
 </div>
@@ -320,7 +325,7 @@ can be either set to ‘fit’ or ‘data’ (Default value = ‘fit’)</td>
 </tbody>
 </table>
 <p>Returns the contrast.</p>
-<div class="admonition-todo admonition" id="index-3">
+<div class="admonition-todo admonition" id="index-2">
 <p class="first admonition-title">Todo</p>
 <p class="last">When calculation of contrast fails, what should this function return? Now it returns 0.</p>
 </div>
@@ -370,7 +375,7 @@ directory (Default value = ‘github’)</li>
 </tr>
 </tbody>
 </table>
-<div class="admonition-todo admonition" id="index-4">
+<div class="admonition-todo admonition" id="index-3">
 <p class="first admonition-title">Todo</p>
 <p class="last">Make the creation of Markdown file optional.</p>
 </div>
@@ -410,32 +415,6 @@ argument.</p>
 later use.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="measurement.Measurement.fit_function_list">
-<code class="descname">fit_function_list</code><em class="property"> = None</em><a class="headerlink" href="#measurement.Measurement.fit_function_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>dict containing all available fit functions and their bounds</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="measurement.Measurement.gauss">
-<code class="descname">gauss</code><span class="sig-paren">(</span><em>x</em>, <em>a</em>, <em>x0</em>, <em>sigma</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.gauss" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gaussian function, used for fitting data.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>x</strong> – parameter</li>
-<li><strong>a</strong> – amplitude</li>
-<li><strong>x0</strong> – maximum</li>
-<li><strong>sigma</strong> – width</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 <dl class="method">
 <dt id="measurement.Measurement.measurement_type">
 <code class="descname">measurement_type</code><span class="sig-paren">(</span><em>type_of_measurement='default'</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.measurement_type" title="Permalink to this definition">¶</a></dt>
@@ -454,11 +433,11 @@ value = ‘default’)</li>
 </tbody>
 </table>
 <p>Returns the current type of measurement.</p>
-<div class="admonition-todo admonition" id="index-5">
+<div class="admonition-todo admonition" id="index-4">
 <p class="first admonition-title">Todo</p>
 <p class="last">Evaluate if this method (measurement_type()) is needed at all.</p>
 </div>
-<div class="admonition-todo admonition" id="index-6">
+<div class="admonition-todo admonition" id="index-5">
 <p class="first admonition-title">Todo</p>
 <p class="last">Set better default value for measurement type.</p>
 </div>
@@ -492,39 +471,9 @@ in the file name as well as in the plot title (Default value = ‘’)</li>
 </tr>
 </tbody>
 </table>
-<div class="admonition-todo admonition" id="index-7">
+<div class="admonition-todo admonition" id="index-6">
 <p class="first admonition-title">Todo</p>
 <p class="last">Make x and y labels more general, especially for interferometer files, where more that one y value list is needed.</p>
-</div>
-</dd></dl>
-
-<dl class="method">
-<dt id="measurement.Measurement.poly5">
-<code class="descname">poly5</code><span class="sig-paren">(</span><em>x</em>, <em>a5</em>, <em>a4</em>, <em>a3</em>, <em>a2</em>, <em>a1</em>, <em>a0</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.poly5" title="Permalink to this definition">¶</a></dt>
-<dd><p>Polynom 5th degree for fitting.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> – parameter</li>
-<li><strong>a5</strong> – coeff</li>
-<li><strong>a4</strong> – coeff</li>
-<li><strong>a3</strong> – coeff</li>
-<li><strong>a2</strong> – coeff</li>
-<li><strong>a1</strong> – coeff</li>
-<li><strong>a0</strong> – coeff</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">function – polynomial 5th degree</p>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition-todo admonition" id="index-8">
-<p class="first admonition-title">Todo</p>
-<p class="last">Make generalized polynomial generator function.</p>
 </div>
 </dd></dl>
 
@@ -556,7 +505,7 @@ in the file name as well as in the plot title (Default value = ‘’)</li>
 <dt id="measurement.Measurement.read_pos_file">
 <code class="descname">read_pos_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.read_pos_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Looks for a position file and reads it into <code class="code docutils literal notranslate"><span class="pre">pos_data</span></code>.</p>
-<div class="admonition-todo admonition" id="index-9">
+<div class="admonition-todo admonition" id="index-7">
 <p class="first admonition-title">Todo</p>
 <p class="last">When searching for a position file, the lenght of the file should match. So it should be 1/4 of the size of the original measurement file.</p>
 </div>
@@ -609,49 +558,6 @@ read (Default value = (1,1))</li>
 <dt id="measurement.Measurement.settings">
 <code class="descname">settings</code><em class="property"> = None</em><a class="headerlink" href="#measurement.Measurement.settings" title="Permalink to this definition">¶</a></dt>
 <dd><p>dict containing useful information read from files header in clean_data()</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="measurement.Measurement.sine">
-<code class="descname">sine</code><span class="sig-paren">(</span><em>x</em>, <em>a</em>, <em>omega</em>, <em>phase</em>, <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.sine" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sine function for fitting data.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>x</strong> – parameter</li>
-<li><strong>a</strong> – amplitude</li>
-<li><strong>omega</strong> – frequency</li>
-<li><strong>phase</strong> – phase</li>
-<li><strong>c</strong> – offset</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="measurement.Measurement.sine_lin">
-<code class="descname">sine_lin</code><span class="sig-paren">(</span><em>x</em>, <em>a</em>, <em>omega</em>, <em>phase</em>, <em>c</em>, <em>b</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.sine_lin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sine function with linear term added for fitting data.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>x</strong> – parameter</li>
-<li><strong>a</strong> – amplitude</li>
-<li><strong>omega</strong> – frequency</li>
-<li><strong>phase</strong> – phase</li>
-<li><strong>c</strong> – offset</li>
-<li><strong>b</strong> – slope</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 <dl class="attribute">

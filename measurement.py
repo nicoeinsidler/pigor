@@ -10,6 +10,8 @@ from datetime import datetime
 from pathlib import Path
 from scipy.optimize import curve_fit
 from markdown import markdown
+from fit_functions import * # importing all the fit functions and decortator
+
 
 try:
     import emoji
@@ -24,8 +26,6 @@ class Measurement:
     as well as on the polarimeter station at Atominstitut of TU Wien. For more
     information on the conventions please head to the docs or take a look at
     the example files provided.
-
-    .. todo:: Auto register fit functions into fit_function_list.
 
     """
 
@@ -73,14 +73,9 @@ class Measurement:
         # change type of fit
         self.type_of_fit = type_of_fit #: type of fit to be applied to the data
 
-        # list of all available fitting functions with their default bounds, TODO: auto register functions with decorations
-        self.fit_function_list = {
-            'default'   :   (self.gauss, (-np.inf, np.inf)), # a, x0, sigma
-            'gauss'     :   (self.gauss, (-np.inf, np.inf)), # a, x0, sigma
-            'sine'      :   (self.sine, (-np.inf, np.inf)), #  a, omega, phase, c
-            'sine_lin'  :   (self.sine_lin, (-np.inf, np.inf)), # a, omega, phase, c, b
-            'poly5'     :   (self.poly5, (-np.inf,np.inf)) # a5, a4, a3, a2, a1, a0
-        } #: dict containing all available fit functions and their bounds
+        # list of all available fitting functions with their default bounds
+        global fit_function_list
+        self.fit_function_list = fit_function_list
 
         # starting init sequence -------------------------------
 
@@ -136,7 +131,8 @@ class Measurement:
                 print(emoji.emojize(":red_circle:  {}: {}".format(self.path,e)))
 
         # end of init sequence -------------------------------
-    
+
+
     def measurement_type(self, type_of_measurement="default"):
         """Sets the type of the measurement if parameter type_of_measurement is set.
 
@@ -504,62 +500,6 @@ class Measurement:
         # clear figure/plot for next
         plt.clf()
 
-    @staticmethod
-    def gauss(x, a, x0, sigma):
-        """Gaussian function, used for fitting data.
-
-        :param x: parameter
-        :param a: amplitude
-        :param x0: maximum
-        :param sigma: width
-
-        """
-        return a*np.exp(-(x-x0)**2/(2*sigma**2))
-
-    @staticmethod
-    def sine_lin(x, a, omega, phase, c, b):
-        """Sine function with linear term added for fitting data.
-
-        :param x: parameter
-        :param a: amplitude
-        :param omega: frequency
-        :param phase: phase
-        :param c: offset
-        :param b: slope
-
-        """
-        return a*np.sin(x*omega + phase) + b*x + c
-
-    @staticmethod
-    def poly5(x, a5, a4, a3, a2, a1, a0): #TODO: should be implemented as generalization of nth degree
-        """Polynom 5th degree for fitting.
-
-        :param x: parameter
-        :param a5: coeff
-        :param a4: coeff
-        :param a3: coeff
-        :param a2: coeff
-        :param a1: coeff
-        :param a0: coeff
-
-        :returns: function -- polynomial 5th degree
-
-        .. todo:: Make generalized polynomial generator function.
-        """
-        return (((((a5*x + a4)*x + a3)*x + a2)*x + a1)*x + a0)
-
-    @staticmethod
-    def sine(x, a, omega, phase, c):
-        """Sine function for fitting data.
-
-        :param x: parameter
-        :param a: amplitude
-        :param omega: frequency
-        :param phase: phase
-        :param c: offset
-
-        """
-        return a*np.sin(x*omega + phase) + c
 
     def find_bounds(self, fit_function=None):
         """ Automatically finds usefull fit bounds and updates them
@@ -572,7 +512,7 @@ class Measurement:
         # check if fit function is not explicitly set for fit()
         if fit_function == None:
             # default fit function for measurement type
-            func = self.type_of_fit
+            func = self.fit_function_list[self.type_of_fit][0]
         else:
             func = fit_function
 
@@ -605,7 +545,7 @@ class Measurement:
             s = 0.5
             
             self.fit_function_list['gauss'] = (
-                self.gauss,
+                gauss,
                 (
                     [a - a*s, x0 - s*x0, sigma - s*sigma],
                     [a + a*s, x0 + s*x0, sigma + s*sigma]
@@ -627,7 +567,7 @@ class Measurement:
             s = 0.5
 
             self.fit_function_list['sine'] = (
-                self.sine, 
+                sine, 
                 (
                     [a - a*s, omega - omega*s, phase - phase*s, c - c*s], 
                     [a + a*s, omega + omega*s, phase + phase*s, c + c*s]
@@ -650,7 +590,7 @@ class Measurement:
             s = 0.5
 
             self.fit_function_list['sine_lin'] = (
-                self.sine_lin, 
+                sine_lin, 
                 (
                     [a - a*s, omega - omega*s, phase - phase*s, c - c*s, - b*s], 
                     [a + a*s, omega + omega*s, phase + phase*s, c + c*s, + b*s]
@@ -678,7 +618,7 @@ class Measurement:
         # check if fit function is not explicitly set for fit()
         if fit_function == None:
             # default fit function for measurement type
-            func = self.type_of_fit
+            func = self.fit_function_list[self.type_of_fit][0]
         else:
             func = fit_function
 
@@ -906,6 +846,7 @@ class Measurement:
             max = min = 1
         
         return (max-min) / (max+min)
+
 
 
 # here you can test the class
