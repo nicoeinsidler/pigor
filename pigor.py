@@ -252,10 +252,13 @@ def analyse_files(filepaths='all'):
         pass # TODO: only analyse the files of today
 
     for f in filepaths:
-        m = measurement.Measurement(f)
-        m.fit()
-        m.plot()
-        m.export_meta(make_html=True)
+        try:
+            m = measurement.Measurement(f)
+            m.fit()
+            m.plot()
+            m.export_meta(make_html=True)
+        except Exception as e:
+            print(f'The following exception occured during runtime:\n\n{e}\n\Continuing operation.')
 
 
 @show_user
