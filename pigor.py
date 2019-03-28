@@ -82,7 +82,7 @@ def init(create_new_config_file=True):
         for k, v in configuration.items():
             if k == 'PIGOR_ROOT':
                 try:
-                    PIGOR_ROOT = Path(v)
+                    PIGOR_ROOT = Path(v).resolve()
                 except:
                     pass
             elif k == 'PIGOR_ROOT_RECURSIVE':
@@ -102,6 +102,8 @@ def init(create_new_config_file=True):
                     CREATE_MD = False
             elif k == 'FILE_EXTENTION':
                 FILE_EXTENTION = v
+            elif k == 'IMAGE_FORMAT':
+                IMAGE_FORMAT = v
         
     # ask for root directory TODO: make this if statement more compact
     if not configuration or not 'PIGOR_ROOT' in configuration.keys() or create_new_config_file:
@@ -109,7 +111,7 @@ def init(create_new_config_file=True):
             print(f'Where should {PROGRAM_NAME} start looking for measurement files? [{PIGOR_ROOT}]')
             user_input = input()
             try:
-                PIGOR_ROOT = Path(user_input)
+                PIGOR_ROOT = Path(user_input).resolve()
                 break
             except Exception:
                 print('The path you provided could not be read, please try again.')
@@ -296,7 +298,7 @@ def remove_generated_files(files='all'):
             f.with_suffix('.html').unlink()
     except Exception as e:
         print(e)
-        raise NotImplementedError
+        #raise NotImplementedError
     
 @show_user
 def print_root():
