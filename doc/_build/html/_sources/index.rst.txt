@@ -6,7 +6,7 @@
 Welcome to PIGOR's documentation!
 =================================
 
-Pigor is a lightweight analysis tool for the NEPTUN beam line at `Atominstitut`_ of `TU Wien`_, Austria. For more information visit `our homepage`_.
+Pigor is a lightweight analysis tool for the the polarimeter instrument NEPTUN beam port of the 250kW research reactor hosted at `Atominstitut`_ of `TU Wien`_, Austria. For more information visit `our homepage`_.
 
 .. _Atominstitut: https://ati.tuwien.ac.at/startseite/
 .. _TU Wien: https://www.tuwien.ac.at/
