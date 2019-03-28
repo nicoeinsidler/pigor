@@ -484,7 +484,7 @@ class Measurement:
 
         
 
-    def plot(self, column1=(0,1), column2=(1,1), fit=True, type_of_plot='', override=True):
+    def plot(self, column1=(0,1), column2=(1,1), fit=True, type_of_plot='', override=True, file_extention='.png'):
         """Creates a plot for the data. If fit is set to False the data fit won't be
         plotted, even if there exists one. Following parameters are possible:
 
@@ -504,6 +504,9 @@ class Measurement:
             title = self.path.name + '\n' + type_of_plot + '\n' + self.settings['time_stamp'].strftime("%Y-%m-%d %H:%M")
         else:
             title = self.path.name + "\n" + type_of_plot
+
+        # size of output image in inches
+        plt.figure(figsize=[9.71, 6])
 
         # plot title
         plt.title(title)
@@ -541,17 +544,33 @@ class Measurement:
         # plot legend
         plt.legend()
 
+        # all valid file extentions
+        valid_file_extentions = [
+            '.png',
+            '.svg',
+            '.eps',
+            '.pdf'
+        ]
+
+        # make sure there is a point
+        if not file_extention.startswith('.'):
+            file_extention = '.' + file_extention
+
+        # check if file extention is valid
+        if not file_extention.casefold() in valid_file_extentions:
+            file_extention = '.png'
+
         # file name
         if type_of_plot != "":
-            n = str(self.path.parent) + "/" + self.path.stem + "[" + type_of_plot + "].png"
+            n = f'{str(self.path.parent)}/{self.path.stem}-[{type_of_plot}]{file_extention}'
         else:
-            n = str(self.path.parent) + "/" + self.path.stem + ".png"
+            n = f'{str(self.path.parent)}/{self.path.stem}{file_extention}'
 
         self.plot_path = Path(n)
 
         #if (override == False and not os.path.isfile(n)):
             # save plot to file
-        plt.savefig(n)
+        plt.savefig(n, format=file_extention[1:])
 
         # clear figure/plot for next
         plt.clf()
@@ -929,11 +948,11 @@ class Measurement:
 if __name__ == "__main__":
     print('Testing the Measurement Class')
     
-    m1 = Measurement(Path("./testfiles/subdirectory_test/2018-11-22-1125-degree-of-polarisation.dat"))
+    m1 = Measurement(Path("./testfiles/polarimeter/2018-11-22-1125-degree-of-polarisation.dat"))
     m1.fit()
-    m1.plot()
+    m1.plot(file_extention='.svg')
 
-    m2 = Measurement(Path("./testfiles/2018-11-23-1545-scan-dc2x.dat"))
+    m2 = Measurement(Path("./testfiles/polarimeter/2018-11-23-1545-scan-dc2x.dat"))
     #print(m2.type_of_measurement)
     m2.fit()
     m2.plot()
