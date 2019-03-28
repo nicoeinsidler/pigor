@@ -258,7 +258,7 @@ def analyse_files(filepaths='all'):
             m.plot()
             m.export_meta(make_html=True)
         except Exception as e:
-            print(f'The following exception occured during runtime:\n\n{e}\n\Continuing operation.')
+            print(f'The following exception occured during runtime:\n\n{e}\n\nContinuing operation.')
 
 
 @show_user
