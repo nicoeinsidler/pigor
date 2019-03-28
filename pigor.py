@@ -20,6 +20,7 @@ USER_FUNCTIONS = dict()
 PIGOR_ROOT              = Path(os.path.dirname(os.path.abspath(__file__)))
 PIGOR_ROOT_RECURSIVE    = True
 FILE_EXTENTION          = '.dat'
+IMAGE_FORMAT            = '.png'
 CREATE_HTML             = True
 CREATE_MD               = True
 
@@ -60,6 +61,7 @@ def init(create_new_config_file=True):
     global PIGOR_ROOT
     global PIGOR_ROOT_RECURSIVE
     global FILE_EXTENTION
+    global IMAGE_FORMAT
     global CREATE_HTML
     global CREATE_MD
 
@@ -132,9 +134,21 @@ def init(create_new_config_file=True):
         if user_input == '':
             user_input = FILE_EXTENTION
         if not user_input.startswith('.'):
-            FILE_EXTENTION = '.' + user_input
+            FILE_EXTENTION = '.' + user_input.casefold()
         else:
-            FILE_EXTENTION = user_input
+            FILE_EXTENTION = user_input.casefold()
+
+
+    # ask for file format for the plot images
+    if not configuration or not 'IMAGE_FORMAT' in configuration.keys() or create_new_config_file:
+        print(f'Which file extention should {PROGRAM_NAME} look for? (string) [{IMAGE_FORMAT}]')
+        user_input = input()
+        if user_input == '':
+            user_input = IMAGE_FORMAT
+        if not user_input.startswith('.'):
+            IMAGE_FORMAT = '.' + user_input.casefold()
+        else:
+            IMAGE_FORMAT = user_input.casefold()
 
     # ask if html files should be created
     if not configuration or not 'CREATE_HTML' in configuration.keys() or create_new_config_file:
@@ -168,6 +182,7 @@ def init(create_new_config_file=True):
             f'PIGOR_ROOT = {PIGOR_ROOT}',
             f'PIGOR_ROOT_RECURSIVE = {PIGOR_ROOT_RECURSIVE}',
             f'FILE_EXTENTION = {FILE_EXTENTION}',
+            f'IMAGE_FORMAT = {IMAGE_FORMAT}',
             f'CREATE_HTML = {CREATE_HTML}',
             f'CREATE_MD = {CREATE_MD}'
     ]
@@ -255,7 +270,7 @@ def analyse_files(filepaths='all'):
         try:
             m = measurement.Measurement(f)
             m.fit()
-            m.plot()
+            m.plot(file_extention=IMAGE_FORMAT)
             m.export_meta(make_html=True)
         except Exception as e:
             print(f'The following exception occured during runtime:\n\n{e}\n\nContinuing operation.')
@@ -276,7 +291,7 @@ def remove_generated_files(files='all'):
     # TODO: case when files is not a list of Paths
     try:
         for f in files:
-            f.with_suffix('.png').unlink()
+            f.with_suffix(IMAGE_FORMAT).unlink()
             f.with_suffix('.md').unlink()
             f.with_suffix('.html').unlink()
     except Exception as e:
