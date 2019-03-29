@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 import re
 import numpy as np
@@ -577,11 +578,13 @@ class Measurement:
 
 
     def find_bounds(self, fit_function=None):
-        """ Automatically finds usefull fit bounds and updates them
+        """Automatically finds usefull fit bounds and updates them
         in the :code:`fit_function_list` dict.
 
         :param fit_function:    defines for which fit functions the
-                                bounds should be updated (Default value = None)
+                                bounds should be updated (Default
+                                value = None), if set to None, type_of_fit
+                                will be used
 
         """
         # check if fit function is not explicitly set for fit()
@@ -635,8 +638,8 @@ class Measurement:
             c = y_min + a
             # guessing an omega
             omega = np.pi / abs(y_max_i - y_min_i)
-            # guessing a phase, works for now, but big values TODO
-            phase = abs(y_max_i) + abs(y_min_i) / omega + np.pi/2
+            # guessing a phase, works for now, but big values TODO:
+            phase = (abs(y_max_i) + abs(y_min_i) / omega) % np.pi
 
             # scale factor
             s = 0.5
@@ -657,7 +660,7 @@ class Measurement:
             # guessing an omega
             omega = np.pi / abs(y_max_i - y_min_i)
             # guessing a phase, works for now, but big values TODO:
-            phase = abs(y_max_i) + abs(y_min_i) / omega + np.pi/2
+            phase = (abs(y_max_i) + abs(y_min_i) / omega) % np.pi
             # calculation of slope of linear term (sloppy TODO:)
             b = abs(y_max - y_min) / abs(y_max_i-y_min_i)
 
@@ -748,7 +751,11 @@ class Measurement:
         fit_information = []
         for i, popt in enumerate(self.popt):
             for k,v in list(zip(fit_types[self.type_of_fit], popt)):
-                    fit_information.append('- Fit #{} {} : `{}`'.format(i,k,v))
+                # if phase, print in degree's
+                if k == 'phase':
+                    v = v * 180 / np.pi
+                    v = str(v) + '°'
+                fit_information.append('- Fit #{} {} : `{}`'.format(i,k,v))
 
         # try to write boundaries of fit
         boundaries_information = []
@@ -860,7 +867,7 @@ class Measurement:
         if make_md == True:
             with open(self.path.with_suffix('.md'), 'w') as mdfile: 
                 for line in t:
-                    mdfile.write('{}\n'.format(line))
+                    mdfile.write('{}\n'.format(line)
 
         # write html file
         if make_html == True:
