@@ -766,12 +766,12 @@ class Measurement:
             for k, v1, v2 in list(zip(a,b,c)):
                 boundaries_information.append("- {} : `[{} , {}]`".format(k,v1,v2))
         except Exception as e:
-            print(emoji.emojize(":red_circle:  {}: Error writing boundaries into file: {}".format(self.path,e)))
+            print(emoji.emojize(":warning:  {}: Error writing boundaries into file: {}".format(self.path,e)))
             boundaries_information = [
                 'No information about the boundaries could be presented, because the following exception occured:',
                 str(e),
                 '',
-                'Please report this error by opening a new ticket in Bitbucket. Most likely, the function that should detect the boundaries was not defined yet.'
+                'Please report this error by opening a new ticket in Github. Most likely, the function that should detect the boundaries was not defined yet.'
             ]
 
         # often used paths
@@ -957,7 +957,8 @@ if __name__ == "__main__":
     
     m1 = Measurement(Path("./testfiles/polarimeter/2019_02_20_1340_dc2z_scan.dat"))
     m1.fit()
-    m1.plot(file_extention='.svg')
+    #m1.plot()
+    m1.export_meta(make_html=False, make_md=True)
 
     #m2 = Measurement(Path("./testfiles/polarimeter/2018-11-23-1545-scan-dc2x.dat"))
     #print(m2.type_of_measurement)
