@@ -867,7 +867,7 @@ class Measurement:
         if make_md == True:
             with open(self.path.with_suffix('.md'), 'w') as mdfile: 
                 for line in t:
-                    mdfile.write('{}\n'.format(line)
+                    mdfile.write('{}\n'.format(line))
 
         # write html file
         if make_html == True:
@@ -955,14 +955,14 @@ class Measurement:
 if __name__ == "__main__":
     print('Testing the Measurement Class')
     
-    m1 = Measurement(Path("./testfiles/polarimeter/2018-11-22-1125-degree-of-polarisation.dat"))
+    m1 = Measurement(Path("./testfiles/polarimeter/2019_02_20_1340_dc2z_scan.dat"))
     m1.fit()
     m1.plot(file_extention='.svg')
 
-    m2 = Measurement(Path("./testfiles/polarimeter/2018-11-23-1545-scan-dc2x.dat"))
+    #m2 = Measurement(Path("./testfiles/polarimeter/2018-11-23-1545-scan-dc2x.dat"))
     #print(m2.type_of_measurement)
-    m2.fit()
-    m2.plot()
+    #m2.fit()
+    #m2.plot()
     #print(len(m2.y))
     #print(len(m2.x))
     #print(m2.head)
