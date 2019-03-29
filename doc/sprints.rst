@@ -99,7 +99,7 @@ Methods:
 
 - :code:`reverse()`: reverse order of data
 - :code:`__init__(self, desc, data)`
-- :code:`__repr__()`: plots '<column object 'desc' of lenght len(data)>' or something like that
+- :code:`__repr__()`: plots :code:`'<column object 'desc' of lenght len(data)>'` or something like that
 
 
 Variables:

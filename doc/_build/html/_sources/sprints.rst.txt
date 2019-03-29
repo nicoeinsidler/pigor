@@ -14,15 +14,16 @@ PIGOR
 2. Sprint
     - feature: remove last generated files (html, md, png)
     - feature: remove all html/md or png files
-3. Sprint: not yet planned
+3. Sprint:
+	- feature: auto run command in specified intervals; syntax maybe: time + [cmd] + <ENTER>
 
 
 Measurement Class
 -----------------
 
 1. Sprint
-    - improvement: switching from self.y --> self.y[] and self.y_error --> self.y_error[]
-    - improvement: plot multiple self.y's
+    - ✓ improvement: switching from self.y --> self.y[] and self.y_error --> self.y_error[]
+    - ✓ [not tested yet] improvement: plot multiple self.y's
     - feature: auto detect interferometer measurements
 2. Sprint
     - feature: remove all associated files from file system, except the measurement file itself
@@ -98,7 +99,7 @@ Methods:
 
 - :code:`reverse()`: reverse order of data
 - :code:`__init__(self, desc, data)`
-- :code:`__repr__()`: plots '<column object 'desc' of lenght len(data)>' or something like that
+- :code:`__repr__()`: plots :code:`'<column object 'desc' of lenght len(data)>'` or something like that
 
 
 Variables:
