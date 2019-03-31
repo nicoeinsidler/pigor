@@ -2,6 +2,7 @@
 
 import re
 import os
+import json
 import numpy as np
 import multiprocessing as mp
 import matplotlib.pyplot as plt
@@ -17,12 +18,15 @@ PROGRAM_NAME = "PIGOR"
 USER_FUNCTIONS = dict()
 
 # global vars for init() default
-PIGOR_ROOT              = Path(os.path.dirname(os.path.abspath(__file__)))
-PIGOR_ROOT_RECURSIVE    = True
-FILE_EXTENTION          = '.dat'
-IMAGE_FORMAT            = '.png'
-CREATE_HTML             = True
-CREATE_MD               = True
+configuration = {
+    'PIGOR_ROOT'            :   Path(os.path.dirname(os.path.abspath(__file__))),
+    'PIGOR_ROOT_RECURSIVE'  :   True,
+    'FILE_EXTENTION'        :   '.dat',
+    'IMAGE_FORMAT'          :   '.png',
+    'CREATE_HTML'           :   True,
+    'CREATE_MD'             :   True
+}
+
 
 # decorator for registering functions
 def show_user(func):
@@ -38,6 +42,14 @@ def show_user(func):
 
     USER_FUNCTIONS[key] = func
     return func
+
+def bool2yn(b):
+    """Converts a boolean to yes or no with the mapping: y = True, n = False."""
+    return 'y' if b else 'n'
+
+def yn2bool(s):
+    """Converts yes and no to True and False."""
+    return True if s.casefold().startswith('y') else False
 
 @show_user
 def init(create_new_config_file=True):
@@ -58,139 +70,57 @@ def init(create_new_config_file=True):
     
     """
     
-    global PIGOR_ROOT
-    global PIGOR_ROOT_RECURSIVE
-    global FILE_EXTENTION
-    global IMAGE_FORMAT
-    global CREATE_HTML
-    global CREATE_MD
+    # make configuration editable
+    global configuration
 
-    configuration = False
+    # questions to aks the user
+    questions = {
+        'PIGOR_ROOT'            :   (f'Where should {PROGRAM_NAME} start looking for measurement files? [{configuration['PIGOR_ROOT']}]', Path),
+        'PIGOR_ROOT_RECURSIVE'  :   (f'Should {PROGRAM_NAME} look for files in {configuration['PIGOR_ROOT']} recursively? (y/n) [{bool2yn(configuration['PIGOR_ROOT_RECURSIVE'])}]', bool),
+        'FILE_EXTENTION'        :   (f'Which file extention should {PROGRAM_NAME} look for? (string) [{configuration['FILE_EXTENTION']}]', 'file-extention'),
+        'IMAGE_FORMAT'          :   (f'What image format should the plots have? (.png,.svg,.eps,.pdf) [{configuration['IMAGE_FORMAT']}]', 'file-extention'),
+        'CREATE_HTML'           :   (f'Should {PROGRAM_NAME} create an HTML file automatically after analysis? (y/n) [{bool2yn(configuration['CREATE_HTML'])}]', bool),
+        'CREATE_MD'             :   (f'Should {PROGRAM_NAME} create a Markdown file automatically after analysis? (y/n) [{bool2yn(configuration['CREATE_MD'])}]', bool)
+    }
+
     # try to read the configuration
     try:
-        with open('pigor.config', 'r') as f:
-            configuration = dict()
-            for line in f.readlines():
-                if not line.startswith('#'):
-                    k, v = line.split('=')
-                    configuration[k.strip()] = v.strip()
+        with open('pigor.config', 'r', encoding='utf-8') as f:
+            configuration = json.load(f)
     except Exception:
         print('Could not read configuration file. Creating a new one now:\n')
-
-    # try to read the values in configuration
-    if configuration:
-        for k, v in configuration.items():
-            if k == 'PIGOR_ROOT':
-                try:
-                    PIGOR_ROOT = Path(v).resolve()
-                except:
-                    pass
-            elif k == 'PIGOR_ROOT_RECURSIVE':
-                if v == 'True':
-                    PIGOR_ROOT_RECURSIVE = True
-                elif v == 'False':
-                    PIGOR_ROOT_RECURSIVE = False
-            elif k == 'CREATE_HTML':
-                if v == 'True':
-                    CREATE_HTML = True
-                elif v == 'False':
-                    CREATE_HTML = False
-            elif k == 'CREATE_MD':
-                if v == 'True':
-                    CREATE_MD = True
-                elif v == 'False':
-                    CREATE_MD = False
-            elif k == 'FILE_EXTENTION':
-                FILE_EXTENTION = v
-            elif k == 'IMAGE_FORMAT':
-                IMAGE_FORMAT = v
+        create_new_config_file = True
         
-    # ask for root directory TODO: make this if statement more compact
-    if not configuration or not 'PIGOR_ROOT' in configuration.keys() or create_new_config_file:
-        while True:
-            print(f'Where should {PROGRAM_NAME} start looking for measurement files? [{PIGOR_ROOT}]')
+
+    for k, q in questions:
+        if not k in configuration.keys() or create_new_config_file:
+            # ask user a question
+            print(q[0])
             user_input = input()
-            try:
-                PIGOR_ROOT = Path(user_input).resolve()
-                break
-            except Exception:
-                print('The path you provided could not be read, please try again.')
 
-    # ask if recursion when searching for files
-    if not configuration or not 'PIGOR_ROOT_RECURSIVE' in configuration.keys() or create_new_config_file:
-        if PIGOR_ROOT_RECURSIVE:
-            default = 'y'
-        else:
-            default = 'n'
-        print(f'Should {PROGRAM_NAME} look for files in {PIGOR_ROOT} recursively? (y/n) [{default}]')
-        user_input = input()
-        if user_input == 'n':
-            PIGOR_ROOT_RECURSIVE = False
-        else:
-            PIGOR_ROOT_RECURSIVE = True
+            # if a Path object must be read
+            if isinstance(q[1], Path):
+                while True:
+                    try:
+                        value = Path(user_input)
+                        break
+                    except Exception:
+                        user_input = input('Could not find the path, please input another one:\n')
+            
+            # if treating booleans
+            elif isinstance(q[1], bool):
+                value = yn2bool(user_input)
+            
+            # if answer is a file extention
+            elif q[1] == 'file-extention':
+                # adding . to file extention if not given by the user
+                value = user_input.casefold() if user_input.startswith('.') else '.' + user_input.casefold()
 
-    # ask for file extention to look for
-    if not configuration or not 'FILE_EXTENTION' in configuration.keys() or create_new_config_file:
-        print(f'Which file extention should {PROGRAM_NAME} look for? (string) [{FILE_EXTENTION}]')
-        user_input = input()
-        if user_input == '':
-            user_input = FILE_EXTENTION
-        if not user_input.startswith('.'):
-            FILE_EXTENTION = '.' + user_input.casefold()
-        else:
-            FILE_EXTENTION = user_input.casefold()
+            configuration[k] = value
 
-
-    # ask for file format for the plot images
-    if not configuration or not 'IMAGE_FORMAT' in configuration.keys() or create_new_config_file:
-        print(f'Which file extention should {PROGRAM_NAME} look for? (string) [{IMAGE_FORMAT}]')
-        user_input = input()
-        if user_input == '':
-            user_input = IMAGE_FORMAT
-        if not user_input.startswith('.'):
-            IMAGE_FORMAT = '.' + user_input.casefold()
-        else:
-            IMAGE_FORMAT = user_input.casefold()
-
-    # ask if html files should be created
-    if not configuration or not 'CREATE_HTML' in configuration.keys() or create_new_config_file:
-        if CREATE_HTML:
-            default = 'y'
-        else:
-            default = 'n'
-        print(f'Should {PROGRAM_NAME} create an HTML file automatically after analysis? (y/n) [{default}]')
-        user_input = input()
-        if user_input == 'n':
-            CREATE_HTML = False
-        else:
-            CREATE_HTML = True
-
-    # ask if md files should be created
-    if not configuration or not 'CREATE_MD' in configuration.keys() or create_new_config_file:
-        if CREATE_MD:
-            default = 'y'
-        else:
-            default = 'n'
-        print(f'Should {PROGRAM_NAME} create a Markdown file automatically after analysis? (y/n) [{default}]')
-        user_input = input()
-        if user_input == 'n':
-            CREATE_MD = False
-        else:
-            CREATE_MD = True
-
-    t = [
-            '# PIGOR Configuration File',
-            f'# automatically created {datetime.datetime.now().date()}',
-            f'PIGOR_ROOT = {PIGOR_ROOT}',
-            f'PIGOR_ROOT_RECURSIVE = {PIGOR_ROOT_RECURSIVE}',
-            f'FILE_EXTENTION = {FILE_EXTENTION}',
-            f'IMAGE_FORMAT = {IMAGE_FORMAT}',
-            f'CREATE_HTML = {CREATE_HTML}',
-            f'CREATE_MD = {CREATE_MD}'
-    ]
+    # write configuration into file
     with open('pigor.config', 'w') as f:
-        for line in t:
-            f.write(line + '\n')
+        json.dump(configuration, f, ensure_ascii=False)
 
 def print_header(text):
     """This function prints a beautiful header followed by one empty line.
