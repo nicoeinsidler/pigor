@@ -4,6 +4,7 @@
 
 # PIGOR
 *.config
+test.py
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
