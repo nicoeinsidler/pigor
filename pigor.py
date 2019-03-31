@@ -76,11 +76,11 @@ def init(create_new_config_file=True):
     # questions to aks the user
     questions = {
         'PIGOR_ROOT'            :   (f'Where should {PROGRAM_NAME} start looking for measurement files? [{configuration["PIGOR_ROOT"]}]', 'path'),
-        'PIGOR_ROOT_RECURSIVE'  :   (f'Should {PROGRAM_NAME} look for files in {configuration["PIGOR_ROOT"]} recursively? (y/n) [{bool2yn(configuration["PIGOR_ROOT_RECURSIVE"])}]', bool),
+        'PIGOR_ROOT_RECURSIVE'  :   (f'Should {PROGRAM_NAME} look for files recursively? (y/n) [{bool2yn(configuration["PIGOR_ROOT_RECURSIVE"])}]', 'bool'),
         'FILE_EXTENTION'        :   (f'Which file extention should {PROGRAM_NAME} look for? (string) [{configuration["FILE_EXTENTION"]}]', 'file-extention-dat'),
         'IMAGE_FORMAT'          :   (f'What image format should the plots have? (.png,.svg,.eps,.pdf) [{configuration["IMAGE_FORMAT"]}]', 'file-extention-png'),
-        'CREATE_HTML'           :   (f'Should {PROGRAM_NAME} create an HTML file automatically after analysis? (y/n) [{bool2yn(configuration["CREATE_HTML"])}]', bool),
-        'CREATE_MD'             :   (f'Should {PROGRAM_NAME} create a Markdown file automatically after analysis? (y/n) [{bool2yn(configuration["CREATE_MD"])}]', bool)
+        'CREATE_HTML'           :   (f'Should {PROGRAM_NAME} create an HTML file automatically after analysis? (y/n) [{bool2yn(configuration["CREATE_HTML"])}]', 'bool'),
+        'CREATE_MD'             :   (f'Should {PROGRAM_NAME} create a Markdown file automatically after analysis? (y/n) [{bool2yn(configuration["CREATE_MD"])}]', 'bool')
     }
 
     # try to read the configuration
@@ -110,22 +110,25 @@ def init(create_new_config_file=True):
                         user_input = input('Could not find the path, please input another one:\n')
             
             # if treating booleans
-            elif isinstance(q[1], bool):
-                value = yn2bool(user_input)
+            elif q[1] == 'bool':
+                if not q[0] == '':
+                    value = yn2bool(user_input)
+                else:
+                    value = None
             
             # if answer is a file extention
-            elif isinstance(q[1], str) and q[1].startswith('file-extention'):
-                print('triggered?! -------------')
-                # adding . to file extention if not given by the user
-                value = user_input.casefold() if user_input.startswith('.') else '.' + user_input.casefold()
+            elif q[1].startswith('file-extention'):
                 if user_input == '' and q[1] == 'file-extention-png':
                     user_input = '.png'
                 elif user_input == '' and q[1] == 'file-extention-dat':
                     user_input = '.dat'
+                # adding . to file extention if not given by the user
+                value = user_input.casefold() if user_input.startswith('.') else '.' + user_input.casefold()
             else:
                 value = user_input
 
-            configuration[k] = value
+            if value != None:
+                configuration[k] = value
 
     # write configuration into file
     with open('pigor.config', 'w') as f:
