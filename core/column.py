@@ -94,6 +94,10 @@ class Column:
         """
         return len(self.data)
 
+    def __iter__(self):
+        """Defines an iterator for this class to make it iterable"""
+        return iter(self.data)
+
     def append(self, element):
         """Appends an element to data.
         
