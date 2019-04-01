@@ -196,20 +196,7 @@ def analyse_files(filepaths='all'):
     .. todo:: a + override => override=True
 
     """
-    # m = []
-    # with mp.Pool() as pool:
-    #     m = pool.map(measurement.Measurement, filepaths)
-    #     pool.map(measurement.Measurement.fit, m)
-    #     pool.map(measurement.Measurement.plot, m)
-
-    # with mp.Pool() as pool:
-    #      pool.map(measurement.Measurement.export_meta, m)
-
-    # for p in filepaths:
-    #     m = measurement.Measurement(p)
-    #     m.plot()
-    #     m.export_meta(html=True)
-    
+   
     if filepaths == 'all':
         filepaths = find_all_files()
     elif filepaths == 'today':
