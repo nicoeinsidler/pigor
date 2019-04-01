@@ -1,0 +1,1 @@
+"""This core packages contains all modules used by PIGOR to quickly analyse measurements at the NEPTUN beam line at Atominstitut, Wien."""
