@@ -53,16 +53,21 @@ Building Measurement from ground up with custom objects like:
 
     graph TD
         subgraph column class
-        desc(column.desc) --> column{column object}
-        data(column.data) --> column{column object}
+        desc(Column.desc) --> column{column object}
+        data(Column.data) --> column{column object}
         end
 
-        column --> set{data set object}
+        column --> dsdata
+
+        subgraph data set object
+        dsdesc(DataSet.desc) --> set{data set object}
+        dsdata(DataSet.data) --> set
+        end
 
         subgraph fit function class
-        parameters(fit_function.parameters) --> ff
+        parameters(FitFunction.parameters) --> ff
         find_bounds[find_bounds] --> fb
-        fb(fit_function.bounds) --> ff
+        fb(FitFunction.bounds) --> ff
         end
 
         ff{fit function class} --> find_fit[find_fit]
@@ -135,3 +140,13 @@ Variables:
 Methods:
 
 - :code:`fit()`
+
+Data Set Class
+--------------
+
+This object stores data points (lists or Column objects) to form a data set. It must contain at least two data point lists. These lists must have the same number of elements, if not the lists that don't have enough elements will get padded with 0.
+
+Variables:
+
+- :code:`desc`: a description of what the data set describes (optional)
+- :code:`data`: data is stored in list; len(list) > 1;

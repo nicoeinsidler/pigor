@@ -97,6 +97,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#column-class">Column Class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#fit-function-class">Fit Function Class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#fit-class">Fit Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-set-class">Data Set Class</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="todo.html">ToDo List</a></li>
@@ -186,6 +187,7 @@
 <dd><ul class="first last">
 <li>feature: remove last generated files (html, md, png)</li>
 <li>feature: remove all html/md or png files</li>
+<li>improvement: use JSON for config file</li>
 </ul>
 </dd>
 </dl>
@@ -269,16 +271,21 @@
             <script>mermaid.initialize({startOnLoad:true});</script><div class="mermaid">
             graph TD
     subgraph column class
-    desc(column.desc) --&gt; column{column object}
-    data(column.data) --&gt; column{column object}
+    desc(Column.desc) --&gt; column{column object}
+    data(Column.data) --&gt; column{column object}
     end
 
-    column --&gt; set{data set object}
+    column --&gt; dsdata
+
+    subgraph data set object
+    dsdesc(DataSet.desc) --&gt; set{data set object}
+    dsdata(DataSet.data) --&gt; set
+    end
 
     subgraph fit function class
-    parameters(fit_function.parameters) --&gt; ff
+    parameters(FitFunction.parameters) --&gt; ff
     find_bounds[find_bounds] --&gt; fb
-    fb(fit_function.bounds) --&gt; ff
+    fb(FitFunction.bounds) --&gt; ff
     end
 
     ff{fit function class} --&gt; find_fit[find_fit]
@@ -346,6 +353,15 @@
 <p>Methods:</p>
 <ul class="simple">
 <li><code class="code docutils literal notranslate"><span class="pre">fit()</span></code></li>
+</ul>
+</div>
+<div class="section" id="data-set-class">
+<h2>Data Set Class<a class="headerlink" href="#data-set-class" title="Permalink to this headline">¶</a></h2>
+<p>This object stores data points (lists or Column objects) to form a data set. It must contain at least two data point lists. These lists must have the same number of elements, if not the lists that don’t have enough elements will get padded with 0.</p>
+<p>Variables:</p>
+<ul class="simple">
+<li><code class="code docutils literal notranslate"><span class="pre">desc</span></code>: a description of what the data set describes (optional)</li>
+<li><code class="code docutils literal notranslate"><span class="pre">data</span></code>: data is stored in list; len(list) &gt; 1;</li>
 </ul>
 </div>
 </div>
