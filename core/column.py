@@ -94,6 +94,18 @@ class Column:
         """
         return len(self.data)
 
+    def append(self, element):
+        """Appends an element to data.
+        
+        Example:
+        >>> c = Column('Average Temperatures',[23,23,22,23,21,24,30,31,32,28])
+        >>> c.append(27)
+        >>> len(c)
+        11
+        
+        """
+        self.data.append(element)
+
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
