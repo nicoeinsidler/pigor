@@ -37,14 +37,13 @@ class DataSet:
         >>> heater = DataSet([time, temp], desc='Room Heater')
         
         """
+        # test if data is a list
+        if type(data) is not list:
+            raise TypeError('Data must be a list.')
 
         # test if at least 2 lists in data
         if len(data) <= 1:
             raise ValueError('Data must contain at least two objects.')
-
-        # test if data is a list
-        if type(data) is not list:
-            raise TypeError('Data must be a list.')
 
         # test if lists of data are of valid types
         for d in data:
