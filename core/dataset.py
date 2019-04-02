@@ -132,6 +132,10 @@ class DataSet:
         
         return '\n'.join(s)
 
+    def __len__(self):
+        """Returns a tuple (m, n), where m is the lenght of each entry in :code:`data`
+        and n is the number of entries in :code:`data`"""
+        return (len(self.data[0]), len(self.data))
         
 
 a = Column('first', [1,2,3,4,5.23425])
