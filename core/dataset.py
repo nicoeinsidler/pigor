@@ -25,6 +25,17 @@ class DataSet:
         
         Keyword Arguments:
             desc {string} -- optional description of the data set (default: {None})
+
+        Example:
+
+        >>> table = DataSet([[1,2,3],[4,5,6]])
+
+        >>> table = DataSet([[1,2,3],[4,5,6]], desc='My Beautiful Table')
+
+        >>> time = Column('Time', [12, 13, 14, 15, 16, 17, 18])
+        >>> temp = Column('Temperature', [21.3, 21.6, 21.9, 22.5, 24.0, 24.3, 24.9])
+        >>> heater = DataSet([time, temp], desc='Room Heater')
+        
         """
 
         # test if at least 2 lists in data
@@ -62,7 +73,33 @@ class DataSet:
 
         
     def __str__(self):
-        """Returns a human readable representation of the DataSet object as a string."""
+        """Returns a human readable representation of the DataSet object as a string.
+        
+        
+        Example:
+
+        >>> time = Column('Time', [12, 13, 14, 15, 16, 17, 18])
+        >>> temp = Column('Temperature', [21.3, 21.6, 21.9, 22.5, 24.0, 24.3, 24.9])
+        >>> heater = DataSet([time, temp], desc='Room Heater')
+        >>> print(heater)
+        +----------------+
+        |  Room Heater   |
+        +----------------+
+        |Time|Temperature|
+        +----------------+
+        |  12|       21.3|
+        |  13|       21.6|
+        |  14|       21.9|
+        |  15|       22.5|
+        |  16|       24.0|
+        |  17|       24.3|
+        |    (1 more)    |
+        +----------------+
+
+
+        .. todo:: if len(self.desc) > sum(l): alignment of data columns is off.
+
+        """
 
         # array of strings that will be returned in the end
         s = []
@@ -79,17 +116,22 @@ class DataSet:
         # lenght of table
         table_lenght = sum(l) + len(self.data) - 1
 
-        # create optical divider
-        divider = '+' + '-'*table_lenght + '+'
-
         # test if dataset has a description 
         try:
             self.desc
+
+            # check lenght of desc
+            if len(self.desc) > sum(l):
+                table_lenght = len(self.desc) + len(self.data) - 1
             # create header
             header = f'|{self.desc:^{table_lenght}}|'
         except Exception:
             header = None
             pass
+
+
+        # create optical divider
+        divider = '+' + '-'*table_lenght + '+'
 
         if header:
             s.extend(
@@ -133,8 +175,20 @@ class DataSet:
         return '\n'.join(s)
 
     def __len__(self):
-        """Returns the number of entries in :code:`data`."""
+        """Returns the number of entries in :code:`data`.
+        
+        Example:
+
+        >>> a = np.zeros(5)
+        >>> b = np.zeros(5)
+        >>> s = DataSet([a, b])
+        >>> len(s)
+        2
+
+        """
         return len(self.data)
         
 
-
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
