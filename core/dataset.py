@@ -133,16 +133,8 @@ class DataSet:
         return '\n'.join(s)
 
     def __len__(self):
-        """Returns a tuple (m, n), where m is the lenght of each entry in :code:`data`
-        and n is the number of entries in :code:`data`"""
-        return (len(self.data[0]), len(self.data))
+        """Returns the number of entries in :code:`data`."""
+        return len(self.data)
         
 
-a = Column('first', [1,2,3,4,5.23425])
-b = Column('second column', [1,2,3])
-c = Column('third', [9,8,7,6,5])
-s = DataSet([a,b,c], desc='Mein schönes DataSet')
-print(s)
 
-s = DataSet([[1,2],[1,2,3,4,5]])
-#print(s.data)
