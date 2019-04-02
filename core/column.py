@@ -4,7 +4,18 @@
 import numpy as np
 
 class Column:
-    """This class is used to store some data array alongside its description in one object."""
+    """This class is used to store some data array alongside its description in one object.
+    
+    .. todo:: implementing __add__
+    .. todo:: implementing __sub__
+    .. todo:: implementing __mul__
+    .. todo:: implementing __pow__
+    .. todo:: implementing __truediv__
+    .. todo:: implementing __and__
+    .. todo:: implementing __xor__
+    .. todo:: implementing __or__
+    .. todo:: implementing __abs__
+    """
 
     def __init__(self, desc, data):
         """Init checks the type of desc and data and stores them in the object.
@@ -109,6 +120,8 @@ class Column:
         
         """
         self.data.append(element)
+
+
 
 if __name__ == "__main__":
     import doctest
