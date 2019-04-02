@@ -45,7 +45,7 @@ class DataSet:
         if len(data) <= 1:
             raise ValueError('Data must contain at least two objects.')
 
-        # test if lists of data are of valid types
+        # test if lists in data are of valid types
         for d in data:
             if type(d) not in [list, np.array, np.ndarray, Column]:
                 raise ValueError('Data must be a list of lists, np.array, np.ndarray or Column objects')
