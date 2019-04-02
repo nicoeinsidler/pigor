@@ -224,6 +224,8 @@ def create_index():
     files = sorted(configuration['PIGOR_ROOT'].rglob('*' + configuration['FILE_EXTENTION']))
     files = [f.relative_to(configuration['PIGOR_ROOT'].parent) for f in files]
 
+    files.sort(key=lambda x: x.name, reverse=True)
+
     # list all measurement files, if they have a corresponding html or md file
     l = []
     for f in files:
