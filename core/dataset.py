@@ -62,17 +62,82 @@ class DataSet:
 
         
     def __str__(self):
-        """Returns a human readable representation of the DataSet object."""
+        """Returns a human readable representation of the DataSet object as a string."""
 
-        l_data = [max(list(map(len, str(d)))) for d in self.data]
-        print(l_data)
-        return str(l_data)
+        # array of strings that will be returned in the end
+        s = []
+
+        # determine the maximal lenght of each data list
+        l_data = [max(list(map(len, list(map(str,d))))) for d in self.data]
+        # get the max lenght of column descriptions and calculate lenght for string
+        if type(self.data[0]) == Column:
+            l_desc = [len(d.desc) for d in self.data]
+            l = list(map(max, zip(l_data, l_desc)))
+        else:
+            l = l_data
+
+        # lenght of table
+        table_lenght = sum(l) + len(self.data) - 1
+
+        # create optical divider
+        divider = '+' + '-'*table_lenght + '+'
+
+        # test if dataset has a description 
+        try:
+            self.desc
+            # create header
+            header = f'|{self.desc:^{table_lenght}}|'
+        except Exception:
+            header = None
+            pass
+
+        if header:
+            s.extend(
+                [
+                    divider,
+                    header
+                ]
+            )
+
+        # create column headers
+        column_headers = '|'
+        if type(self.data[0]) == Column:
+            for lenght, d in zip(l, self.data):
+                column_headers += f'{d.desc:^{lenght}}|'
+
+        s.extend(
+            [
+                divider,
+                column_headers,
+                divider
+            ]
+        )
+
+
+        # create string to show how many elements in one self.data entry
+        more = f'({len(self.data[0])-6} more)'
+
+        # create string to show some data
+        data_t = list(zip(*self.data))
+        for i, element in enumerate(data_t):
+            buffer = '|'
+            for lenght, entry in zip(l, element):
+                buffer += f'{entry:>{lenght}}|'
+            s.append(buffer)
+            if i > 4:
+                if not len(self.data[0]) == i+1:
+                    s.append(f'|{more:^{table_lenght}}|')
+                break
+        s.append(divider)
+        
+        return '\n'.join(s)
 
         
 
-a = Column('first column', [1,2,3,4,5,6,7,8])
+a = Column('first', [1,2,3,4,5.23425])
 b = Column('second column', [1,2,3])
-s = DataSet([a,b])
+c = Column('third', [9,8,7,6,5])
+s = DataSet([a,b,c], desc='Mein schönes DataSet')
 print(s)
 
 s = DataSet([[1,2],[1,2,3,4,5]])
