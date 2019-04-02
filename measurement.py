@@ -947,7 +947,7 @@ class Measurement:
             _max = _min = [1]
         
         # return list of contrasts
-        return [(a-b) / (a+b) for a, b in zip(_min,_max)]
+        return [abs((a-b) / (a+b)) for a, b in zip(_min,_max)]
 
 
 

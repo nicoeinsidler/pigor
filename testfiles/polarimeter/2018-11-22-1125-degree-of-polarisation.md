@@ -35,7 +35,7 @@ Horizontal axis values where vertical axis is max or min:
 - y_min_i: `[1410000.0]`
 - y_max_i: `[1346700.0]`
 
-This gives a contrast of `[-0.020747746185444338]`.
+This gives a contrast of `[0.020747746185444338]`.
 
 ## Fit (gauss)
 
@@ -52,7 +52,7 @@ Covariance:
 ['[[ 1.16085300e-04, \n 5.77137952e+01, \n-2.16962218e+02],\n [ 5.77137952e+01, \n 4.12751318e+08, \n-1.73399102e+08],\n [-2.16962218e+02, \n-1.73399102e+08, \n 9.14645045e+08]]']
 ```
 
-Contrast for fit #0: `-0.6243402852906156`
+Contrast for fit #0: `0.6243402852906156`
 
 ### Fit Boundaries
 
