@@ -10,6 +10,7 @@ import glob
 import measurement
 import datetime
 from pathlib import Path
+from markdown import markdown
 
 # name of the program
 PROGRAM_NAME = "PIGOR"
@@ -202,6 +203,7 @@ def analyse_files(filepaths='all'):
     elif filepaths == 'today':
         pass # TODO: only analyse the files of today
 
+    # analyse all files
     for f in filepaths:
         try:
             m = measurement.Measurement(f)
@@ -210,6 +212,79 @@ def analyse_files(filepaths='all'):
             m.export_meta(make_html=True)
         except Exception as e:
             print(f'The following exception occured during runtime:\n\n{e}\n\nContinuing operation.')
+
+@show_user
+def create_index():
+    """Creates an index.html listing all directories and subdirectories and their HTML and Markdown files. This function can be used by the command [j]."""
+    
+    # theme for the index.html
+    theme = 'github'
+
+    # find all measurements
+    files = sorted(configuration['PIGOR_ROOT'].rglob('*' + configuration['FILE_EXTENTION']))
+    files = [f.relative_to(configuration['PIGOR_ROOT'].parent) for f in files]
+
+    files.sort(key=lambda x: x.name, reverse=True)
+
+    # list all measurement files, if they have a corresponding html or md file
+    l = []
+    for f in files:
+        buffer = f'- {f.parent}: [{f.stem}]({f}): '
+
+        m = f.with_suffix('.md').exists()
+        h = f.with_suffix('.html').exists()
+        
+        if m:
+            buffer += f'[MD]({f.with_suffix(".md")})'
+        if h:
+            buffer += f' [HTML]({f.with_suffix(".html")})'
+
+        if m or h:
+            l.append(buffer)
+
+
+    if l:
+        # write header of index.html
+        t = [
+            f'# {PROGRAM_NAME} Index File',
+            '',
+            'Here is a handy list of all the files that have been analysed so far:',
+            ''
+        ]
+        t.extend(l)
+
+        # write html template
+        h1 = [
+            '<!DOCTYPE html>',
+            '<html>',
+            '<head>',
+            '<meta charset="UTF-8">',
+            f'<title>{PROGRAM_NAME} Index File</title>',
+            '<style>'
+        ]
+        h2 = [
+            '</style>',
+            '</head>',
+            '<body>',
+            markdown('\n'.join(t)),
+            '</body>',
+            '</html>'
+        ]
+
+        with open(configuration['PIGOR_ROOT'].with_name('index.html'), 'w') as htmlfile:
+            # writing html head
+            for line in h1:
+                htmlfile.write(f'{line}\n')
+
+            # copying the css file
+            css_path = Path('./markdown_themes/{}.css'.format(theme))
+            with open(css_path, 'r') as cssfile:
+                for line in cssfile:
+                    htmlfile.write(line)
+
+            # write actual content of html file and end
+            for line in h2:
+                htmlfile.write(f'{line}\n')
 
 
 @show_user
