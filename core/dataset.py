@@ -62,7 +62,7 @@ class DataSet:
                 d.append(0)
 
         # check desc to be a string
-        if desc and type(desc) is not str:
+        if desc != None and type(desc) is not str:
            raise TypeError("The description must be a string.")
 
         # finally asign instance vars
