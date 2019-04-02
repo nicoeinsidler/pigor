@@ -269,7 +269,6 @@ def create_index():
             '</html>'
         ]
 
-
         with open(configuration['PIGOR_ROOT'].with_name('index.html'), 'w') as htmlfile:
             # writing html head
             for line in h1:
@@ -284,22 +283,6 @@ def create_index():
             # write actual content of html file and end
             for line in h2:
                 htmlfile.write(f'{line}\n')
-
-
-
-    """ # recreate folder structure
-    path_parts = [f.parent.parts for f in files]
-    path_parts_t = zip(*path_parts)
-
-    folders = []
-    for part in path_parts_t:
-        print(f'part = {part}')
-        if len(set(part)) != 1:
-            print('triggered!')
-            folders.append(list(set(part)))
-            print(f'appending: {list(set(part))}')
-
-    print(folders) """
 
 
 @show_user
