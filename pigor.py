@@ -19,7 +19,7 @@ PROGRAM_NAME = "PIGOR"
 USER_FUNCTIONS = dict()
 
 # global vars for init() default
-configuration = {
+configuration_fallback = {
     'PIGOR_ROOT'            :   Path(os.path.dirname(os.path.abspath(__file__))),
     'PIGOR_ROOT_RECURSIVE'  :   True,
     'FILE_EXTENTION'        :   '.dat',
@@ -27,6 +27,7 @@ configuration = {
     'CREATE_HTML'           :   True,
     'CREATE_MD'             :   True
 }
+configuration = dict()
 
 
 # decorator for registering functions
@@ -73,6 +74,22 @@ def init(create_new_config_file=True):
     
     # make configuration editable
     global configuration
+    global configuration_fallback
+
+
+    # try to read the configuration
+    try:
+        with open('pigor.config', 'r', encoding='utf-8') as f:
+            configuration = json.load(f)
+            # make it a path object
+            print(configuration['PIGOR_ROOT'])
+            configuration['PIGOR_ROOT'] = Path(configuration['PIGOR_ROOT'])
+            print(configuration['PIGOR_ROOT'])
+    except Exception:
+        print('Could not read configuration file. Creating a new one now:\n')
+        configuration = configuration_fallback
+        create_new_config_file = True
+        
 
     # questions to aks the user
     questions = {
@@ -84,22 +101,10 @@ def init(create_new_config_file=True):
         'CREATE_MD'             :   (f'Should {PROGRAM_NAME} create a Markdown file automatically after analysis? (y/n) [{bool2yn(configuration["CREATE_MD"])}]', 'bool')
     }
 
-    # try to read the configuration
-    try:
-        with open('pigor.config', 'r', encoding='utf-8') as f:
-            configuration = json.load(f)
-            # make it a path object
-            configuration['PIGOR_ROOT'] = Path(configuration['PIGOR_ROOT'])
-    except Exception:
-        print('Could not read configuration file. Creating a new one now:\n')
-        create_new_config_file = True
-        
-
     for k, q in questions.items():
         if not k in configuration.keys() or create_new_config_file:
             # ask user a question
             print(q[0])
-            print(q[1])
             user_input = input()
             # if a Path object must be read
             if q[1] == 'path':
@@ -112,7 +117,7 @@ def init(create_new_config_file=True):
             
             # if treating booleans
             elif q[1] == 'bool':
-                if not q[0] == '':
+                if not user_input == '':
                     value = yn2bool(user_input)
                 else:
                     value = None
@@ -224,6 +229,7 @@ def create_index():
     files = sorted(configuration['PIGOR_ROOT'].rglob('*' + configuration['FILE_EXTENTION']))
     files = [f.relative_to(configuration['PIGOR_ROOT'].parent) for f in files]
 
+
     files.sort(key=lambda x: x.name, reverse=True)
 
     # list all measurement files, if they have a corresponding html or md file
@@ -271,6 +277,7 @@ def create_index():
             '</html>'
         ]
 
+        print(configuration['PIGOR_ROOT'])
         with open(configuration['PIGOR_ROOT'].with_name('index.html'), 'w') as htmlfile:
             # writing html head
             for line in h1:
