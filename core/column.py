@@ -117,6 +117,11 @@ class Column:
         >>> c.append(27)
         >>> len(c)
         11
+
+        >>> a = Column('a', [1,2])
+        >>> a.append(5)
+        >>> a.data
+        [1, 2, 5]
         
         """
         self.data.append(element)
@@ -157,6 +162,42 @@ class Column:
 
         """
         del self.data[index]
+
+    def __add__(self, other):
+        """Implementing the + operator support to add the values of :code:`self.data`
+        and :code:`other.data` per item.
+
+        .. warning:: This operator works differently from how lists in python handle
+        the + operator!
+
+        """
+        desc = self.desc + ' + ' + other.desc
+        
+        if len(self) > len(other):
+            pass
+
+    def extend(self, l):
+        """Extends :code:`self.data` by :code:`l`.
+        
+        Example:
+
+        >>> a = Column('a', [1,2])
+        >>> b = [3,4]
+        >>> a.extend(b)
+        >>> a.data
+        [1, 2, 3, 4]
+
+        >>> a = Column('a', [1,2])
+        >>> b = Column('b', [3,4])
+        >>> a.extend(b)
+        >>> a.data
+        [1, 2, 3, 4]
+
+        """
+        if type(l) == Column:
+            self.data.extend(l.data)
+        else:
+            self.data.extend(l)
 
 
     def is_numeric(self):
