@@ -74,35 +74,32 @@ def init(create_new_config_file=True):
     
     # make configuration editable
     global configuration
-    global configuration_fallback
 
 
     # try to read the configuration
     try:
         with open('pigor.config', 'r', encoding='utf-8') as f:
-            configuration = json.load(f)
+            c = json.load(f)
             # make it a path object
-            print(configuration['PIGOR_ROOT'])
-            configuration['PIGOR_ROOT'] = Path(configuration['PIGOR_ROOT'])
-            print(configuration['PIGOR_ROOT'])
+            c['PIGOR_ROOT'] = Path(c['PIGOR_ROOT'])
     except Exception:
         print('Could not read configuration file. Creating a new one now:\n')
-        configuration = configuration_fallback
+        c = configuration_fallback
         create_new_config_file = True
         
 
     # questions to aks the user
     questions = {
-        'PIGOR_ROOT'            :   (f'Where should {PROGRAM_NAME} start looking for measurement files? [{configuration["PIGOR_ROOT"]}]', 'path'),
-        'PIGOR_ROOT_RECURSIVE'  :   (f'Should {PROGRAM_NAME} look for files recursively? (y/n) [{bool2yn(configuration["PIGOR_ROOT_RECURSIVE"])}]', 'bool'),
-        'FILE_EXTENTION'        :   (f'Which file extention should {PROGRAM_NAME} look for? (string) [{configuration["FILE_EXTENTION"]}]', 'file-extention-dat'),
-        'IMAGE_FORMAT'          :   (f'What image format should the plots have? (.png,.svg,.eps,.pdf) [{configuration["IMAGE_FORMAT"]}]', 'file-extention-png'),
-        'CREATE_HTML'           :   (f'Should {PROGRAM_NAME} create an HTML file automatically after analysis? (y/n) [{bool2yn(configuration["CREATE_HTML"])}]', 'bool'),
-        'CREATE_MD'             :   (f'Should {PROGRAM_NAME} create a Markdown file automatically after analysis? (y/n) [{bool2yn(configuration["CREATE_MD"])}]', 'bool')
+        'PIGOR_ROOT'            :   (f'Where should {PROGRAM_NAME} start looking for measurement files? [{c["PIGOR_ROOT"]}]', 'path'),
+        'PIGOR_ROOT_RECURSIVE'  :   (f'Should {PROGRAM_NAME} look for files recursively? (y/n) [{bool2yn(c["PIGOR_ROOT_RECURSIVE"])}]', 'bool'),
+        'FILE_EXTENTION'        :   (f'Which file extention should {PROGRAM_NAME} look for? (string) [{c["FILE_EXTENTION"]}]', 'file-extention-dat'),
+        'IMAGE_FORMAT'          :   (f'What image format should the plots have? (.png,.svg,.eps,.pdf) [{c["IMAGE_FORMAT"]}]', 'file-extention-png'),
+        'CREATE_HTML'           :   (f'Should {PROGRAM_NAME} create an HTML file automatically after analysis? (y/n) [{bool2yn(c["CREATE_HTML"])}]', 'bool'),
+        'CREATE_MD'             :   (f'Should {PROGRAM_NAME} create a Markdown file automatically after analysis? (y/n) [{bool2yn(c["CREATE_MD"])}]', 'bool')
     }
 
     for k, q in questions.items():
-        if not k in configuration.keys() or create_new_config_file:
+        if not k in c.keys() or create_new_config_file:
             # ask user a question
             print(q[0])
             user_input = input()
@@ -110,8 +107,14 @@ def init(create_new_config_file=True):
             if q[1] == 'path':
                 while True:
                     try:
+                        if user_input == '':
+                            value = None
+                            break
                         value = Path(user_input)
-                        break
+                        if value.exists():
+                            break
+                        else:
+                            print('The path you entered does not exist. Please try again.')
                     except Exception:
                         user_input = input('Could not find the path, please input another one:\n')
             
@@ -134,16 +137,21 @@ def init(create_new_config_file=True):
                 value = user_input
 
             if value != None:
-                configuration[k] = value
+                c[k] = value
+
+    print(configuration)
+
+    # write config to global var
+    configuration = c
+
+    print(configuration)
 
     # write configuration into file
     with open('pigor.config', 'w') as f:
-        if isinstance(configuration['PIGOR_ROOT'], Path):
-            configuration['PIGOR_ROOT'] = str(configuration['PIGOR_ROOT'].resolve())
-        json.dump(configuration, f, ensure_ascii=False)
+        if isinstance(c['PIGOR_ROOT'], Path):
+            c['PIGOR_ROOT'] = str(c['PIGOR_ROOT'].resolve())
+        json.dump(c, f, ensure_ascii=False)
 
-        # make it a path object
-        configuration['PIGOR_ROOT'] = Path(configuration['PIGOR_ROOT'])
 
 def print_header(text):
     """This function prints a beautiful header followed by one empty line.
@@ -229,6 +237,7 @@ def create_index():
     files = sorted(configuration['PIGOR_ROOT'].rglob('*' + configuration['FILE_EXTENTION']))
     files = [f.relative_to(configuration['PIGOR_ROOT'].parent) for f in files]
 
+    root = configuration['PIGOR_ROOT']
 
     files.sort(key=lambda x: x.name, reverse=True)
 
@@ -248,7 +257,7 @@ def create_index():
         if m or h:
             l.append(buffer)
 
-
+    print(l)
     if l:
         # write header of index.html
         t = [
@@ -321,6 +330,9 @@ def print_root():
     """Prints the root for PIGOR, e.g. where it will look for files to analyse. This function
     can be used by the command [x].
     """
+    print(configuration)
+    print('-------------')
+    print(type(configuration['PIGOR_ROOT']))
     print(f"{PROGRAM_NAME} will look for measurement files in {configuration['PIGOR_ROOT'].resolve()}.")
 
 
@@ -329,7 +341,7 @@ def main():
 
     # perform initialization
     init(create_new_config_file=False)
-
+    
     # starting main loop
     print_header("Welcome to {}.".format(PROGRAM_NAME))
     # print help menu
