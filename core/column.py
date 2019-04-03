@@ -121,6 +121,28 @@ class Column:
         """
         self.data.append(element)
 
+    def is_numeric(self):
+        """Returns True if :code:`data` consists of only numeric values, else False.
+        
+        Examples:
+
+        >>> a = Column('a', [1,2,3])
+        >>> a.is_numeric()
+        True
+
+        >>> b = Column('b', [1,2,'3'])
+        >>> b.is_numeric()
+        False
+        """
+        if type(self.data) in [np.array, np.ndarray]:
+            return np.isnan(self.data).any()
+        else:
+            s = set(map(type, self.data))
+            if len(s) == 1 and list(s)[0] in [int, float]:
+                return True
+            else:
+                return False
+
 
 
 if __name__ == "__main__":
