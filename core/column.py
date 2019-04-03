@@ -140,7 +140,7 @@ class Column:
         >>> a = Column('a', [1,2,3,4])
         >>> a[1] = 9
         >>> a.data
-        [1,9,3,4]
+        [1, 9, 3, 4]
 
         """
         self.data[index] = value
@@ -153,7 +153,7 @@ class Column:
         >>> a = Column('a', [1,2,3,4])
         >>> del a[0]
         >>> a.data
-        [2,3,4]
+        [2, 3, 4]
 
         """
         del self.data[index]
