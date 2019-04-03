@@ -121,6 +121,44 @@ class Column:
         """
         self.data.append(element)
 
+    def __getitem__(self, index):
+        """Implements indexing: getting an item by index.
+
+        Example:
+
+        >>> a = Column('a', [1,2,3,4])
+        >>> a[1]
+        2
+        """
+        return self.data[index]
+
+    def __setitem__(self, index, value):
+        """Implements indexing: setting an item by index.
+
+        Example:
+
+        >>> a = Column('a', [1,2,3,4])
+        >>> a[1] = 9
+        >>> a.data
+        [1,9,3,4]
+
+        """
+        self.data[index] = value
+
+    def __delitem__(self, index):
+        """Implements indexing: deleting an item by index.
+
+        Example:
+
+        >>> a = Column('a', [1,2,3,4])
+        >>> del a[0]
+        >>> a.data
+        [2,3,4]
+
+        """
+        del self.data[index]
+
+
     def is_numeric(self):
         """Returns True if :code:`data` consists of only numeric values, else False.
         
