@@ -85,6 +85,9 @@ class Column:
             '+' + '-'*l               + '+'
         ]
         for i, element in enumerate(self.data):
+            # when getting tuples because of TypeErrors in __add__
+            if type(element) == tuple:
+                element = str(element)
             s.append(f'|{element:>{l}}|')
             if i > 4:
                 if not len(self.data) == i+1:
@@ -170,11 +173,86 @@ class Column:
         .. warning:: This operator works differently from how lists in python handle
         the + operator!
 
+        .. note:: If unsupported operand types for + occur, a tuple is created to give
+        the user the ability to deal with those conflicts later.
+
+        Examples:
+
+        Adding some two columns a and b, filled with integers. The integers will be
+        added, whereas the description of the new column will be the old ones 
+        separated by a + sign.
+
+        >>> a = Column('a', [1,2,3])
+        >>> b = Column('b', [2,2,2])
+        >>> c = a + b
+        >>> print(c)
+        +---------+
+        |  a + b  |
+        +---------+
+        |        3|
+        |        4|
+        |        5|
+        +---------+
+
+        Strings can also be added:
+
+        >>> a = Column('a', ['str1'])
+        >>> b = Column('b', ['str2'])
+        >>> print(a + b)
+        +---------+
+        |  a + b  |
+        +---------+
+        | str1str2|
+        +---------+
+
+        If the + operator is not defined for the added values, a tuple is automatically
+        created to give the user the ability to deal with those conflicts later.
+
+        >>> a = Column('a', ['1'])
+        >>> b = Column('b', [1])
+        >>> print(a + b)
+        +---------+
+        |  a + b  |
+        +---------+
+        | ('1', 1)|
+        +---------+
+
         """
+        valid_types = [list, np.array, np.ndarray, Column]
+        if type(other) not in valid_types:
+            raise TypeError('You can only add objects of type list, np.array, np.ndarray or Column.')
+
+
         desc = self.desc + ' + ' + other.desc
+
+        data1 = self.data
+        if type(other) == Column:
+            data2 = other.data
+        else:
+            data2 = other
         
-        if len(self) > len(other):
-            pass
+        # extend data2 if needed
+        if len(data1) > len(data2):
+            data2.extend(
+                [0 for _ in range(len(data1)-len(data2))]
+            )
+        # extend data1 if needed
+        elif len(data1) < len(data2):
+            data1.extend(
+                [0 for _ in range(len(data2)-len(data1))]
+            )
+
+        # add values together
+        data = []
+        for a, b in zip(data1, data2):
+            try:
+                c = a + b
+            except TypeError:
+                c = (a,b)
+            data.append(c)
+
+        # return new Column object
+        return Column(desc, data)
 
     def extend(self, l):
         """Extends :code:`self.data` by :code:`l`.
@@ -221,6 +299,8 @@ class Column:
                 return True
             else:
                 return False
+
+
 
 
 
