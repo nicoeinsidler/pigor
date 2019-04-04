@@ -1,5 +1,5 @@
 # Metadata for 2018-11-22-1125-degree-of-polarisation.dat
-![2018-11-22-1125-degree-of-polarisation.dat](./2018-11-22-1125-degree-of-polarisation.png "2018-11-22-1125-degree-of-polarisation.dat")
+![2018-11-22-1125-degree-of-polarisation.dat](./2018-11-22-1125-degree-of-polarisation.svg "2018-11-22-1125-degree-of-polarisation.dat")
 
 ## Basic Information
 Here is some basic information about the measurement, which was either provided by you, or automatically detected.
