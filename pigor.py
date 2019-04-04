@@ -13,7 +13,7 @@ from pathlib import Path
 from markdown import markdown
 
 # name of the program
-PROGRAM_NAME = "PIGOR"
+PROGRAM_NAME = "PIGORv1.1"
 
 # functions that the user can utilize
 USER_FUNCTIONS = dict()
