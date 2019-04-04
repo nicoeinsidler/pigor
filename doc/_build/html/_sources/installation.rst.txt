@@ -1,9 +1,11 @@
 How to install PIGOR
 ====================
 
+.. _installation:
 
 Installing PIGOR
 ----------------
+
 
 Assuming you have a running installation of **Python 3.7** or higher, to install PIGOR please follow these steps:
 

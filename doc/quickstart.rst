@@ -1,4 +1,91 @@
 Quickstart Guide
 ================
 
-.. todo:: Quickstart Guide
+
+.. note:: Please refer to the :ref:`installation` page for more information on the installation.
+
+Suppose you have some measurement data files with in a directory. The hierachy looks like this:
+
+- measurements
+    - 2019-01
+        - 2019-01-01-dc1x.dat
+        - 2019-01-04-dc1z.dat
+        - 2019-01-05-dc1z.dat
+    - 2019-02
+        - 2019-02-10-dc2x.dat
+        - 2019-02-11-dc2x.dat
+        - 2019-02-14-dc2z.dat
+        - 2019-01-19-dc2z.dat
+        - 2019-01-20-dc2z.dat
+        - 2019-01-28-dc1x.dat
+    - 2019-03
+        - 2019-02-02-dc3x.dat
+        - 2019-02-03-dc3z.dat
+
+.. note:: Here we will assume that :code:`python` will start Python 3. On some installations it must be explicitly started with :code:`python3`.
+
+In order to analyse these files with PIGOR, head to the directory where PIGOR is located. Start it by executing the command :code:`python pigor.py`. If it is the first startup it will go through some questions regarding your analysis setup. The most important question is the first one: Where should PIGOR look for files to analyse? This is the folder where all your measurements are located in and will be refered as PIGOR's root folder. In our example type in the path to :code:`measurements/`. You can either use absolute paths or relative ones. PIGOR will automatically check if the path actually exists, if not you will be prompted to enter a new one again. It also does not matter if you are using a POSIX type (IEEE Std 1003.1-1988) or as a DOS type path. (POSIX uses / and DOS uses \ as separators)
+
+If PIGOR does not ask these question on startup, they have already been configured. Either delete the :code:`pigor.config` file in the directory where :code:`pigor.py` is located, or just use the command [i] within PIGOR to reconfigure it.
+
+Now you should see something like that, depending on PIGOR's version:
+
+.. code-block:: bash
+
+    $ python pigor.py
+
+    ======================
+    Welcome to PIGOR v1.1.
+    ======================
+
+    i ... init
+    h ... print_help
+    a ... analyse_files
+    j ... create_index
+    r ... remove_generated_files
+    x ... print_root
+    q ... quit PIGOR v1.1
+
+    PIGOR v1.1 will look for measurement files in D:\measurements.
+
+    If you need more information about a command, just type h + [command] + <ENTER>
+    to get more help. For example: h + a + <ENTER>.
+
+    Please type a command you want to perform and press <ENTER>.
+
+
+
+On startup PIGOR is printing the root, which in this case is :code:`D:\measurements`. It will also include a list of available commands. Each command can be triggered by pressing the corresponding letter followed by an <ENTER>. Some commands allow more options, each separated by a space.
+
+We will describe these commands by [cmd] where cmd stands for the specific command.
+
+To get more help on a specific command, just type [h] + [cmd]. For example typing :code:`h a` will give us the help on :code:`analyse_files()`. Let's try it:
+
+.. code-block:: bash
+
+    Please type a command you want to perform and press <ENTER>.
+    h a
+    a:
+
+    Analyses all given files in list. This function can be used by the command [a].
+
+        :param filepaths:   list of files to analyse with
+                            their relative dir path added
+
+        .. todo:: Change to no override mode. measurement.Measurement.plot(override=False)
+        .. todo:: a + today => only analyse files for today
+        .. todo:: a + override => override=True
+
+This is the same help text as found in this documentation.
+
+We can now analyse our files with [a]. You can see on which file PIGOR is currently working on. If an error occurs, you will see it as well and PIGOR will skip the file.
+
+After PIGOR is done analysing files, you may want to access these files. Use the [j] command to create an index to quickly go through all the files that have been analysed. Now you should see a new file has been created:
+
+- measurements
+    - index_pigor.html
+    - 2019-01
+    - 2019-02
+    - 2019-03
+
+Open :code:`index_pigor.html` to see the list. From there you can review the original data and the files that PIGOR created from this.

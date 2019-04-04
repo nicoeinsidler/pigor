@@ -25,7 +25,6 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
-        <script type="text/javascript" src="https://unpkg.com/mermaid@7.1.0/dist/mermaid.min.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -88,6 +87,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pigor.html">PIGOR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="measurement.html">The Measurement Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="measurement2.html">Measurement Class 2.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="fit-functions.html">Fit Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sprints.html">Sprint Planning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="todo.html">ToDo List</a></li>
@@ -157,10 +157,115 @@
             
   <div class="section" id="quickstart-guide">
 <h1>Quickstart Guide<a class="headerlink" href="#quickstart-guide" title="Permalink to this headline">¶</a></h1>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">Quickstart Guide</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Please refer to the <a class="reference internal" href="installation.html#installation"><span class="std std-ref">Installing PIGOR</span></a> page for more information on the installation.</p>
 </div>
+<p>Suppose you have some measurement data files with in a directory. The hierachy looks like this:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>measurements</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>2019-01</dt>
+<dd><ul class="first last">
+<li>2019-01-01-dc1x.dat</li>
+<li>2019-01-04-dc1z.dat</li>
+<li>2019-01-05-dc1z.dat</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>2019-02</dt>
+<dd><ul class="first last">
+<li>2019-02-10-dc2x.dat</li>
+<li>2019-02-11-dc2x.dat</li>
+<li>2019-02-14-dc2z.dat</li>
+<li>2019-01-19-dc2z.dat</li>
+<li>2019-01-20-dc2z.dat</li>
+<li>2019-01-28-dc1x.dat</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>2019-03</dt>
+<dd><ul class="first last">
+<li>2019-02-02-dc3x.dat</li>
+<li>2019-02-03-dc3z.dat</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Here we will assume that <code class="code docutils literal notranslate"><span class="pre">python</span></code> will start Python 3. On some installations it must be explicitly started with <code class="code docutils literal notranslate"><span class="pre">python3</span></code>.</p>
+</div>
+<p>In order to analyse these files with PIGOR, head to the directory where PIGOR is located. Start it by executing the command <code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">pigor.py</span></code>. If it is the first startup it will go through some questions regarding your analysis setup. The most important question is the first one: Where should PIGOR look for files to analyse? This is the folder where all your measurements are located in and will be refered as PIGOR’s root folder. In our example type in the path to <code class="code docutils literal notranslate"><span class="pre">measurements/</span></code>. You can either use absolute paths or relative ones. PIGOR will automatically check if the path actually exists, if not you will be prompted to enter a new one again. It also does not matter if you are using a POSIX type (IEEE Std 1003.1-1988) or as a DOS type path. (POSIX uses / and DOS uses as separators)</p>
+<p>If PIGOR does not ask these question on startup, they have already been configured. Either delete the <code class="code docutils literal notranslate"><span class="pre">pigor.config</span></code> file in the directory where <code class="code docutils literal notranslate"><span class="pre">pigor.py</span></code> is located, or just use the command [i] within PIGOR to reconfigure it.</p>
+<p>Now you should see something like that, depending on PIGOR’s version:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python pigor.py
+
+<span class="o">======================</span>
+Welcome to PIGOR v1.1.
+<span class="o">======================</span>
+
+i ... init
+h ... print_help
+a ... analyse_files
+j ... create_index
+r ... remove_generated_files
+x ... print_root
+q ... quit PIGOR v1.1
+
+PIGOR v1.1 will look <span class="k">for</span> measurement files in D:<span class="se">\m</span>easurements.
+
+If you need more information about a command, just <span class="nb">type</span> h + <span class="o">[</span>command<span class="o">]</span> + &lt;ENTER&gt;
+to get more help. For example: h + a + &lt;ENTER&gt;.
+
+Please <span class="nb">type</span> a <span class="nb">command</span> you want to perform and press &lt;ENTER&gt;.
+</pre></div>
+</div>
+<p>On startup PIGOR is printing the root, which in this case is <code class="code docutils literal notranslate"><span class="pre">D:\measurements</span></code>. It will also include a list of available commands. Each command can be triggered by pressing the corresponding letter followed by an &lt;ENTER&gt;. Some commands allow more options, each separated by a space.</p>
+<p>We will describe these commands by [cmd] where cmd stands for the specific command.</p>
+<p>To get more help on a specific command, just type [h] + [cmd]. For example typing <code class="code docutils literal notranslate"><span class="pre">h</span> <span class="pre">a</span></code> will give us the help on <code class="code docutils literal notranslate"><span class="pre">analyse_files()</span></code>. Let’s try it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Please <span class="nb">type</span> a <span class="nb">command</span> you want to perform and press &lt;ENTER&gt;.
+h a
+a:
+
+Analyses all given files in list. This <span class="k">function</span> can be used by the <span class="nb">command</span> <span class="o">[</span>a<span class="o">]</span>.
+
+    :param filepaths:   list of files to analyse with
+                        their relative dir path added
+
+    .. todo:: Change to no override mode. measurement.Measurement.plot<span class="o">(</span><span class="nv">override</span><span class="o">=</span>False<span class="o">)</span>
+    .. todo:: a + <span class="nv">today</span> <span class="o">=</span>&gt; only analyse files <span class="k">for</span> today
+    .. todo:: a + <span class="nv">override</span> <span class="o">=</span>&gt; <span class="nv">override</span><span class="o">=</span>True
+</pre></div>
+</div>
+<p>This is the same help text as found in this documentation.</p>
+<p>We can now analyse our files with [a]. You can see on which file PIGOR is currently working on. If an error occurs, you will see it as well and PIGOR will skip the file.</p>
+<p>After PIGOR is done analysing files, you may want to access these files. Use the [j] command to create an index to quickly go through all the files that have been analysed. Now you should see a new file has been created:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>measurements</dt>
+<dd><ul class="first last">
+<li>index_pigor.html</li>
+<li>2019-01</li>
+<li>2019-02</li>
+<li>2019-03</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Open <code class="code docutils literal notranslate"><span class="pre">index_pigor.html</span></code> to see the list. From there you can review the original data and the files that PIGOR created from this.</p>
 </div>
 
 
