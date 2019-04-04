@@ -14,7 +14,7 @@ PIGOR
 2. Sprint
     - feature: remove last generated files (html, md, png)
     - feature: remove all html/md or png files
-    - improvement: use JSON for config file
+    - ✓ improvement: use JSON for config file
 3. Sprint:
 	- feature: auto run command in specified intervals; syntax maybe: time + [cmd] + <ENTER>
 

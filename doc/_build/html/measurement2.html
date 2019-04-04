@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Deployment &mdash; PIGOR  documentation</title>
+  <title>Measurement Class 2.0 &mdash; PIGOR  documentation</title>
   
 
   
@@ -25,6 +25,7 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/mermaid@7.1.0/dist/mermaid.min.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -34,9 +35,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Sprint Planning" href="sprints.html" />
-    <link rel="prev" title="Fit Functions" href="fit-functions.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -81,18 +80,13 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">How to install PIGOR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="naming-convention.html">Measurement Naming Convention</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pigor.html">PIGOR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="measurement.html">The Measurement Class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="fit-functions.html">Fit Functions</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Deployment</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#deploying-measurement-module">Deploying Measurement Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#deploying-pigor">Deploying PIGOR</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="sprints.html">Sprint Planning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="todo.html">ToDo List</a></li>
 </ul>
@@ -140,13 +134,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Deployment</li>
+      <li>Measurement Class 2.0</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/deployment.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/measurement2.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -159,26 +153,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="deployment">
-<h1>Deployment<a class="headerlink" href="#deployment" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="deploying-measurement-module">
-<span id="deployment-measurement-module"></span><h2>Deploying Measurement Module<a class="headerlink" href="#deploying-measurement-module" title="Permalink to this headline">¶</a></h2>
-<p>If a user whishes to use the Measurement class on its on, wether in the context of Jupyter Lab or Notebook files or to write his or her own script, he should be able to download a zip or tarball file. To create this required file, just run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python setup.py sdist
-</pre></div>
-</div>
-<p>Or - if you only happen to have a Windows command line available, type:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">sdist</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="deploying-pigor">
-<h2>Deploying PIGOR<a class="headerlink" href="#deploying-pigor" title="Permalink to this headline">¶</a></h2>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">Deployment of PIGOR</p>
-</div>
-</div>
+  <div class="section" id="measurement-class-2-0">
+<h1>Measurement Class 2.0<a class="headerlink" href="#measurement-class-2-0" title="Permalink to this headline">¶</a></h1>
+<p>Due to some design flaws in the existsing <a class="reference internal" href="measurement.html#measurement.Measurement" title="measurement.Measurement"><code class="xref py py-class docutils literal notranslate"><span class="pre">measurement.Measurement</span></code></a> class, it will be rewritten from ground up using already existsing libraries. This undertaking will lead to a cleaner version and will make it possible to adapt <a class="reference internal" href="measurement.html#measurement.Measurement" title="measurement.Measurement"><code class="xref py py-class docutils literal notranslate"><span class="pre">measurement.Measurement</span></code></a> more easily for the interferometer experiments.</p>
 </div>
 
 
@@ -186,15 +163,6 @@
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="sprints.html" class="btn btn-neutral float-right" title="Sprint Planning" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="fit-functions.html" class="btn btn-neutral float-left" title="Fit Functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

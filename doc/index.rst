@@ -21,6 +21,7 @@ Pigor is a lightweight analysis tool for the the polarimeter instrument NEPTUN b
    quickstart
    pigor
    measurement
+   measurement2
    fit-functions
    sprints
    todo
