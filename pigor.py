@@ -94,8 +94,8 @@ def init(create_new_config_file=True):
     questions = {
         'PIGOR_ROOT'            :   (f'Where should {PROGRAM_NAME} start looking for measurement files? [{c["PIGOR_ROOT"]}]', 'path'),
         'PIGOR_ROOT_RECURSIVE'  :   (f'Should {PROGRAM_NAME} look for files recursively? (y/n) [{bool2yn(c["PIGOR_ROOT_RECURSIVE"])}]', 'bool'),
-        'FILE_EXTENTION'        :   (f'Which file extention should {PROGRAM_NAME} look for? (string) [{c["FILE_EXTENTION"]}]', 'file-extention-dat'),
-        'IMAGE_FORMAT'          :   (f'What image format should the plots have? (.png,.svg,.eps,.pdf) [{c["IMAGE_FORMAT"]}]', 'file-extention-png'),
+        'FILE_EXTENTION'        :   (f'Which file extention should {PROGRAM_NAME} look for? (string) [{c["FILE_EXTENTION"]}]', 'file-extention-data'),
+        'IMAGE_FORMAT'          :   (f'What image format should the plots have? (.png,.svg,.eps,.pdf) [{c["IMAGE_FORMAT"]}]', 'file-extention-image'),
         'CREATE_HTML'           :   (f'Should {PROGRAM_NAME} create an HTML file automatically after analysis? (y/n) [{bool2yn(c["CREATE_HTML"])}]', 'bool'),
         'CREATE_MD'             :   (f'Should {PROGRAM_NAME} create a Markdown file automatically after analysis? (y/n) [{bool2yn(c["CREATE_MD"])}]', 'bool')
     }
@@ -129,12 +129,13 @@ def init(create_new_config_file=True):
             
             # if answer is a file extention
             elif q[1].startswith('file-extention'):
-                if user_input == '' and q[1] == 'file-extention-png':
-                    user_input = '.png'
-                elif user_input == '' and q[1] == 'file-extention-dat':
-                    user_input = '.dat'
-                # adding . to file extention if not given by the user
-                value = user_input.casefold() if user_input.startswith('.') else '.' + user_input.casefold()
+                if user_input == '' and q[1] == 'file-extention-image':
+                    value = None
+                elif user_input == '' and q[1] == 'file-extention-data':
+                    value = None
+                else:
+                    # adding . to file extention if not given by the user
+                    value = user_input.casefold() if user_input.startswith('.') else '.' + user_input.casefold()
             else:
                 value = user_input
 
@@ -146,8 +147,6 @@ def init(create_new_config_file=True):
 
     # write config to global var
     configuration = c.copy()
-
-    #print(configuration)
 
     # write configuration into file
     with open('pigor.config', 'w') as f:
