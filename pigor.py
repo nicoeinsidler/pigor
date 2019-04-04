@@ -149,10 +149,10 @@ def init(create_new_config_file=True):
     configuration = c.copy()
 
     # write configuration into file
-    with open('pigor.config', 'w') as f:
+    with open('pigor-config.json', 'w') as f:
         if isinstance(c['PIGOR_ROOT'], Path):
             c['PIGOR_ROOT'] = str(c['PIGOR_ROOT'].resolve())
-        json.dump(c, f, ensure_ascii=False)
+        json.dump(c, f, ensure_ascii=False, indent=4)
 
 
 def print_header(text):

@@ -4,6 +4,7 @@
 
 # PIGOR
 *.config
+pigor-config.json
 test.py
 
 ### Python ###
