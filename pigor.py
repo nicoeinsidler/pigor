@@ -63,12 +63,11 @@ def init(create_new_config_file=True):
     - root directory where PIGOR will start to look for measurement files
     - Should PIGOR look for files to analyse recursively?
     - Which file extention do the measurement files posess?
+    - What plot output format should PIGOR use?
     - Should PIGOR automatically create an html file?
     - Should PIGOR automatically create a md file?
     
     .. note:: If no config file can be found, it will create one.
-
-    .. todo:: Creating a loop that goes through each question.
     
     """
     
