@@ -18,6 +18,9 @@ PROGRAM_NAME = "PIGOR"
 # functions that the user can utilize
 USER_FUNCTIONS = dict()
 
+# global config dict
+configuration = dict()
+
 # global vars for init() default
 configuration_fallback = {
     'PIGOR_ROOT'            :   Path(os.path.dirname(os.path.abspath(__file__))),
@@ -27,7 +30,6 @@ configuration_fallback = {
     'CREATE_HTML'           :   True,
     'CREATE_MD'             :   True
 }
-configuration = dict()
 
 
 # decorator for registering functions
@@ -52,6 +54,7 @@ def bool2yn(b):
 def yn2bool(s):
     """Converts yes and no to True and False."""
     return True if s.casefold().startswith('y') else False
+
 
 @show_user
 def init(create_new_config_file=True):
@@ -80,7 +83,7 @@ def init(create_new_config_file=True):
         with open('pigor.config', 'r', encoding='utf-8') as f:
             c = json.load(f)
             # make it a path object
-            c['PIGOR_ROOT'] = Path(c['PIGOR_ROOT'])
+            c['PIGOR_ROOT'] = Path(c['PIGOR_ROOT']).resolve()
     except Exception:
         print('Could not read configuration file. Creating a new one now:\n')
         c = configuration_fallback
@@ -135,15 +138,16 @@ def init(create_new_config_file=True):
             else:
                 value = user_input
 
+            # renew old configuration value
             if value != None:
                 c[k] = value
 
-    print(configuration)
+
 
     # write config to global var
-    configuration = c
+    configuration = c.copy()
 
-    print(configuration)
+    #print(configuration)
 
     # write configuration into file
     with open('pigor.config', 'w') as f:
@@ -236,8 +240,6 @@ def create_index():
     files = sorted(configuration['PIGOR_ROOT'].rglob('*' + configuration['FILE_EXTENTION']))
     files = [f.relative_to(configuration['PIGOR_ROOT'].parent) for f in files]
 
-    root = configuration['PIGOR_ROOT']
-
     files.sort(key=lambda x: x.name, reverse=True)
 
     # list all measurement files, if they have a corresponding html or md file
@@ -256,7 +258,6 @@ def create_index():
         if m or h:
             l.append(buffer)
 
-    print(l)
     if l:
         # write header of index.html
         t = [
@@ -285,8 +286,8 @@ def create_index():
             '</html>'
         ]
 
-        print(configuration['PIGOR_ROOT'])
-        with open(configuration['PIGOR_ROOT'].with_name('index.html'), 'w') as htmlfile:
+        index_file_path = configuration['PIGOR_ROOT'].joinpath('index_pigor.html')
+        with open(index_file_path, 'w') as htmlfile:
             # writing html head
             for line in h1:
                 htmlfile.write(f'{line}\n')
@@ -300,6 +301,8 @@ def create_index():
             # write actual content of html file and end
             for line in h2:
                 htmlfile.write(f'{line}\n')
+
+        print(f'Wrote index file at {index_file_path}')
 
 
 @show_user
@@ -329,10 +332,7 @@ def print_root():
     """Prints the root for PIGOR, e.g. where it will look for files to analyse. This function
     can be used by the command [x].
     """
-    print(configuration)
-    print('-------------')
-    print(type(configuration['PIGOR_ROOT']))
-    print(f"{PROGRAM_NAME} will look for measurement files in {configuration['PIGOR_ROOT'].resolve()}.")
+    print(f"{PROGRAM_NAME} will look for measurement files in {configuration['PIGOR_ROOT'].resolve()}.\n")
 
 
 def main():
