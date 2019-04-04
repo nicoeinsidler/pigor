@@ -245,15 +245,19 @@ def create_index():
     # list all measurement files, if they have a corresponding html or md file
     l = []
     for f in files:
-        buffer = f'- {f.parent}: [{f.stem}]({f}): '
+        buffer = f'- {f.parent}: [{f.stem}]({f.resolve().as_uri()}): '
 
         m = f.with_suffix('.md').exists()
         h = f.with_suffix('.html').exists()
+        p = f.with_suffix(configuration['IMAGE_FORMAT']).exists()
+
         
         if m:
-            buffer += f'[MD]({f.with_suffix(".md")})'
+            buffer += f'[MD]({f.with_suffix(".md").resolve().as_uri()})'
         if h:
-            buffer += f' [HTML]({f.with_suffix(".html")})'
+            buffer += f' | [HTML]({f.with_suffix(".html").resolve().as_uri()})'
+        if p:
+            buffer += f' | [PLOT]({f.with_suffix(configuration["IMAGE_FORMAT"]).resolve().as_uri()})'
 
         if m or h:
             l.append(buffer)
