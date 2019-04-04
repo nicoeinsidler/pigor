@@ -28,7 +28,8 @@ configuration_fallback = {
     'FILE_EXTENTION'        :   '.dat',
     'IMAGE_FORMAT'          :   '.png',
     'CREATE_HTML'           :   True,
-    'CREATE_MD'             :   True
+    'CREATE_MD'             :   True,
+    'EXPORT_THEME'          :   'github'     
 }
 
 
@@ -55,6 +56,19 @@ def yn2bool(s):
     """Converts yes and no to True and False."""
     return True if s.casefold().startswith('y') else False
 
+def is_valid_theme(theme):
+    """Checks if this theme exists."""
+    themes = sorted(Path('./markdown_themes').glob('*.css'))
+    themes = [t.stem for t in themes]
+    if theme in themes:
+        return True
+    else:
+        return False
+
+def list_themes():
+    """Returns a list of all themes available."""
+    themes = sorted(Path('./markdown_themes').glob('*.css'))
+    return [t.stem for t in themes]
 
 @show_user
 def init(create_new_config_file=True):
@@ -80,7 +94,7 @@ def init(create_new_config_file=True):
 
     # try to read the configuration
     try:
-        with open('pigor.config', 'r', encoding='utf-8') as f:
+        with open('pigor-config.json', 'r', encoding='utf-8') as f:
             c = json.load(f)
             # make it a path object
             c['PIGOR_ROOT'] = Path(c['PIGOR_ROOT']).resolve()
@@ -97,7 +111,8 @@ def init(create_new_config_file=True):
         'FILE_EXTENTION'        :   (f'Which file extention should {PROGRAM_NAME} look for? (string) [{c["FILE_EXTENTION"]}]', 'file-extention-data'),
         'IMAGE_FORMAT'          :   (f'What image format should the plots have? (.png,.svg,.eps,.pdf) [{c["IMAGE_FORMAT"]}]', 'file-extention-image'),
         'CREATE_HTML'           :   (f'Should {PROGRAM_NAME} create an HTML file automatically after analysis? (y/n) [{bool2yn(c["CREATE_HTML"])}]', 'bool'),
-        'CREATE_MD'             :   (f'Should {PROGRAM_NAME} create a Markdown file automatically after analysis? (y/n) [{bool2yn(c["CREATE_MD"])}]', 'bool')
+        'CREATE_MD'             :   (f'Should {PROGRAM_NAME} create a Markdown file automatically after analysis? (y/n) [{bool2yn(c["CREATE_MD"])}]', 'bool'),
+        'EXPORT_THEME'          :   (f'Please choose a theme for the exported html files: ({list_themes()}) [{c["EXPORT_THEME"]}]', is_valid_theme)
     }
 
     for k, q in questions.items():
@@ -117,6 +132,7 @@ def init(create_new_config_file=True):
                             break
                         else:
                             print('The path you entered does not exist. Please try again.')
+                            user_input = input()
                     except Exception:
                         user_input = input('Could not find the path, please input another one:\n')
             
@@ -128,7 +144,7 @@ def init(create_new_config_file=True):
                     value = None
             
             # if answer is a file extention
-            elif q[1].startswith('file-extention'):
+            elif not callable(q[1]) and q[1].startswith('file-extention'):
                 if user_input == '' and q[1] == 'file-extention-image':
                     value = None
                 elif user_input == '' and q[1] == 'file-extention-data':
@@ -136,6 +152,16 @@ def init(create_new_config_file=True):
                 else:
                     # adding . to file extention if not given by the user
                     value = user_input.casefold() if user_input.startswith('.') else '.' + user_input.casefold()
+            elif callable(q[1]):
+                while True:
+                    if user_input == '':
+                        value = None
+                        break
+                    if q[1](user_input) == True:
+                        value = user_input
+                        break
+                    else:
+                        user_input = input('Sorry, PIGOR does not know this input. Try again.')
             else:
                 value = user_input
 
@@ -212,7 +238,9 @@ def analyse_files(filepaths='all'):
     .. todo:: a + override => override=True
 
     """
-   
+    # get the theme from config
+    theme = configuration['EXPORT_THEME']
+
     if filepaths == 'all':
         filepaths = find_all_files()
     elif filepaths == 'today':
@@ -224,7 +252,7 @@ def analyse_files(filepaths='all'):
             m = measurement.Measurement(f)
             m.fit()
             m.plot(file_extention=configuration['IMAGE_FORMAT'])
-            m.export_meta(make_html=True)
+            m.export_meta(make_html=True, theme=theme)
         except Exception as e:
             print(f'The following exception occured during runtime:\n\n{e}\n\nContinuing operation.')
 
@@ -233,7 +261,7 @@ def create_index():
     """Creates an index.html listing all directories and subdirectories and their HTML and Markdown files. This function can be used by the command [j]."""
     
     # theme for the index.html
-    theme = 'github'
+    theme = configuration['EXPORT_THEME']
 
     # find all measurements
     files = sorted(configuration['PIGOR_ROOT'].rglob('*' + configuration['FILE_EXTENTION']))
