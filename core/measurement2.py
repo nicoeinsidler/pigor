@@ -42,7 +42,7 @@ class Measurement:
             self.name = name
 
 
-    def read(self):
+    def read(self) -> [list, list, list]:
         """Reads the file at :code:`self.file_path` and tries to differentiate between additional information and the actual measurement data. 
 
         Assumed file structure:
