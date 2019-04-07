@@ -73,12 +73,14 @@ class Measurement:
                 [],
                 raw
             ]
+        # case: column headers are on first line
         elif n_meta == 0:
             return [
                 [],
                 raw[0],
                 raw[1:]
             ]
+        # general case
         else:
             return [
                 raw[0:n_meta-1],
