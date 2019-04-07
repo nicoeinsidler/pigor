@@ -65,7 +65,7 @@ class Measurement:
         for line in raw:
             if not line[0] in '0123456789+-.':
                 n_meta +=1
-        print(n_meta)
+
         # case: no meta, no column head
         if n_meta == -1:
             return [
@@ -88,9 +88,9 @@ class Measurement:
             
 
 
-
+""" 
 m = Measurement('../testfiles/polarimeter/2018-11-23-1545-scan-dc2x.dat')
 print(m.read())
 
 t = Measurement('./test.dat')
-t.read()
+t.read() """
