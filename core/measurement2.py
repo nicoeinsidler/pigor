@@ -41,6 +41,8 @@ class Measurement:
         if name:
             self.name = name
 
+        # contains all fit models that are available to this instance
+        self.fit_model_list = {}
 
     def read(self) -> [list, list, list]:
         """Reads the file at :code:`self.file_path` and tries to differentiate between additional information and the actual measurement data. 
@@ -53,6 +55,8 @@ class Measurement:
         
 
         After the files has been read and split, the three parts (meta, head and data) will be returned as 3 lists.
+
+        .. todo:: This function still needs some love.
 
         """
 
@@ -89,6 +93,8 @@ class Measurement:
                 raw[n_meta+1:]
             ]
             
+
+    
 
 
 if __name__ == "__main__":
