@@ -59,8 +59,9 @@ class Measurement:
         n_meta = -1
 
         # import the data
-        raw = [line.rstrip('\n') for line in open(self.file_path)]
+        raw = [line.rstrip('\n') for line in self.file_path.open()]
 
+        # TODO: ugly cases
         # go through lines and check if line starts with numeric
         for line in raw:
             if not line[0] in '0123456789+-.':
@@ -88,6 +89,10 @@ class Measurement:
                 raw[n_meta+1:]
             ]
             
+
+
+if __name__ == "__main__":
+    pass
 
 
 """ 
