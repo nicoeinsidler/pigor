@@ -5,16 +5,25 @@ from measurement2 import Measurement
 import pandas as pd
 import numpy as np
 import difflib
-import emoji
+import re
+
+try:
+    import emoji
+except Exception as e:
+    print(f'Could not import package emoji. {e}')
 
 class Polarimeter(Measurement):
-    """This class extends the Measurement class by adding some polarimeter station specific methods.""" 
+    """This class extends the Measurement class by adding some polarimeter station specific methods."""
+
+
 
     def __init__(self, file_path, name=None):
         """Fire up :code:`__init__()` of :class:`measurement2.Measurement` and mold data into a :class:`pandas.df`."""
         
         super().__init__(file_path, name)
         self.make_df(self.read())
+
+        self.settings = {} #: dict containing useful information
 
 
     def make_df(self, raw: [list, list, list]):
@@ -61,7 +70,10 @@ class Polarimeter(Measurement):
 
 
     def degree_of_polarisation(self):
-        """ Calculates the degree of polarisation for each position in :code:`pos_data`. """
+        """Calculates the degree of polarisation for each position in :code:`pos_data`. 
+        
+        .. todo:: Refine this function.
+        """
 
         # helper vars for raw data
         raw_x = self.pos_data
@@ -117,26 +129,87 @@ class Polarimeter(Measurement):
 
         self.dopd = pd.DataFrame.from_records(zip(y, y_error), columns=['Degree of Polarisation', 'Δ Degree of Polarisation'], index=x[0:len(y)])
 
+
+    def detect_measurement_type(self):
+        """ This function auto detects the type of measurement based on the file
+        name. This works best with a meaningful file name convention. For more
+        information please refer to the docs.
+        
+
+        Several :code:`type_of_measurement` can be detected:
+
+        - DC#X: x-field of DC coil number # scan -> sets :code:`type_of_fit = 'sine_lin'`
+        - DC#Z: z-field of DC coil number # scan -> sets :code:`type_of_fit = 'poly5'`
+        - POS: scan of different linear stage positions -> sets :code:`type_of_fit = 'gauss'`
+
+        :code:`type_of_fit` can be overridden by explicitly mentioning a fit function to use
+        in the name of the file. See docs for more information.
+
+        In addition to the type of fit and measurement type, some additional
+        information about the measurement is gathered in the :code:`settings` dict.
+
+        """
+
+        print(self.file_path.name)
+        # if DC#X scan
+        if re.search(r"(?i)dc[0-9][xX]", self.file_path.name):
+            self.type_of_measurement = "DC"
+            self.type_of_fit = "sine_lin"
+            self.settings['DC Coil Axis'] = "X"
+
+            # get the number of the DC coil
+            match = re.search(r"(?i)dc(\d+)", self.file_path.name)
+            if match:
+                # write number into self.settings
+                self.settings['DC Coil Number'] = match.group(1)
+
+        # else if DC#Z scan
+        elif re.search(r"(?i)dc[0-9][zZ]", self.file_path.name):
+
+            self.type_of_measurement = "DC"
+            self.type_of_fit = "poly5"
+            self.settings['DC Coil Axis'] = "Z"
+
+            # get the number of the DC coil
+            match = re.search(r"(?i)dc(\d+)", self.file_path.name)
+            if match:
+                # write number into self.settings
+                self.settings['DC Coil Number'] = match.group(1)
+
+        # else if POS# scan
+        elif re.search(r"(?i)pos[0-9]", self.file_path.name):
+
+            self.type_of_measurement = "POS"
+            self.type_of_fit = "gauss"
+
+            # get the number of the DC coil
+            match = re.search(r"(?i)pos(\d+)", self.file_path.name)
+            if match:
+                # write number into self.settings
+                self.settings['Linear Stage Axis'] = match.group(1)
+
+        # default case
+        else:
+            # if degree of polarization measurement
+            if "pol" in self.file_path.name: 
+                self.type_of_measurement = "POL"
+                self.type_of_fit = "gauss"
+            else:
+                self.type_of_measurement = "POS"
+
+
+        # override type_of_fit if one of the key strings is matched
+        for k in self.fit_model_list:
+            if k in self.file_path.name: self.type_of_fit = k
         
 
 if __name__ == "__main__":
     m = Polarimeter('../testfiles/polarimeter/2018-11-23-1545-scan-dc2x.dat', 'test polarimeter')
-    #print(m.data)
+    print(m.data)
+    m.detect_measurement_type()
+    print(m.settings)
 
     dop = Polarimeter('../testfiles/polarimeter/2018-11-22-1125-degree-of-polarisation.dat')
-    dop.read_pos_file()
-    dop.degree_of_polarisation()
-    print(dop.dopd)
+    dop.detect_measurement_type()
+    print(dop.type_of_measurement)
 
-
-    """ if len(pos_data) == len(self.data):
-            # set x axis values from pos file
-            self.data.set_index(pos_data, inplace=True)
-        elif len(pos_data) > len(self.data):
-            print(emoji.emojize(f':warning:  {self.file_path}: Position file lenght and data file lenght are not equal. Maybe wrong position file?'))
-            # set x axis values from pos file
-            self.data.set_index(pos_data[::4][0:len(self.data)//4])
-        else:
-            print(emoji.emojize(f':warning:  {self.file_path}: Could not use position file: Wrong position file!\nContinuing with arbitrary positions: 0 to 1 in {len(self.data)//4} steps.'))
-            self.data.set_index(np.linspace(0, 1, len(self.data)//4), inplace=True) # worst case
-        #self.data.set_index(pos_data[::4], inplace=True) """
