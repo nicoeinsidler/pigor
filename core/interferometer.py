@@ -24,5 +24,6 @@ class Interferometer(Measurement):
         self.data = pd.DataFrame.from_records(data, columns=columns)
 
 
-m = Interferometer('../testfiles/interferometer/IFM_20190314_114454_180_Apert10x10.log', 'test interferometer')
-print(m.data)
+if __name__ == "__main__":
+    m = Interferometer('../testfiles/interferometer/IFM_20190314_114454_180_Apert10x10.log', 'test interferometer')
+    print(m.data)
