@@ -17,12 +17,15 @@ class Polarimeter(Measurement):
         """Create a :class:`pandas.df` object from the raw data."""
 
         # split header columns up
-        columns = [item for item in raw[1].split('\t')]
+        #columns = [i.strip() for i in raw[1].split(': ')] # TODO: Does not work, because Monitor_Max,Min (cnts/sec) are two columns
+        columns = ['I Scan (mA)', 'Detector (cnts)', 'Monitor Max (cnts/sec)', 'Monitor Min (cnts/sec)', 'Norm(1/s)', 'err(1/s)', 'FlippRatio', 'ErrFlippRatio']
         # cast strings to floats and split items in lines
-        data = [[float(item) for item in line.split('\t')] for line in raw[2]]
+        data = [[float(item) for item in line.split()] for line in raw[2]]
+
         # create a new pandas data frame
         self.data = pd.DataFrame.from_records(data, columns=columns)
 
+if __name__ == "__main__":
+    m = Polarimeter('../testfiles/polarimeter/2018-11-23-1545-scan-dc2x.dat', 'test polarimeter')
+    print(m.data)
 
-m = Polarimeter('../testfiles/polarimeter/2018-11-23-1545-scan-dc2x.dat', 'test polarimeter')
-print(m.data)
