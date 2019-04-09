@@ -36,13 +36,39 @@ class Measurement:
         if name and type(name) != str:
             raise TypeError('name must be a string.')
 
-
+        # save file_path internally
         self.file_path = file_path
+        # save name internally if given
         if name:
             self.name = name
 
         # contains all fit models that are available to this instance
         self.fit_model_list = {}
+
+        # read data from measurement file
+        data = self.read()
+        # create data frame from raw measurement data
+        self.make_df(data)
+
+
+    def make_df(self, raw: [list, list, list]):
+        """Create a :class:`pandas.df` object from the raw data.
+        
+        .. todo:: Cover the cases where not enough column headers or too many are given.
+        """
+
+        # parse CSV files at default
+        columns = [item for item in raw[1].split(',')]
+        data = [[float(item) for item in line.split(',')] for line in raw[2]]
+        
+
+        # if column headers exist, use them and create data frame
+        if raw[1] != []:
+            self.data = pd.DataFrame.from_records(data, columns=columns)
+        # no column headers exist, create data fram
+        else:
+            self.data = pd.DataFrame.from_records(data)
+
 
     def read(self) -> [list, list, list]:
         """Reads the file at :code:`self.file_path` and tries to differentiate between additional information and the actual measurement data. 
@@ -92,18 +118,22 @@ class Measurement:
                 raw[n_meta],
                 raw[n_meta+1:]
             ]
-            
+
+    def plot(self):
+        """Plots the data."""
+        
+        # set a plot title
+        title = self.file_path.name
+
+        print(dir(self))
+
+        # size of output image in inches
+        plt.figure(figsize=[9.71, 6])             
 
     
 
 
 if __name__ == "__main__":
-    pass
+    t = Measurement('../testfiles/test.dat')
+    t.read()
 
-
-""" 
-m = Measurement('../testfiles/polarimeter/2018-11-23-1545-scan-dc2x.dat')
-print(m.read())
-
-t = Measurement('./test.dat')
-t.read() """
