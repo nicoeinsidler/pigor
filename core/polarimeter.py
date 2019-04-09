@@ -19,11 +19,22 @@ class Polarimeter(Measurement):
 
     def __init__(self, file_path, name=None):
         """Fire up :code:`__init__()` of :class:`measurement2.Measurement` and mold data into a :class:`pandas.df`."""
-        
+        # create a Measurement object
         super().__init__(file_path, name)
-        self.make_df(self.read())
 
+        # create a list for meta infos on polarimeter measurement
         self.settings = {} #: dict containing useful information
+
+        # read the measurement file
+        data = self.read()
+
+        # create a data frame from read file data
+        self.make_df(data)
+
+        # if data comes with meta info, make sense of it
+        if data[0] != []:
+            self.clean_meta(data)
+
 
 
     def make_df(self, raw: [list, list, list]):
@@ -202,14 +213,56 @@ class Polarimeter(Measurement):
         for k in self.fit_model_list:
             if k in self.file_path.name: self.type_of_fit = k
         
+    def clean_meta(self, data: [list, list, list]):
+        """Cleans up meta data and stores it in :code:`self.settings`."""
+
+        meta = [line.split('|') for line in data[0]]
+        print(meta)
+
+        # write information from head into settings
+        #self.settings = {}
+        try:
+            for line in meta:
+                for i, item in enumerate(line):
+                    l = item.split(":")
+                    print(l)
+                    if i != 0:
+                        self.settings[l[0]] = l[1]
+        except Exception as e:
+            self.settings = {}
+            print(emoji.emojize(":red_circle:  {}: {}".format(self.file_path, e)))
+
+         # try to find measurement time stamp
+        try:
+            self.settings['time_stamp'] = datetime.strptime(meta[0][0].split()[-1], '%d/%m/%Y@%H:%M')
+        except:
+            pass
+
+        # try to find measurement time
+        try:
+            w = [
+                'measurement time',
+                'measure time',
+                'time'
+            ]
+            for word in w:
+                matches = difflib.get_close_matches(word, list(self.settings.keys()))
+                if matches != []:
+                    match = matches[0]
+                    self.settings['measurement_time'] = int(re.search(r'\d+', self.settings[match]).group())
+                    self.settings.pop(match)
+                    break
+        except:
+            pass
+
 
 if __name__ == "__main__":
     m = Polarimeter('../testfiles/polarimeter/2018-11-23-1545-scan-dc2x.dat', 'test polarimeter')
-    print(m.data)
-    m.detect_measurement_type()
-    print(m.settings)
+    #print(m.data)
+    #m.detect_measurement_type()
+    #print(m.settings)
 
     dop = Polarimeter('../testfiles/polarimeter/2018-11-22-1125-degree-of-polarisation.dat')
     dop.detect_measurement_type()
-    print(dop.type_of_measurement)
+    print(dop.settings)
 
