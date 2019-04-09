@@ -25,7 +25,7 @@ class Polarimeter(Measurement):
         # create a list for meta infos on polarimeter measurement
         self.settings = {} #: dict containing useful information
 
-        # read the measurement file
+        # read the measurement file TODO: handle exceptions
         data = self.read()
 
         # create a data frame from read file data
@@ -34,6 +34,21 @@ class Polarimeter(Measurement):
         # if data comes with meta info, make sense of it
         if data[0] != []:
             self.clean_meta(data)
+
+        # detect type of measurement TODO: Exception handling
+        self.detect_measurement_type()
+
+        # read position file if degree of polarisation measurement and calculate degree of polarisation
+        if self.type_of_measurement == "POL":
+            # try to find a position file
+            try:
+                self.read_pos_file()
+                print(emoji.emojize(":round_pushpin:  {}: Position file read: {}".format(self.pos_file_path, self.file_path)))
+                self.degree_of_polarisation()
+            except Exception as e:
+                print(emoji.emojize(":red_circle:  {}: {}".format(self.file_path,e)))
+
+        
 
 
 
@@ -161,7 +176,6 @@ class Polarimeter(Measurement):
 
         """
 
-        print(self.file_path.name)
         # if DC#X scan
         if re.search(r"(?i)dc[0-9][xX]", self.file_path.name):
             self.type_of_measurement = "DC"
@@ -217,7 +231,6 @@ class Polarimeter(Measurement):
         """Cleans up meta data and stores it in :code:`self.settings`."""
 
         meta = [line.split('|') for line in data[0]]
-        print(meta)
 
         # write information from head into settings
         #self.settings = {}
@@ -225,7 +238,6 @@ class Polarimeter(Measurement):
             for line in meta:
                 for i, item in enumerate(line):
                     l = item.split(":")
-                    print(l)
                     if i != 0:
                         self.settings[l[0]] = l[1]
         except Exception as e:
@@ -263,6 +275,6 @@ if __name__ == "__main__":
     #print(m.settings)
 
     dop = Polarimeter('../testfiles/polarimeter/2018-11-22-1125-degree-of-polarisation.dat')
-    dop.detect_measurement_type()
-    print(dop.settings)
+    dop.degree_of_polarisation()
+    dop.plot()
 
