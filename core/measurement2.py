@@ -12,7 +12,7 @@ class Measurement:
     """Bundles measurement data with fits, plots and other meta data."""
 
 
-    def __init__(self, file_path, name=None):
+    def __init__(self, file_path, name=''):
         """Initializes a new Measurement instance.
         
         :param file_path: filepath to look for the data for; if the file does not exist, a ValueError is raised
@@ -38,9 +38,8 @@ class Measurement:
 
         # save file_path internally
         self.file_path = file_path
-        # save name internally if given
-        if name:
-            self.name = name
+        # save name internally
+        self.name = name
 
         # contains all fit models that are available to this instance
         self.fit_model_list = {}
@@ -119,21 +118,12 @@ class Measurement:
                 raw[n_meta+1:]
             ]
 
-    def plot(self):
-        """Plots the data."""
-        
-        # set a plot title
-        title = self.file_path.name
-
-        print(dir(self))
-
-        # size of output image in inches
-        plt.figure(figsize=[9.71, 6])             
-
     
 
 
 if __name__ == "__main__":
     t = Measurement('../testfiles/test.dat')
     t.read()
+    t.plot()
+
 

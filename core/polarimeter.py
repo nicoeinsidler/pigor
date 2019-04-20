@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 import difflib
 import re
+import matplotlib.pyplot as plt 
 
 try:
     import emoji
@@ -48,9 +49,7 @@ class Polarimeter(Measurement):
             except Exception as e:
                 print(emoji.emojize(":red_circle:  {}: {}".format(self.file_path,e)))
 
-        
-
-
+    
 
     def make_df(self, raw: [list, list, list]):
         """Create a :class:`pandas.df` object from the raw data."""
@@ -268,8 +267,107 @@ class Polarimeter(Measurement):
             pass
 
 
+    def plot(self, column1=(0,1), column2=(1,1), fit=True, override=True, file_extention='.png'):
+        """Creates a plot for the data. If fit is set to False the data fit won't be
+        plotted, even if there exists one. Following parameters are possible:
+
+        :param self:            the object itself
+        :param column1:         (column, nth element) to choose the data from for x-axis (Default value = (0)
+        :param column2:         (column, nth element) to choose the data from for y-axis (Default value = (1)
+        :param fit:             if set to False plotting of the fit will be supressed (Default value = True)
+        :param type_of_plot:    string to specify a certain plot type, which will be used
+                                in the file name as well as in the plot title (Default value = '')
+        :param override:        determines if plot image should be recreated if it already exists (Default value = True)
+
+        """
+
+        if self.type_of_measurement == 'POL':
+            data = self.dopd
+        else:
+            data = self.data.loc[:, ['I Scan (mA)', 'Detector (cnts)']]
+
+            # -----------------------> error muss bei plotten berechnet werden mit lambda und sonst muss viel ausgetauscht weerden, columns: data.loc[data.columns[1,...]]
+        
+        # create label
+        if 'time_stamp' in self.settings:
+            title = self.file_path.name + '\n' + self.settings['time_stamp'].strftime("%Y-%m-%d %H:%M")
+        else:
+            title = self.file_path.name + "\n"
+
+        # size of output image in inches
+        plt.figure(figsize=[9.71, 6])
+
+        # plot title
+        plt.title(title)
+
+        # axes labels
+        if self.type_of_measurement == 'POL':
+            plt.xlabel('Position (steps)')
+            plt.ylabel('Degree of Polarisation')
+        else:
+            # TODO: this is only valid if select_columns was used with default values!
+            plt.xlabel(self.desc[column1[0]])
+            plt.ylabel(self.desc[column2[0]])
+
+        # get measurement time if available
+        try:
+            measurement_time = self.settings['measurement_time']
+        except Exception as e:
+            print(emoji.emojize(":red_circle:  {}: {}".format(self.path,e)))
+
+        # plot
+        for y, y_error in zip(self.y,self.y_error):
+            plt.errorbar(self.x, y, yerr = y_error, label=f'data (Δt={measurement_time}s)')
+
+        # plot fit if exists
+        if fit == True:
+            try:
+                fit_function = self.used_fit_function
+            except AttributeError:
+                self.fit()
+                fit_function = self.used_fit_function
+            x = np.linspace(self.x.min(), self.x.max(), self.FIT_RESOLUTION)
+            for i,popt in enumerate(self.popt):
+                plt.plot(x, fit_function[0](x, *popt), '-', label=f'fit #{i}')
+
+        # plot legend
+        plt.legend()
+
+        # all valid file extentions
+        valid_file_extentions = [
+            '.png',
+            '.svg',
+            '.eps',
+            '.pdf'
+        ]
+
+        # make sure there is a point
+        if not file_extention.startswith('.'):
+            file_extention = '.' + file_extention
+
+        # check if file extention is valid
+        if not file_extention.casefold() in valid_file_extentions:
+            file_extention = '.png'
+
+        # file name
+        if type_of_plot != "":
+            n = f'{str(self.path.parent)}/{self.path.stem}-[{type_of_plot}]{file_extention}'
+        else:
+            n = f'{str(self.path.parent)}/{self.path.stem}{file_extention}'
+
+        self.plot_path = Path(n)
+
+        #if (override == False and not os.path.isfile(n)):
+            # save plot to file
+        plt.savefig(n, format=file_extention[1:])
+
+        # clear figure/plot for next
+        plt.clf()
+
+
 if __name__ == "__main__":
     m = Polarimeter('../testfiles/polarimeter/2018-11-23-1545-scan-dc2x.dat', 'test polarimeter')
+    m.plot()
     #print(m.data)
     #m.detect_measurement_type()
     #print(m.settings)
