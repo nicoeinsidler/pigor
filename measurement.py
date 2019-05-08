@@ -790,6 +790,30 @@ class Measurement:
         # x data where y is max or min
         y_min_i = [self.x[y.argmin()] for y in self.y]
         y_max_i = [self.x[y.argmax()] for y in self.y]
+
+
+        try:
+            fit_function = self.used_fit_function
+        except AttributeError:
+            self.fit()
+            fit_function = self.used_fit_function
+
+        fit_y_min, fit_y_max, fit_y_min_i, fit_y_max_i = [], [], [], []
+        x = np.linspace(self.x.min(), self.x.max(), self.FIT_RESOLUTION)
+        for popt in self.popt:
+            f = fit_function[0](x, *popt)
+
+            fit_y_min.append(f.min())
+            fit_y_max.append(f.max())
+            
+            x_range = x_max-x_min
+            
+            fit_y_min_i.append(
+                x_min + x_range * f.argmin() / self.FIT_RESOLUTION
+            )
+            fit_y_max_i.append(
+                x_min + x_range * f.argmax() / self.FIT_RESOLUTION
+            )
         
         # text to write to file
         t = ['# Metadata for {}'.format(measurement_file_name)]
@@ -836,6 +860,12 @@ class Measurement:
                 'This gives a contrast of `{}`.'.format(self.contrast(source='data')),
                 '',
                 '## Fit ({})'.format(self.type_of_fit),
+                '',
+                '### Fit Extrema',
+                '- y_min: `{}`'.format(fit_y_min[0]),
+                '- y_max: `{}`'.format(fit_y_max[0]),
+                '- y_min_i: `{}`'.format(fit_y_min_i[0]),
+                '- y_max_i: `{}`'.format(fit_y_max_i[0]),
                 '',
                 '### Fit Parameters, Covariance and Contrast',
                 '',
@@ -934,6 +964,7 @@ class Measurement:
                 f = fit_function[0](x, *popt)
                 _min.append(f.min())
                 _max.append(f.max())
+
 
         # calculate min and max of real data
         elif source == 'data':
