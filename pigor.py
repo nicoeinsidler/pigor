@@ -29,7 +29,8 @@ configuration_fallback = {
     'IMAGE_FORMAT'          :   '.png',
     'CREATE_HTML'           :   True,
     'CREATE_MD'             :   True,
-    'EXPORT_THEME'          :   'github'     
+    'EXPORT_THEME'          :   'github',
+    'EXPORT_FIT_FUNCTIONS'  :   True
 }
 
 
@@ -83,6 +84,7 @@ def init(create_new_config_file=True):
     - What plot output format should PIGOR use?
     - Should PIGOR automatically create an html file?
     - Should PIGOR automatically create a md file?
+    - Should PIGOR create a txt file containing all used fit functions for the use in Mathematica?
     
     .. note:: If no config file can be found, it will create one.
     
@@ -98,6 +100,13 @@ def init(create_new_config_file=True):
             c = json.load(f)
             # make it a path object
             c['PIGOR_ROOT'] = Path(c['PIGOR_ROOT']).resolve()
+
+            # check if new item has been added to configuration
+            if len(c) != len(configuration_fallback):
+                create_new_config_file = True
+                for k, v in configuration_fallback:
+                    if k not in c:
+                        c[k] = v
     except Exception:
         print('Could not read configuration file. Creating a new one now:\n')
         c = configuration_fallback
@@ -112,7 +121,8 @@ def init(create_new_config_file=True):
         'IMAGE_FORMAT'          :   (f'What image format should the plots have? (.png,.svg,.eps,.pdf) [{c["IMAGE_FORMAT"]}]', 'file-extention-image'),
         'CREATE_HTML'           :   (f'Should {PROGRAM_NAME} create an HTML file automatically after analysis? (y/n) [{bool2yn(c["CREATE_HTML"])}]', 'bool'),
         'CREATE_MD'             :   (f'Should {PROGRAM_NAME} create a Markdown file automatically after analysis? (y/n) [{bool2yn(c["CREATE_MD"])}]', 'bool'),
-        'EXPORT_THEME'          :   (f'Please choose a theme for the exported html files: ({list_themes()}) [{c["EXPORT_THEME"]}]', is_valid_theme)
+        'EXPORT_THEME'          :   (f'Please choose a theme for the exported html files: ({list_themes()}) [{c["EXPORT_THEME"]}]', is_valid_theme),
+        'EXPORT_FIT_FUNCTIONS'  :   (f'Should {PROGRAM_NAME} create a txt file containing all used fit functions for later use in Mathematica? (y/n) [{bool2yn(c["EXPORT_FIT_FUNCTIONS"])}]', 'bool')
     }
 
     for k, q in questions.items():
@@ -250,7 +260,8 @@ def analyse_files(filepaths='all'):
     for f in filepaths:
         try:
             m = measurement.Measurement(f)
-            m.fit()
+            export_fit = 'Mathematica' if configuration['EXPORT_FIT_FUNCTIONS'] == True else False 
+            m.fit(fit_function_export=export_fit)
             m.plot(file_extention=configuration['IMAGE_FORMAT'])
             m.export_meta(make_html=True, theme=theme)
         except Exception as e:
@@ -354,6 +365,7 @@ def remove_generated_files(files='all'):
             f.with_suffix(configuration['IMAGE_FORMAT']).unlink()
             f.with_suffix('.md').unlink()
             f.with_suffix('.html').unlink()
+            f.with_name(f.stem + '_fit_functions.txt').unlink()
     except Exception as e:
         print(e)
         #raise NotImplementedError

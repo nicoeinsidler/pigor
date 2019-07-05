@@ -444,12 +444,13 @@ class Measurement:
                 )
             
 
-    def fit(self, fit_function=None):
+    def fit(self, fit_function=None, fit_function_export=False):
         """ Fits the data in :code:`x` and :code:`y` using the default fit function of each
         :code:`type_of_fit` if not specified further by passing a certain fit function as an
         argument.
 
         :param fit_function:  fit function to use to fit the data with (Default value = None)
+        :param fit_function_export: exports the fit function as a txt file in a specified format (Mathematica is default and only implementation yet.).
 
         Stores the optimal values and the covariances in :code:`popt` and :code:`pcov` for
         later use.
@@ -483,7 +484,22 @@ class Measurement:
             self.popt.append(popt)
             self.pcov.append(pcov)
 
-        
+        # if fit_function_export is set
+        if fit_function_export != False:
+            t = []
+            for fit_param in self.popt:
+                # check how many parameters the fit function expects
+                func_param_number = len(func[0].__code__.co_varnames)
+                
+                # call fit function, but with export set
+                t.append(func[0]('x', *fit_param[0:func_param_number-2], export="Mathematica"))
+                t.append('\n')
+
+            txtfile_name = self.path.with_name(self.path.stem + '_fit_functions.txt')
+            with open(txtfile_name, 'w') as txtfile:
+                for line in t:
+                    txtfile.write('{}\n'.format(line))
+            
 
     def plot(self, column1=(0,1), column2=(1,1), fit=True, type_of_plot='', override=True, file_extention='.png'):
         """Creates a plot for the data. If fit is set to False the data fit won't be
