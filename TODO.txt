@@ -1,0 +1,5 @@
+TODO List for the Measurement v2 Project
+========================================
+
+- requirements-measurement.txt should only specify a minimal required version of a package
+- check if make_df() is fine like it is now in polarimeter.py or it should return a df object so when using this function it is more clear how the new df is called.
