@@ -5,10 +5,13 @@ import os
 import json
 import numpy as np
 import multiprocessing as mp
+import matplotlib  
+matplotlib.use('TkAgg')   
 import matplotlib.pyplot as plt
 import glob
 import measurement
 import datetime
+import webbrowser
 from pathlib import Path
 from markdown import markdown
 
@@ -345,6 +348,9 @@ def create_index():
                 htmlfile.write(f'{line}\n')
 
         print(f'Wrote index file at {index_file_path}')
+
+        
+        webbrowser.open(index_file_path.as_uri(), new=2, autoraise=True)
 
 
 @show_user
