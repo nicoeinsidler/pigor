@@ -890,12 +890,14 @@ class Measurement:
             ]
         )
         t.extend(fit_information)
-        covariance_as_string = ["".join(np.array2string(pcov, separator=', \n')) for pcov in self.pcov]
+        covariance_as_string = ["".join(np.array2string(pcov, separator=', ')) for pcov in self.pcov]
         t.extend(
             [
                 '',
                 'Covariance:',
-                '```\n{}\n```'.format(covariance_as_string),
+                '```',
+                *covariance_as_string,
+                '```',
                 ''
             ]
         )
@@ -929,7 +931,7 @@ class Measurement:
                 '</style>',
                 '</head>',
                 '<body>',
-                markdown('\n'.join(t)),
+                markdown('\n'.join(t), extensions=['fenced_code', 'codehilite']),
                 '</body>',
                 '</html>'
             ]
