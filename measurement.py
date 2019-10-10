@@ -493,12 +493,11 @@ class Measurement:
                 
                 # call fit function, but with export set
                 t.append(func[0]('x', *fit_param[0:func_param_number-2], export="Mathematica"))
-                t.append('\n')
 
             txtfile_name = self.path.with_name(self.path.stem + '_fit_functions.txt')
             with open(txtfile_name, 'w') as txtfile:
                 for line in t:
-                    txtfile.write('{}\n'.format(line))
+                    txtfile.write('{}'.format(line))
             
 
     def plot(self, column1=(0,1), column2=(1,1), fit=True, type_of_plot='', override=True, file_extention='.png'):
