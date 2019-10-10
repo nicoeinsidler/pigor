@@ -669,7 +669,7 @@ class Measurement:
             ) # a, omega, phase, c
 
         elif func == "sine_lin":
-             # calculation of amplitude
+            # calculation of amplitude
             a = 0.5 * abs(y_max - y_min)
             # guessing the offset
             c = y_min + a
