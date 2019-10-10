@@ -691,6 +691,8 @@ class Measurement:
                 )
             ) # a, omega, phase, c, b
 
+        elif func == "poly":
+            pass
             
         elif func == "poly5":
             # TODO:
@@ -742,7 +744,8 @@ class Measurement:
             'gauss'     :   ['a', 'x0', 'sigma'],
             'sine'      :   ['a', 'omega', 'phase', 'c'],
             'sine_lin'  :   ['a', 'omega', 'phase', 'c', 'b'],
-            'poly5'     :   ['a5', 'a4', 'a3', 'a2', 'a1', 'a0']
+            'poly5'     :   ['a5', 'a4', 'a3', 'a2', 'a1', 'a0'],
+            'poly'      :   ['a']
         }
 
         # create link to position file (can be in subdirectory of the markdown file)
