@@ -6,7 +6,7 @@ import json
 import numpy as np
 import multiprocessing as mp
 import matplotlib  
-matplotlib.use('TkAgg')   
+#matplotlib.use('TkAgg')   
 import matplotlib.pyplot as plt
 import glob
 import measurement
