@@ -1,0 +1,331 @@
+The Measurement Class
+*********************
+
+
+Flow at Startup
+===============
+
+1. read the data
+
+2. detect measurement type
+
+3. read position file if a position file exists
+
+4. clean up and description gathering
+
+5. select columns for plotting
+
+[graph]
+
+
+Flow when plotting
+==================
+
+[graph]
+
+
+Class Usecases
+==============
+
+There are many ways to interact with or use the Measurement class.
+Here are the three main ways:
+
+[graph]
+
+
+Methods
+=======
+
+Todo: Method attributes are shown, but value is always None.
+
+class measurement.Measurement(path, type_of_measurement='default', type_of_fit='gauss')
+
+   This class provides an easy way to read, analyse and plot data from
+   text files.
+
+   There are two different file formats, which are used on the
+   interferometry as well as on the polarimeter station at
+   Atominstitut of TU Wien. For more information on the conventions
+   please head to the docs or take a look at the example files
+   provided.
+
+   FIT_RESOLUTION = None
+
+      number of points to calculate the fit for
+
+   N_HEADER = None
+
+      number of lines of header of measurement file
+
+   __init__(path, type_of_measurement='default', type_of_fit='gauss')
+
+      The Measurement class provides an easy and quick way to read,
+      analyse and plot data from text files. When creating a new
+      instance, the following parameters have to be provided:
+
+         param self:
+            the object itself
+
+         param path:
+            pathlib.Path object
+
+         param type_of_measurement:
+            used to hard set the type of measurement on instance
+            creation (default value = ‘default’)
+
+         param type_of_fit:
+            sets an initial fit type, which may be overridden by
+            detect_measurement_type() later (default value = ‘gauss’)
+            TODO: change to be permanent?
+
+      The startup sequence is as follows:
+
+      1. try to read the data
+
+      2. measurement type (either set it, when given as input
+         argument or try to detect it)
+
+      3. if measurement is POL, try to find a position file and
+         read it
+
+      4. clean up the given data
+
+      5. select columns => write into self.x and self.y
+
+      6. if measurement is POL, calculate degree of polarisation
+
+      Todo: Is type_of_fit really needed?
+
+      Returns nothing.
+
+   clean_data()
+
+      Splits the "raw" data into "head" and "data" vars.
+
+   contrast(source='fit')
+
+      Calculates the contrast of source as:
+
+      "contrast = (max-min) / (max+min)"
+
+      where "min" and "max" are the minima and maxima of the given
+      data.
+
+      Parameters:
+         **source** – defines the source of the data to calculate the
+         contrast from, can be either set to ‘fit’ or ‘data’ (Default
+         value = ‘fit’)
+
+      Returns a list of contrasts.
+
+      Todo: When calculation of contrast fails, what should this
+      function return? Now it returns [0].
+
+   degree_of_polarisation()
+
+      Calculates the degree of polarisation for each position in
+      "pos_data".
+
+   detect_measurement_type()
+
+      This function auto detects the type of measurement based on the
+      file name. This works best with a meaningful file name
+      convention. For more information please refer to the docs.
+
+      Several "type_of_measurement" can be detected:
+
+      * DC#X: x-field of DC coil number # scan -> sets "type_of_fit
+        = 'sine_lin'"
+
+      * DC#Z: z-field of DC coil number # scan -> sets "type_of_fit
+        = 'poly5'"
+
+      * POS: scan of different linear stage positions -> sets
+        "type_of_fit = 'gauss'"
+
+      "type_of_fit" can be overridden by explicitly mentioning a fit
+      function to use in the name of the file. See docs for more
+      information.
+
+      In addition to the type of fit and measurement type, some
+      additional information about the measurement is gathered in the
+      "settings" dict.
+
+   export_meta(make_md=True, make_html=False, theme='github')
+
+      Exports all available information about the measurement into a
+      markdown file.
+
+      Parameters:
+         * **html** – if set to True, an HTML file will be
+           additionally created (Default value = False)
+
+         * **theme** – set the default theme for html export, all
+           available themes can be found in the markdown_themes
+           directory (Default value = ‘github’)
+
+   find_bounds(fit_function=None)
+
+      Automatically finds usefull fit bounds and updates them in the
+      "fit_function_list" dict.
+
+      Parameters:
+         **fit_function** – defines for which fit functions the bounds
+         should be updated (Default value = None), if set to None,
+         type_of_fit will be used
+
+   fit(fit_function=None, fit_function_export=False)
+
+      Fits the data in "x" and "y" using the default fit function of
+      each "type_of_fit" if not specified further by passing a certain
+      fit function as an argument.
+
+      Parameters:
+         * **fit_function** – fit function to use to fit the data
+           with (Default value = None)
+
+         * **fit_function_export** – exports the fit function as a
+           txt file in a specified format (Mathematica is default and
+           only implementation yet.).
+
+      Stores the optimal values and the covariances in "popt" and
+      "pcov" for later use.
+
+   fit_function_list = None
+
+      list of fit functions that can be used; imported from
+      fit_functions.py
+
+   measurement_type(type_of_measurement='default')
+
+      Sets the type of the measurement if parameter
+      type_of_measurement is set.
+
+      Parameters:
+         * **self** – object itself
+
+         * **type_of_measurement** – default”:   new type of
+           measurement (default  value = ‘default’)
+
+      Returns the current type of measurement.
+
+      Todo: Evaluate if this method (measurement_type()) is needed at
+      all.
+
+      Todo: Set better default value for measurement type.
+
+   path = None
+
+      path (pathlib.Path object) to the measurement file
+
+   plot(column1=(0, 1), column2=(1, 1), fit=True, type_of_plot='', override=True, file_extention='.png')
+
+      Creates a plot for the data. If fit is set to False the data fit
+      won’t be plotted, even if there exists one. Following parameters
+      are possible:
+
+      Parameters:
+         * **self** – the object itself
+
+         * **column1** – (column, nth element) to choose the data
+           from for x-axis (Default value = (0)
+
+         * **column2** – (column, nth element) to choose the data
+           from for y-axis (Default value = (1)
+
+         * **fit** – if set to False plotting of the fit will be
+           supressed (Default value = True)
+
+         * **type_of_plot** – string to specify a certain plot type,
+           which will be used in the file name as well as in the plot
+           title (Default value = ‘’)
+
+         * **override** – determines if plot image should be
+           recreated if it already exists (Default value = True)
+
+      Todo: Make x and y labels more general, especially for
+      interferometer files, where more that one y value list is
+      needed.
+
+   pos_file_path = None
+
+      path (pathlib.Path object) to the corresponding position file
+
+   read_data(path)
+
+      Reads data from file and stores it in "raw".
+
+      Parameters:
+         * **self** – the object itself
+
+         * **path** – a pathlib.Path object pointing to a
+           measurement file
+
+   read_pos_file()
+
+      Looks for a position file and reads it into "pos_data".
+
+      Todo: When searching for a position file, the lenght of the file
+      should match. So it should be 1/4 of the size of the original
+      measurement file.
+
+   reset_bounds(fit_function=None)
+
+      Resets the bounds of the measurement type’s default fitting
+      function if not specified otherwise.
+
+      Reset values are "(-np.inf, np.inf)".
+
+      Parameters:
+         **fit_function** – specifies the fit function for which the
+         bounds should be reset (Default value = None)
+
+   select_columns(m=None)
+
+      Selects columns of the "data" as specified in m (map) and saves
+      in "x" and "y[]".
+
+      ..note:: "y_error[]" is calculated as sqrt(y)
+
+      Parameters:
+         **m** – map, e.g. list of tuples or None values; if m=None
+         select_columns will be skipped (Default value = None)
+
+      The map "m" definies which columns of the original measurement
+      data will be used later. Only one x-axis can be defined, but
+      multiple y-axes may be used. The lenght of the map must not
+      exceed the number of the columns in "data", but can be less or
+      equal.
+
+      Each map is a list of items, which can either be tuples or None
+      values, if a column should be skipped. In the case of a tuple,
+      the first value must be a string, either ‘x’ or ‘y’, which
+      determines if the column should be interpreted as an x- or
+      y-axis. Its second value describes what nth element of the
+      columns should be selected.
+
+      A few examples:
+
+         m = [('x',1),('y',1)]
+
+      This will select the first column as x-axis and take every (1st)
+      element of it, and the second column as y-axis, also using every
+      element of that column.
+
+         m = [('y',2),None,('x',2),('y',2)]
+
+      Here we will take every second element of column 1, 3 and 4, but
+      skip column 2.
+
+      Note: If the lenght of the map is less than the number of
+        columns in "data", every column that has no corresponding map
+        element will be skipped.
+
+   settings = None
+
+      dict containing useful information read from files header in
+      clean_data()
+
+   type_of_fit = None
+
+      type of fit to be applied to the data

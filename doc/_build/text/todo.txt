@@ -1,0 +1,78 @@
+ToDo List
+*********
+
+Todo: check if dependencies are correct with dependencies.txt
+
+(The *original entry* is located in
+/Users/nicoeinsidler/Code/pigor/doc/index.rst, line 55.)
+
+Todo: Method attributes are shown, but value is always None.
+
+(The *original entry* is located in
+/Users/nicoeinsidler/Code/pigor/doc/measurement.rst, line 62.)
+
+Todo: Is type_of_fit really needed?
+
+(The *original entry* is located in
+/Users/nicoeinsidler/Code/pigor/measurement.py:docstring of
+measurement.Measurement.__init__, line 23.)
+
+Todo: When calculation of contrast fails, what should this function
+return? Now it returns [0].
+
+(The *original entry* is located in
+/Users/nicoeinsidler/Code/pigor/measurement.py:docstring of
+measurement.Measurement.contrast, line 12.)
+
+Todo: Evaluate if this method (measurement_type()) is needed at all.
+
+(The *original entry* is located in
+/Users/nicoeinsidler/Code/pigor/measurement.py:docstring of
+measurement.Measurement.measurement_type, line 9.)
+
+Todo: Set better default value for measurement type.
+
+(The *original entry* is located in
+/Users/nicoeinsidler/Code/pigor/measurement.py:docstring of
+measurement.Measurement.measurement_type, line 10.)
+
+Todo: Make x and y labels more general, especially for interferometer
+files, where more that one y value list is needed.
+
+(The *original entry* is located in
+/Users/nicoeinsidler/Code/pigor/measurement.py:docstring of
+measurement.Measurement.plot, line 12.)
+
+Todo: When searching for a position file, the lenght of the file
+should match. So it should be 1/4 of the size of the original
+measurement file.
+
+(The *original entry* is located in
+/Users/nicoeinsidler/Code/pigor/measurement.py:docstring of
+measurement.Measurement.read_pos_file, line 3.)
+
+Todo: Change to no override mode.
+measurement.Measurement.plot(override=False)
+
+(The *original entry* is located in
+/Users/nicoeinsidler/Code/pigor/pigor.py:docstring of
+pigor.analyse_files, line 6.)
+
+Todo: a + today => only analyse files for today
+
+(The *original entry* is located in
+/Users/nicoeinsidler/Code/pigor/pigor.py:docstring of
+pigor.analyse_files, line 7.)
+
+Todo: a + override => override=True
+
+(The *original entry* is located in
+/Users/nicoeinsidler/Code/pigor/pigor.py:docstring of
+pigor.analyse_files, line 8.)
+
+Todo: Cover the case when files are not a list of path, e.g. wrong
+input given.
+
+(The *original entry* is located in
+/Users/nicoeinsidler/Code/pigor/pigor.py:docstring of
+pigor.remove_generated_files, line 5.)

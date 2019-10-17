@@ -1,0 +1,135 @@
+Welcome to PIGOR’s documentation!
+*********************************
+
+Pigor is a lightweight analysis tool for the the polarimeter
+instrument NEPTUN beam port of the 250kW research reactor hosted at
+Atominstitut of TU Wien, Austria. For more information visit our
+homepage.
+
+Contents:
+
+* How to install PIGOR
+
+  * Installing PIGOR
+
+  * Installing only the Measurement Class
+
+  * Installation for Developers
+
+* Measurement Naming Convention
+
+* Quickstart Guide
+
+* PIGOR
+
+  * What PIGOR does
+
+  * PIGORs inner workings
+
+* The Measurement Class
+
+  * Flow at Startup
+
+  * Flow when plotting
+
+  * Class Usecases
+
+  * Methods
+
+* Measurement Class 2.0
+
+  * Structure
+
+  * Previous Development
+
+  * The brand new Measurement Class
+
+* Fit Functions
+
+* Sprint Planning
+
+  * PIGOR
+
+  * Measurement Class
+
+  * Ideas
+
+  * Column Class
+
+  * Fit Function Class
+
+  * Fit Class
+
+  * Data Set Class
+
+* ToDo List
+
+
+Old ToDos
+=========
+
+Note: This list of ToDos should be integrated into the docstrings or
+  into the sprint planning where those ToDos belong.
+
+Here are all ToDos listed. Feel free to contribute and check this
+project out on Bitbucket.
+
+* self.x_error: not yet implemented
+
+* a lot of commenting
+
+* error of fit
+
+* verbose mode on/off
+
+* getting PIGOR ready for shipment by creating a setup.py
+
+* better display of self.pcov
+
+* separation between pure functions and functions with context
+  (methods)
+
+* auto comment decorator for functions
+
+* use decorators to auto register fit functions with their input
+  argument list
+
+* setuptools in setup.py
+
+* https://click.palletsprojects.com/en/7.x/quickstart/
+
+
+Project Dependencies
+====================
+
+Todo: check if dependencies are correct with dependencies.txt
+
+* numpy
+
+* re
+
+* matplotlib
+
+* os.path
+
+* glob
+
+* difflib
+
+* datetime
+
+* pathlib
+
+* scipy
+
+* markdown
+
+
+Indices and tables
+==================
+
+* Index
+
+* Module Index
+
+* Search Page

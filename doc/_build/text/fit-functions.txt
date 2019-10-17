@@ -1,0 +1,112 @@
+Fit Functions
+*************
+
+The following fit functions are implemented and can be used within
+PIGOR or the Measurement class. They can be found in
+"fit_functions.py".
+
+fit_functions.gauss(x, a, x0, sigma, export=False)
+
+   Gaussian function, used for fitting data.
+
+   Parameters:
+      * **x** – parameter
+
+      * **a** – amplitude
+
+      * **x0** – maximum
+
+      * **sigma** – width
+
+      * **export** – enable text output of function
+
+fit_functions.poly(x, *args, export=False)
+
+   Polynom nth degree for fitting.
+
+   Parameters:
+      * **x** (*int**, **float*) – parameter
+
+      * ***args** –
+
+        list of coefficients [a_N,a_N-1, …, a_1, a_0]
+
+      * **export** (*bool** or **string**, **optional*) – enable
+        text output of function, defaults to False
+
+   Returns:
+      returns the polynomial
+
+   Return type:
+      str, int, float
+
+   >>> poly(3.4543, 5,4,3,2,1, export='Mathematica')
+   '5*3.4543^5 + 4*3.4543^4 + 3*3.4543^3 + 2*3.4543^2 + 1*3.4543^1'
+
+   >>> poly(3.4543, 5,4,3,2,1)
+   920.4602110784704
+
+fit_functions.poly5(x, a5, a4, a3, a2, a1, a0, export=False)
+
+   Polynom 5th degree for fitting.
+
+   Parameters:
+      * **x** – parameter
+
+      * **a5** – coeff
+
+      * **a4** – coeff
+
+      * **a3** – coeff
+
+      * **a2** – coeff
+
+      * **a1** – coeff
+
+      * **a0** – coeff
+
+      * **export** – enable text output of function
+
+   Returns:
+      function – polynomial 5th degree
+
+fit_functions.register_fit_function(func, bounds=(-inf, inf))
+
+   This decorator registers a new fit function and writes an entry to
+   fit_function_list.
+
+fit_functions.sine(x, a, omega, phase, c, export=False)
+
+   Sine function for fitting data.
+
+   Parameters:
+      * **x** – parameter
+
+      * **a** – amplitude
+
+      * **omega** – frequency
+
+      * **phase** – phase
+
+      * **c** – offset
+
+      * **export** – enable text output of function
+
+fit_functions.sine_lin(x, a, omega, phase, c, b, export=False)
+
+   Sine function with linear term added for fitting data.
+
+   Parameters:
+      * **x** – parameter
+
+      * **a** – amplitude
+
+      * **omega** – frequency
+
+      * **phase** – phase
+
+      * **c** – offset
+
+      * **b** – slope
+
+      * **export** – enable text output of function
