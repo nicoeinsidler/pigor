@@ -132,7 +132,7 @@ You can now run PIGOR with the following command in the folder where the \sphinx
 \end{sphinxVerbatim}
 
 \begin{sphinxadmonition}{note}{Note:}
-If you only want to use the \sphinxcode{\sphinxupquote{measurement.Measurement}} class, you can only install it’s dependencies with \sphinxcode{\sphinxupquote{pip install -r requirements-measurement.txt}}. But since most dependencies are shared, it won’t make much of a difference.
+If you only want to use the {\hyperref[\detokenize{measurement:measurement.Measurement}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{measurement.Measurement}}}}} class, you can only install it’s dependencies with \sphinxcode{\sphinxupquote{pip install -r requirements-measurement.txt}}. But since most dependencies are shared, it won’t make much of a difference.
 \end{sphinxadmonition}
 
 
@@ -397,7 +397,190 @@ This will only work if the correct naming convention is used.
 
 
 \section{PIGORs inner workings}
-\label{\detokenize{pigor:pigors-inner-workings}}
+\label{\detokenize{pigor:module-pigor}}\label{\detokenize{pigor:pigors-inner-workings}}\index{pigor (module)@\spxentry{pigor}\spxextra{module}}\index{analyse\_files() (in module pigor)@\spxentry{analyse\_files()}\spxextra{in module pigor}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{pigor:pigor.analyse_files}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{pigor.}}\sphinxbfcode{\sphinxupquote{analyse\_files}}}{\emph{filepaths='all'}}{}
+Analyses all given files in list. This function can be used by the command {[}a{]}.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{filepaths}} \textendash{} list of files to analyse with
+their relative dir path added
+
+\end{description}\end{quote}
+
+\begin{sphinxadmonition}{note}{\label{pigor:index-0}Todo:}
+Change to no override mode. measurement.Measurement.plot(override=False)
+\end{sphinxadmonition}
+
+\begin{sphinxadmonition}{note}{\label{pigor:index-1}Todo:}
+a + today =\textgreater{} only analyse files for today
+\end{sphinxadmonition}
+
+\begin{sphinxadmonition}{note}{\label{pigor:index-2}Todo:}
+a + override =\textgreater{} override=True
+\end{sphinxadmonition}
+
+\end{fulllineitems}
+
+\index{bool2yn() (in module pigor)@\spxentry{bool2yn()}\spxextra{in module pigor}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{pigor:pigor.bool2yn}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{pigor.}}\sphinxbfcode{\sphinxupquote{bool2yn}}}{\emph{b}}{}
+Converts a boolean to yes or no with the mapping: y = True, n = False.
+
+\end{fulllineitems}
+
+\index{create\_index() (in module pigor)@\spxentry{create\_index()}\spxextra{in module pigor}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{pigor:pigor.create_index}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{pigor.}}\sphinxbfcode{\sphinxupquote{create\_index}}}{}{}
+Creates an index.html listing all directories and subdirectories and their HTML and Markdown files. This function can be used by the command {[}j{]}.
+
+\end{fulllineitems}
+
+\index{find\_all\_files() (in module pigor)@\spxentry{find\_all\_files()}\spxextra{in module pigor}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{pigor:pigor.find_all_files}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{pigor.}}\sphinxbfcode{\sphinxupquote{find\_all\_files}}}{}{}
+Finds all dat files recursively in all subdirectories ignoring hidden directories
+and Python specific ones.
+
+Returns a list of filepaths.
+
+\end{fulllineitems}
+
+\index{init() (in module pigor)@\spxentry{init()}\spxextra{in module pigor}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{pigor:pigor.init}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{pigor.}}\sphinxbfcode{\sphinxupquote{init}}}{\emph{create\_new\_config\_file=True}}{}
+This function will read the config file and initialize some variables
+accordingly. This function can be used by the command {[}i{]}.
+
+Available options:
+\begin{itemize}
+\item {} 
+root directory where PIGOR will start to look for measurement files
+
+\item {} 
+Should PIGOR look for files to analyse recursively?
+
+\item {} 
+Which file extention do the measurement files posess?
+
+\item {} 
+What plot output format should PIGOR use?
+
+\item {} 
+Should PIGOR automatically create an html file?
+
+\item {} 
+Should PIGOR automatically create a md file?
+
+\item {} 
+Should PIGOR create a txt file containing all used fit functions for the use in Mathematica?
+
+\end{itemize}
+
+\begin{sphinxadmonition}{note}{Note:}
+If no config file can be found, it will create one.
+\end{sphinxadmonition}
+
+\end{fulllineitems}
+
+\index{is\_valid\_theme() (in module pigor)@\spxentry{is\_valid\_theme()}\spxextra{in module pigor}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{pigor:pigor.is_valid_theme}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{pigor.}}\sphinxbfcode{\sphinxupquote{is\_valid\_theme}}}{\emph{theme}}{}
+Checks if this theme exists.
+
+\end{fulllineitems}
+
+\index{list\_themes() (in module pigor)@\spxentry{list\_themes()}\spxextra{in module pigor}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{pigor:pigor.list_themes}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{pigor.}}\sphinxbfcode{\sphinxupquote{list\_themes}}}{}{}
+Returns a list of all themes available.
+
+\end{fulllineitems}
+
+\index{main() (in module pigor)@\spxentry{main()}\spxextra{in module pigor}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{pigor:pigor.main}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{pigor.}}\sphinxbfcode{\sphinxupquote{main}}}{}{}
+Main Loop
+
+\end{fulllineitems}
+
+\index{print\_header() (in module pigor)@\spxentry{print\_header()}\spxextra{in module pigor}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{pigor:pigor.print_header}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{pigor.}}\sphinxbfcode{\sphinxupquote{print\_header}}}{\emph{text}}{}
+This function prints a beautiful header followed by one empty line.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{text}} \textendash{} text to be displayed as header
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{print\_help() (in module pigor)@\spxentry{print\_help()}\spxextra{in module pigor}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{pigor:pigor.print_help}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{pigor.}}\sphinxbfcode{\sphinxupquote{print\_help}}}{\emph{display='all'}}{}
+Prints a help menu on the screen for the user. This function can be used by the command {[}h{]}.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{display}} \textendash{} specify the lenght of the help menu, options are ‘all’ or ‘quick’ (Default value = “all”)
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{print\_root() (in module pigor)@\spxentry{print\_root()}\spxextra{in module pigor}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{pigor:pigor.print_root}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{pigor.}}\sphinxbfcode{\sphinxupquote{print\_root}}}{}{}
+Prints the root for PIGOR, e.g. where it will look for files to analyse. This function
+can be used by the command {[}x{]}.
+
+\end{fulllineitems}
+
+\index{remove\_generated\_files() (in module pigor)@\spxentry{remove\_generated\_files()}\spxextra{in module pigor}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{pigor:pigor.remove_generated_files}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{pigor.}}\sphinxbfcode{\sphinxupquote{remove\_generated\_files}}}{\emph{files='all'}}{}
+Removes the generated png, html and md files. This function can be used by the command {[}r{]}.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{files}} \textendash{} list of Path objects to files that should be removed; if set to ‘all’ it will delete all generated files (Default value = ‘all’)
+
+\end{description}\end{quote}
+
+\begin{sphinxadmonition}{note}{\label{pigor:index-3}Todo:}
+Cover the case when files are not a list of path, e.g. wrong input given.
+\end{sphinxadmonition}
+
+\end{fulllineitems}
+
+\index{show\_user() (in module pigor)@\spxentry{show\_user()}\spxextra{in module pigor}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{pigor:pigor.show_user}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{pigor.}}\sphinxbfcode{\sphinxupquote{show\_user}}}{\emph{func}}{}
+Register a function to be displayed to the user as an option
+
+\end{fulllineitems}
+
+\index{yn2bool() (in module pigor)@\spxentry{yn2bool()}\spxextra{in module pigor}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{pigor:pigor.yn2bool}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{pigor.}}\sphinxbfcode{\sphinxupquote{yn2bool}}}{\emph{s}}{}
+Converts yes and no to True and False.
+
+\end{fulllineitems}
+
+
 
 \chapter{The Measurement Class}
 \label{\detokenize{measurement:the-measurement-class}}\label{\detokenize{measurement::doc}}
@@ -438,11 +621,439 @@ There are many ways to interact with or use the Measurement class. Here are the 
 \begin{sphinxadmonition}{note}{\label{measurement:index-0}Todo:}
 Method attributes are shown, but value is always None.
 \end{sphinxadmonition}
+\phantomsection\label{\detokenize{measurement:module-measurement}}\index{measurement (module)@\spxentry{measurement}\spxextra{module}}\index{Measurement (class in measurement)@\spxentry{Measurement}\spxextra{class in measurement}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{measurement.}}\sphinxbfcode{\sphinxupquote{Measurement}}}{\emph{path}, \emph{type\_of\_measurement='default'}, \emph{type\_of\_fit='gauss'}}{}
+This class provides an easy way to read, analyse and plot data from
+text files.
+
+There are two different file formats, which are used on the interferometry
+as well as on the polarimeter station at Atominstitut of TU Wien. For more
+information on the conventions please head to the docs or take a look at
+the example files provided.
+\index{FIT\_RESOLUTION (measurement.Measurement attribute)@\spxentry{FIT\_RESOLUTION}\spxextra{measurement.Measurement attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.FIT_RESOLUTION}}\pysigline{\sphinxbfcode{\sphinxupquote{FIT\_RESOLUTION}}\sphinxbfcode{\sphinxupquote{ = None}}}
+number of points to calculate the fit for
+
+\end{fulllineitems}
+
+\index{N\_HEADER (measurement.Measurement attribute)@\spxentry{N\_HEADER}\spxextra{measurement.Measurement attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.N_HEADER}}\pysigline{\sphinxbfcode{\sphinxupquote{N\_HEADER}}\sphinxbfcode{\sphinxupquote{ = None}}}
+number of lines of header of measurement file
+
+\end{fulllineitems}
+
+\index{\_\_init\_\_() (measurement.Measurement method)@\spxentry{\_\_init\_\_()}\spxextra{measurement.Measurement method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.__init__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_init\_\_}}}{\emph{path}, \emph{type\_of\_measurement='default'}, \emph{type\_of\_fit='gauss'}}{}
+The Measurement class provides an easy and quick way to read, 
+analyse and plot data from text files. When creating a new instance,
+the following parameters have to be provided:
+\begin{quote}
+\begin{quote}\begin{description}
+\item[{param self}] \leavevmode
+the object itself
+
+\item[{param path}] \leavevmode
+pathlib.Path object
+
+\item[{param type\_of\_measurement}] \leavevmode
+used to hard set the type of measurement
+on instance creation (default value = ‘default’)
+
+\item[{param type\_of\_fit}] \leavevmode
+sets an initial fit type, which may be overridden
+by detect\_measurement\_type() later (default value
+= ‘gauss’)
+TODO: change to be permanent?
+
+\end{description}\end{quote}
+\end{quote}
+
+The startup sequence is as follows:
+\begin{enumerate}
+\def\theenumi{\arabic{enumi}}
+\def\labelenumi{\theenumi .}
+\makeatletter\def\p@enumii{\p@enumi \theenumi .}\makeatother
+\item {} 
+try to read the data
+
+\item {} 
+measurement type (either set it, when given as input argument or try to detect it)
+
+\item {} 
+if measurement is POL, try to find a position file and read it
+
+\item {} 
+clean up the given data
+
+\item {} 
+select columns =\textgreater{} write into self.x and self.y
+
+\item {} 
+if measurement is POL, calculate degree of polarisation
+
+\end{enumerate}
+
+\begin{sphinxadmonition}{note}{\label{measurement:index-1}Todo:}
+Is type\_of\_fit really needed?
+\end{sphinxadmonition}
+
+Returns nothing.
+
+\end{fulllineitems}
+
+\index{clean\_data() (measurement.Measurement method)@\spxentry{clean\_data()}\spxextra{measurement.Measurement method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.clean_data}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{clean\_data}}}{}{}
+Splits the \sphinxcode{\sphinxupquote{raw}} data into \sphinxcode{\sphinxupquote{head}} and \sphinxcode{\sphinxupquote{data}} vars.
+
+\end{fulllineitems}
+
+\index{contrast() (measurement.Measurement method)@\spxentry{contrast()}\spxextra{measurement.Measurement method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.contrast}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{contrast}}}{\emph{source='fit'}}{}
+Calculates the contrast of source as:
+
+\sphinxcode{\sphinxupquote{contrast = (max-min) / (max+min)}}
+
+where \sphinxcode{\sphinxupquote{min}} and \sphinxcode{\sphinxupquote{max}} are the minima and maxima of the given data.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{source}} \textendash{} defines the source of the data to calculate the contrast from,
+can be either set to ‘fit’ or ‘data’ (Default value = ‘fit’)
+
+\end{description}\end{quote}
+
+Returns a list of contrasts.
+
+\begin{sphinxadmonition}{note}{\label{measurement:index-2}Todo:}
+When calculation of contrast fails, what should this function return? Now it returns {[}0{]}.
+\end{sphinxadmonition}
+
+\end{fulllineitems}
+
+\index{degree\_of\_polarisation() (measurement.Measurement method)@\spxentry{degree\_of\_polarisation()}\spxextra{measurement.Measurement method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.degree_of_polarisation}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{degree\_of\_polarisation}}}{}{}
+Calculates the degree of polarisation for each position in \sphinxcode{\sphinxupquote{pos\_data}}.
+
+\end{fulllineitems}
+
+\index{detect\_measurement\_type() (measurement.Measurement method)@\spxentry{detect\_measurement\_type()}\spxextra{measurement.Measurement method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.detect_measurement_type}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{detect\_measurement\_type}}}{}{}
+This function auto detects the type of measurement based on the file
+name. This works best with a meaningful file name convention. For more
+information please refer to the docs.
+
+Several \sphinxcode{\sphinxupquote{type\_of\_measurement}} can be detected:
+\begin{itemize}
+\item {} 
+DC\#X: x-field of DC coil number \# scan -\textgreater{} sets \sphinxcode{\sphinxupquote{type\_of\_fit = 'sine\_lin'}}
+
+\item {} 
+DC\#Z: z-field of DC coil number \# scan -\textgreater{} sets \sphinxcode{\sphinxupquote{type\_of\_fit = 'poly5'}}
+
+\item {} 
+POS: scan of different linear stage positions -\textgreater{} sets \sphinxcode{\sphinxupquote{type\_of\_fit = 'gauss'}}
+
+\end{itemize}
+
+\sphinxcode{\sphinxupquote{type\_of\_fit}} can be overridden by explicitly mentioning a fit function to use
+in the name of the file. See docs for more information.
+
+In addition to the type of fit and measurement type, some additional
+information about the measurement is gathered in the \sphinxcode{\sphinxupquote{settings}} dict.
+
+\end{fulllineitems}
+
+\index{export\_meta() (measurement.Measurement method)@\spxentry{export\_meta()}\spxextra{measurement.Measurement method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.export_meta}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{export\_meta}}}{\emph{make\_md=True}, \emph{make\_html=False}, \emph{theme='github'}}{}
+Exports all available information about the measurement into
+a markdown file.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{html}} \textendash{} if set to True, an HTML file will be additionally
+created (Default value = False)
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{theme}} \textendash{} set the default theme for html export, all
+available themes can be found in the markdown\_themes
+directory (Default value = ‘github’)
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{find\_bounds() (measurement.Measurement method)@\spxentry{find\_bounds()}\spxextra{measurement.Measurement method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.find_bounds}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{find\_bounds}}}{\emph{fit\_function=None}}{}
+Automatically finds usefull fit bounds and updates them
+in the \sphinxcode{\sphinxupquote{fit\_function\_list}} dict.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{fit\_function}} \textendash{} defines for which fit functions the
+bounds should be updated (Default
+value = None), if set to None, type\_of\_fit
+will be used
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{fit() (measurement.Measurement method)@\spxentry{fit()}\spxextra{measurement.Measurement method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.fit}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{fit}}}{\emph{fit\_function=None}, \emph{fit\_function\_export=False}}{}
+Fits the data in \sphinxcode{\sphinxupquote{x}} and \sphinxcode{\sphinxupquote{y}} using the default fit function of each
+\sphinxcode{\sphinxupquote{type\_of\_fit}} if not specified further by passing a certain fit function as an
+argument.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{fit\_function}} \textendash{} fit function to use to fit the data with (Default value = None)
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{fit\_function\_export}} \textendash{} exports the fit function as a txt file in a specified format (Mathematica is default and only implementation yet.).
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+Stores the optimal values and the covariances in \sphinxcode{\sphinxupquote{popt}} and \sphinxcode{\sphinxupquote{pcov}} for
+later use.
+
+\end{fulllineitems}
+
+\index{fit\_function\_list (measurement.Measurement attribute)@\spxentry{fit\_function\_list}\spxextra{measurement.Measurement attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.fit_function_list}}\pysigline{\sphinxbfcode{\sphinxupquote{fit\_function\_list}}\sphinxbfcode{\sphinxupquote{ = None}}}
+list of fit functions that can be used; imported from fit\_functions.py
+
+\end{fulllineitems}
+
+\index{measurement\_type() (measurement.Measurement method)@\spxentry{measurement\_type()}\spxextra{measurement.Measurement method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.measurement_type}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{measurement\_type}}}{\emph{type\_of\_measurement='default'}}{}
+Sets the type of the measurement if parameter type\_of\_measurement is set.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{self}} \textendash{} object itself
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{type\_of\_measurement}} \textendash{} default”:   new type of measurement (default 
+value = ‘default’)
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+Returns the current type of measurement.
+
+\begin{sphinxadmonition}{note}{\label{measurement:index-3}Todo:}
+Evaluate if this method (measurement\_type()) is needed at all.
+\end{sphinxadmonition}
+
+\begin{sphinxadmonition}{note}{\label{measurement:index-4}Todo:}
+Set better default value for measurement type.
+\end{sphinxadmonition}
+
+\end{fulllineitems}
+
+\index{path (measurement.Measurement attribute)@\spxentry{path}\spxextra{measurement.Measurement attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.path}}\pysigline{\sphinxbfcode{\sphinxupquote{path}}\sphinxbfcode{\sphinxupquote{ = None}}}
+path (pathlib.Path object) to the measurement file
+
+\end{fulllineitems}
+
+\index{plot() (measurement.Measurement method)@\spxentry{plot()}\spxextra{measurement.Measurement method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.plot}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{plot}}}{\emph{column1=(0}, \emph{1)}, \emph{column2=(1}, \emph{1)}, \emph{fit=True}, \emph{type\_of\_plot=''}, \emph{override=True}, \emph{file\_extention='.png'}}{}
+Creates a plot for the data. If fit is set to False the data fit won’t be
+plotted, even if there exists one. Following parameters are possible:
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{self}} \textendash{} the object itself
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{column1}} \textendash{} (column, nth element) to choose the data from for x-axis (Default value = (0)
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{column2}} \textendash{} (column, nth element) to choose the data from for y-axis (Default value = (1)
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{fit}} \textendash{} if set to False plotting of the fit will be supressed (Default value = True)
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{type\_of\_plot}} \textendash{} string to specify a certain plot type, which will be used
+in the file name as well as in the plot title (Default value = ‘’)
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{override}} \textendash{} determines if plot image should be recreated if it already exists (Default value = True)
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\begin{sphinxadmonition}{note}{\label{measurement:index-5}Todo:}
+Make x and y labels more general, especially for interferometer files, where more that one y value list is needed.
+\end{sphinxadmonition}
+
+\end{fulllineitems}
+
+\index{pos\_file\_path (measurement.Measurement attribute)@\spxentry{pos\_file\_path}\spxextra{measurement.Measurement attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.pos_file_path}}\pysigline{\sphinxbfcode{\sphinxupquote{pos\_file\_path}}\sphinxbfcode{\sphinxupquote{ = None}}}
+path (pathlib.Path object) to the corresponding position file
+
+\end{fulllineitems}
+
+\index{read\_data() (measurement.Measurement method)@\spxentry{read\_data()}\spxextra{measurement.Measurement method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.read_data}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{read\_data}}}{\emph{path}}{}
+Reads data from file and stores it in \sphinxcode{\sphinxupquote{raw}}.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{self}} \textendash{} the object itself
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{path}} \textendash{} a pathlib.Path object pointing to a measurement file
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{read\_pos\_file() (measurement.Measurement method)@\spxentry{read\_pos\_file()}\spxextra{measurement.Measurement method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.read_pos_file}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{read\_pos\_file}}}{}{}
+Looks for a position file and reads it into \sphinxcode{\sphinxupquote{pos\_data}}.
+
+\begin{sphinxadmonition}{note}{\label{measurement:index-6}Todo:}
+When searching for a position file, the lenght of the file should match. So it should be 1/4 of the size of the original measurement file.
+\end{sphinxadmonition}
+
+\end{fulllineitems}
+
+\index{reset\_bounds() (measurement.Measurement method)@\spxentry{reset\_bounds()}\spxextra{measurement.Measurement method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.reset_bounds}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{reset\_bounds}}}{\emph{fit\_function=None}}{}
+Resets the bounds of the measurement type’s default fitting
+function if not specified otherwise.
+
+Reset values are \sphinxcode{\sphinxupquote{(-np.inf, np.inf)}}.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{fit\_function}} \textendash{} specifies the fit function for which the
+bounds should be reset (Default value = None)
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{select\_columns() (measurement.Measurement method)@\spxentry{select\_columns()}\spxextra{measurement.Measurement method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.select_columns}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{select\_columns}}}{\emph{m=None}}{}
+Selects columns of the \sphinxcode{\sphinxupquote{data}} as specified in m (map) and
+saves in \sphinxcode{\sphinxupquote{x}} and \sphinxcode{\sphinxupquote{y{[}{]}}}.
+
+..note:: \sphinxcode{\sphinxupquote{y\_error{[}{]}}} is calculated as sqrt(y)
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{m}} \textendash{} map, e.g. list of tuples or None values; if m=None
+select\_columns will be skipped (Default value = None)
+
+\end{description}\end{quote}
+
+The map \sphinxcode{\sphinxupquote{m}} definies which columns of the original measurement
+data will be used later. Only one x-axis can be defined, but multiple
+y-axes may be used. The lenght of the map must not exceed the number
+of the columns in \sphinxcode{\sphinxupquote{data}}, but can be less or equal.
+
+Each map is a list of items, which can either be tuples or None
+values, if a column should be skipped. In the case of a tuple, the
+first value must be a string, either ‘x’ or ‘y’, which determines
+if the column should be interpreted as an x- or y-axis. Its second
+value describes what nth element of the columns should be selected.
+
+A few examples:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{m} \PYG{o}{=} \PYG{p}{[}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{x}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{,}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{y}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{]}
+\end{sphinxVerbatim}
+
+This will select the first column as x-axis and take every (1st)
+element of it, and the second column as y-axis, also using every
+element of that column.
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{m} \PYG{o}{=} \PYG{p}{[}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{y}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{,}\PYG{k+kc}{None}\PYG{p}{,}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{x}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{,}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{y}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{]}
+\end{sphinxVerbatim}
+
+Here we will take every second element of column 1, 3 and 4, but
+skip column 2.
+
+\begin{sphinxadmonition}{note}{Note:}
+If the lenght of the map is less than the number of columns in \sphinxcode{\sphinxupquote{data}}, every column that has no corresponding map element will be skipped.
+\end{sphinxadmonition}
+
+\end{fulllineitems}
+
+\index{settings (measurement.Measurement attribute)@\spxentry{settings}\spxextra{measurement.Measurement attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.settings}}\pysigline{\sphinxbfcode{\sphinxupquote{settings}}\sphinxbfcode{\sphinxupquote{ = None}}}
+dict containing useful information read from files header in clean\_data()
+
+\end{fulllineitems}
+
+\index{type\_of\_fit (measurement.Measurement attribute)@\spxentry{type\_of\_fit}\spxextra{measurement.Measurement attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.type_of_fit}}\pysigline{\sphinxbfcode{\sphinxupquote{type\_of\_fit}}\sphinxbfcode{\sphinxupquote{ = None}}}
+type of fit to be applied to the data
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
 
 
 \chapter{Measurement Class 2.0}
 \label{\detokenize{measurement2:measurement-class-2-0}}\label{\detokenize{measurement2::doc}}
-Due to some design flaws in the existsing \sphinxcode{\sphinxupquote{measurement.Measurement}} class, it will be rewritten from ground up using already existsing libraries. This undertaking will lead to a cleaner version and will make it possible to adapt \sphinxcode{\sphinxupquote{measurement.Measurement}} more easily for the interferometer experiments.
+Due to some design flaws in the existsing {\hyperref[\detokenize{measurement:measurement.Measurement}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{measurement.Measurement}}}}} class, it will be rewritten from ground up using already existsing libraries. This undertaking will lead to a cleaner version and will make it possible to adapt {\hyperref[\detokenize{measurement:measurement.Measurement}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{measurement.Measurement}}}}} more easily for the interferometer experiments.
 
 
 \section{Structure}
@@ -462,7 +1073,7 @@ So that the fitting will be done with LMFIT models, whereas the data is handled 
 
 \section{Previous Development}
 \label{\detokenize{measurement2:previous-development}}
-There have been efforts previously to build a unique own modular \sphinxcode{\sphinxupquote{measurement.Measurement}} class by Nico. These efforts can be examined in the branch improvements/core.
+There have been efforts previously to build a unique own modular {\hyperref[\detokenize{measurement:measurement.Measurement}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{measurement.Measurement}}}}} class by Nico. These efforts can be examined in the branch improvements/core.
 
 These following elements were attemted to build:
 \begin{itemize}
@@ -1032,6 +1643,66 @@ Method attributes are shown, but value is always None.
 
 (The {\hyperref[\detokenize{measurement:index-0}]{\sphinxcrossref{\sphinxstyleemphasis{original entry}}}} is located in /Users/nicoeinsidler/Code/pigor/doc/measurement.rst, line 62.)
 
+\begin{sphinxadmonition}{note}{Todo:}
+Is type\_of\_fit really needed?
+\end{sphinxadmonition}
+
+(The {\hyperref[\detokenize{measurement:index-1}]{\sphinxcrossref{\sphinxstyleemphasis{original entry}}}} is located in /Users/nicoeinsidler/Code/pigor/measurement.py:docstring of measurement.Measurement.\_\_init\_\_, line 23.)
+
+\begin{sphinxadmonition}{note}{Todo:}
+When calculation of contrast fails, what should this function return? Now it returns {[}0{]}.
+\end{sphinxadmonition}
+
+(The {\hyperref[\detokenize{measurement:index-2}]{\sphinxcrossref{\sphinxstyleemphasis{original entry}}}} is located in /Users/nicoeinsidler/Code/pigor/measurement.py:docstring of measurement.Measurement.contrast, line 12.)
+
+\begin{sphinxadmonition}{note}{Todo:}
+Evaluate if this method (measurement\_type()) is needed at all.
+\end{sphinxadmonition}
+
+(The {\hyperref[\detokenize{measurement:index-3}]{\sphinxcrossref{\sphinxstyleemphasis{original entry}}}} is located in /Users/nicoeinsidler/Code/pigor/measurement.py:docstring of measurement.Measurement.measurement\_type, line 9.)
+
+\begin{sphinxadmonition}{note}{Todo:}
+Set better default value for measurement type.
+\end{sphinxadmonition}
+
+(The {\hyperref[\detokenize{measurement:index-4}]{\sphinxcrossref{\sphinxstyleemphasis{original entry}}}} is located in /Users/nicoeinsidler/Code/pigor/measurement.py:docstring of measurement.Measurement.measurement\_type, line 10.)
+
+\begin{sphinxadmonition}{note}{Todo:}
+Make x and y labels more general, especially for interferometer files, where more that one y value list is needed.
+\end{sphinxadmonition}
+
+(The {\hyperref[\detokenize{measurement:index-5}]{\sphinxcrossref{\sphinxstyleemphasis{original entry}}}} is located in /Users/nicoeinsidler/Code/pigor/measurement.py:docstring of measurement.Measurement.plot, line 12.)
+
+\begin{sphinxadmonition}{note}{Todo:}
+When searching for a position file, the lenght of the file should match. So it should be 1/4 of the size of the original measurement file.
+\end{sphinxadmonition}
+
+(The {\hyperref[\detokenize{measurement:index-6}]{\sphinxcrossref{\sphinxstyleemphasis{original entry}}}} is located in /Users/nicoeinsidler/Code/pigor/measurement.py:docstring of measurement.Measurement.read\_pos\_file, line 3.)
+
+\begin{sphinxadmonition}{note}{Todo:}
+Change to no override mode. measurement.Measurement.plot(override=False)
+\end{sphinxadmonition}
+
+(The {\hyperref[\detokenize{pigor:index-0}]{\sphinxcrossref{\sphinxstyleemphasis{original entry}}}} is located in /Users/nicoeinsidler/Code/pigor/pigor.py:docstring of pigor.analyse\_files, line 6.)
+
+\begin{sphinxadmonition}{note}{Todo:}
+a + today =\textgreater{} only analyse files for today
+\end{sphinxadmonition}
+
+(The {\hyperref[\detokenize{pigor:index-1}]{\sphinxcrossref{\sphinxstyleemphasis{original entry}}}} is located in /Users/nicoeinsidler/Code/pigor/pigor.py:docstring of pigor.analyse\_files, line 7.)
+
+\begin{sphinxadmonition}{note}{Todo:}
+a + override =\textgreater{} override=True
+\end{sphinxadmonition}
+
+(The {\hyperref[\detokenize{pigor:index-2}]{\sphinxcrossref{\sphinxstyleemphasis{original entry}}}} is located in /Users/nicoeinsidler/Code/pigor/pigor.py:docstring of pigor.analyse\_files, line 8.)
+
+\begin{sphinxadmonition}{note}{Todo:}
+Cover the case when files are not a list of path, e.g. wrong input given.
+\end{sphinxadmonition}
+
+(The {\hyperref[\detokenize{pigor:index-3}]{\sphinxcrossref{\sphinxstyleemphasis{original entry}}}} is located in /Users/nicoeinsidler/Code/pigor/pigor.py:docstring of pigor.remove\_generated\_files, line 5.)
+
 
 \chapter{Old ToDos}
 \label{\detokenize{index:old-todos}}
@@ -1135,6 +1806,12 @@ markdown
 \let\bigletter\sphinxstyleindexlettergroup
 \bigletter{f}
 \item\relax\sphinxstyleindexentry{fit\_functions}\sphinxstyleindexpageref{fit-functions:\detokenize{module-fit_functions}}
+\indexspace
+\bigletter{m}
+\item\relax\sphinxstyleindexentry{measurement}\sphinxstyleindexpageref{measurement:\detokenize{module-measurement}}
+\indexspace
+\bigletter{p}
+\item\relax\sphinxstyleindexentry{pigor}\sphinxstyleindexpageref{pigor:\detokenize{module-pigor}}
 \end{sphinxtheindex}
 
 \renewcommand{\indexname}{Index}
