@@ -25,7 +25,6 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
-        <script type="text/javascript" src="https://unpkg.com/mermaid@7.1.0/dist/mermaid.min.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -88,7 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart Guide</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">PIGOR</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#what-pigor-does">What PIGOR does</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#pigors-inner-workings">PIGORs inner workings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pigor">PIGORs inner workings</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="measurement.html">The Measurement Class</a></li>
@@ -177,8 +176,159 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="pigors-inner-workings">
-<h2>PIGORs inner workings<a class="headerlink" href="#pigors-inner-workings" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pigor">
+<span id="pigors-inner-workings"></span><h2>PIGORs inner workings<a class="headerlink" href="#module-pigor" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pigor.analyse_files">
+<code class="descclassname">pigor.</code><code class="descname">analyse_files</code><span class="sig-paren">(</span><em>filepaths='all'</em><span class="sig-paren">)</span><a class="headerlink" href="#pigor.analyse_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Analyses all given files in list. This function can be used by the command [a].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filepaths</strong> – list of files to analyse with
+their relative dir path added</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">Change to no override mode. measurement.Measurement.plot(override=False)</p>
+</div>
+<div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">a + today =&gt; only analyse files for today</p>
+</div>
+<div class="admonition-todo admonition" id="index-2">
+<p class="first admonition-title">Todo</p>
+<p class="last">a + override =&gt; override=True</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pigor.bool2yn">
+<code class="descclassname">pigor.</code><code class="descname">bool2yn</code><span class="sig-paren">(</span><em>b</em><span class="sig-paren">)</span><a class="headerlink" href="#pigor.bool2yn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a boolean to yes or no with the mapping: y = True, n = False.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pigor.create_index">
+<code class="descclassname">pigor.</code><code class="descname">create_index</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pigor.create_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an index.html listing all directories and subdirectories and their HTML and Markdown files. This function can be used by the command [j].</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pigor.find_all_files">
+<code class="descclassname">pigor.</code><code class="descname">find_all_files</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pigor.find_all_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds all dat files recursively in all subdirectories ignoring hidden directories
+and Python specific ones.</p>
+<p>Returns a list of filepaths.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pigor.init">
+<code class="descclassname">pigor.</code><code class="descname">init</code><span class="sig-paren">(</span><em>create_new_config_file=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pigor.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will read the config file and initialize some variables
+accordingly. This function can be used by the command [i].</p>
+<p>Available options:</p>
+<ul class="simple">
+<li>root directory where PIGOR will start to look for measurement files</li>
+<li>Should PIGOR look for files to analyse recursively?</li>
+<li>Which file extention do the measurement files posess?</li>
+<li>What plot output format should PIGOR use?</li>
+<li>Should PIGOR automatically create an html file?</li>
+<li>Should PIGOR automatically create a md file?</li>
+<li>Should PIGOR create a txt file containing all used fit functions for the use in Mathematica?</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If no config file can be found, it will create one.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pigor.is_valid_theme">
+<code class="descclassname">pigor.</code><code class="descname">is_valid_theme</code><span class="sig-paren">(</span><em>theme</em><span class="sig-paren">)</span><a class="headerlink" href="#pigor.is_valid_theme" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if this theme exists.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pigor.list_themes">
+<code class="descclassname">pigor.</code><code class="descname">list_themes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pigor.list_themes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of all themes available.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pigor.main">
+<code class="descclassname">pigor.</code><code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pigor.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main Loop</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pigor.print_header">
+<code class="descclassname">pigor.</code><code class="descname">print_header</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="headerlink" href="#pigor.print_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function prints a beautiful header followed by one empty line.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> – text to be displayed as header</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pigor.print_help">
+<code class="descclassname">pigor.</code><code class="descname">print_help</code><span class="sig-paren">(</span><em>display='all'</em><span class="sig-paren">)</span><a class="headerlink" href="#pigor.print_help" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints a help menu on the screen for the user. This function can be used by the command [h].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>display</strong> – specify the lenght of the help menu, options are ‘all’ or ‘quick’ (Default value = “all”)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pigor.print_root">
+<code class="descclassname">pigor.</code><code class="descname">print_root</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pigor.print_root" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the root for PIGOR, e.g. where it will look for files to analyse. This function
+can be used by the command [x].</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pigor.remove_generated_files">
+<code class="descclassname">pigor.</code><code class="descname">remove_generated_files</code><span class="sig-paren">(</span><em>files='all'</em><span class="sig-paren">)</span><a class="headerlink" href="#pigor.remove_generated_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the generated png, html and md files. This function can be used by the command [r].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>files</strong> – list of Path objects to files that should be removed; if set to ‘all’ it will delete all generated files (Default value = ‘all’)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-todo admonition" id="index-3">
+<p class="first admonition-title">Todo</p>
+<p class="last">Cover the case when files are not a list of path, e.g. wrong input given.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pigor.show_user">
+<code class="descclassname">pigor.</code><code class="descname">show_user</code><span class="sig-paren">(</span><em>func</em><span class="sig-paren">)</span><a class="headerlink" href="#pigor.show_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register a function to be displayed to the user as an option</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pigor.yn2bool">
+<code class="descclassname">pigor.</code><code class="descname">yn2bool</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#pigor.yn2bool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts yes and no to True and False.</p>
+</dd></dl>
+
 </div>
 </div>
 

@@ -160,7 +160,7 @@
 <p>The following fit functions are implemented and can be used within PIGOR or the Measurement class. They can be found in <code class="code docutils literal notranslate"><span class="pre">fit_functions.py</span></code>.</p>
 <span class="target" id="module-fit_functions"></span><dl class="function">
 <dt id="fit_functions.gauss">
-<code class="descclassname">fit_functions.</code><code class="descname">gauss</code><span class="sig-paren">(</span><em>x</em>, <em>a</em>, <em>x0</em>, <em>sigma</em><span class="sig-paren">)</span><a class="headerlink" href="#fit_functions.gauss" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fit_functions.</code><code class="descname">gauss</code><span class="sig-paren">(</span><em>x</em>, <em>a</em>, <em>x0</em>, <em>sigma</em>, <em>export=False</em><span class="sig-paren">)</span><a class="headerlink" href="#fit_functions.gauss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gaussian function, used for fitting data.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -171,6 +171,7 @@
 <li><strong>a</strong> – amplitude</li>
 <li><strong>x0</strong> – maximum</li>
 <li><strong>sigma</strong> – width</li>
+<li><strong>export</strong> – enable text output of function</li>
 </ul>
 </td>
 </tr>
@@ -179,8 +180,42 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="fit_functions.poly">
+<code class="descclassname">fit_functions.</code><code class="descname">poly</code><span class="sig-paren">(</span><em>x</em>, <em>*args</em>, <em>export=False</em><span class="sig-paren">)</span><a class="headerlink" href="#fit_functions.poly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Polynom nth degree for fitting.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>int</em><em>, </em><em>float</em>) – parameter</li>
+<li><strong>*args</strong> – <p>list of coefficients [a_N,a_N-1, …, a_1, a_0]</p>
+</li>
+<li><strong>export</strong> (<em>bool</em><em> or </em><em>string</em><em>, </em><em>optional</em>) – enable text output of function, defaults to False</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">returns the polynomial</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">str, int, float</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poly</span><span class="p">(</span><span class="mf">3.4543</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">export</span><span class="o">=</span><span class="s1">&#39;Mathematica&#39;</span><span class="p">)</span>
+<span class="go">&#39;5*3.4543^5 + 4*3.4543^4 + 3*3.4543^3 + 2*3.4543^2 + 1*3.4543^1&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poly</span><span class="p">(</span><span class="mf">3.4543</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">920.4602110784704</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="fit_functions.poly5">
-<code class="descclassname">fit_functions.</code><code class="descname">poly5</code><span class="sig-paren">(</span><em>x</em>, <em>a5</em>, <em>a4</em>, <em>a3</em>, <em>a2</em>, <em>a1</em>, <em>a0</em><span class="sig-paren">)</span><a class="headerlink" href="#fit_functions.poly5" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fit_functions.</code><code class="descname">poly5</code><span class="sig-paren">(</span><em>x</em>, <em>a5</em>, <em>a4</em>, <em>a3</em>, <em>a2</em>, <em>a1</em>, <em>a0</em>, <em>export=False</em><span class="sig-paren">)</span><a class="headerlink" href="#fit_functions.poly5" title="Permalink to this definition">¶</a></dt>
 <dd><p>Polynom 5th degree for fitting.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -194,6 +229,7 @@
 <li><strong>a2</strong> – coeff</li>
 <li><strong>a1</strong> – coeff</li>
 <li><strong>a0</strong> – coeff</li>
+<li><strong>export</strong> – enable text output of function</li>
 </ul>
 </td>
 </tr>
@@ -202,10 +238,6 @@
 </tr>
 </tbody>
 </table>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">Make generalized polynomial generator function.</p>
-</div>
 </dd></dl>
 
 <dl class="function">
@@ -216,7 +248,7 @@
 
 <dl class="function">
 <dt id="fit_functions.sine">
-<code class="descclassname">fit_functions.</code><code class="descname">sine</code><span class="sig-paren">(</span><em>x</em>, <em>a</em>, <em>omega</em>, <em>phase</em>, <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#fit_functions.sine" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fit_functions.</code><code class="descname">sine</code><span class="sig-paren">(</span><em>x</em>, <em>a</em>, <em>omega</em>, <em>phase</em>, <em>c</em>, <em>export=False</em><span class="sig-paren">)</span><a class="headerlink" href="#fit_functions.sine" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sine function for fitting data.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -228,6 +260,7 @@
 <li><strong>omega</strong> – frequency</li>
 <li><strong>phase</strong> – phase</li>
 <li><strong>c</strong> – offset</li>
+<li><strong>export</strong> – enable text output of function</li>
 </ul>
 </td>
 </tr>
@@ -237,7 +270,7 @@
 
 <dl class="function">
 <dt id="fit_functions.sine_lin">
-<code class="descclassname">fit_functions.</code><code class="descname">sine_lin</code><span class="sig-paren">(</span><em>x</em>, <em>a</em>, <em>omega</em>, <em>phase</em>, <em>c</em>, <em>b</em><span class="sig-paren">)</span><a class="headerlink" href="#fit_functions.sine_lin" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fit_functions.</code><code class="descname">sine_lin</code><span class="sig-paren">(</span><em>x</em>, <em>a</em>, <em>omega</em>, <em>phase</em>, <em>c</em>, <em>b</em>, <em>export=False</em><span class="sig-paren">)</span><a class="headerlink" href="#fit_functions.sine_lin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sine function with linear term added for fitting data.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -250,6 +283,7 @@
 <li><strong>phase</strong> – phase</li>
 <li><strong>c</strong> – offset</li>
 <li><strong>b</strong> – slope</li>
+<li><strong>export</strong> – enable text output of function</li>
 </ul>
 </td>
 </tr>

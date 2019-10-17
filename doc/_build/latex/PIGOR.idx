@@ -1,0 +1,7 @@
+\indexentry{fit\_functions (module)@\spxentry{fit\_functions}\spxextra{module}|hyperpage}{17}
+\indexentry{gauss() (in module fit\_functions)@\spxentry{gauss()}\spxextra{in module fit\_functions}|hyperpage}{17}
+\indexentry{poly() (in module fit\_functions)@\spxentry{poly()}\spxextra{in module fit\_functions}|hyperpage}{17}
+\indexentry{poly5() (in module fit\_functions)@\spxentry{poly5()}\spxextra{in module fit\_functions}|hyperpage}{17}
+\indexentry{register\_fit\_function() (in module fit\_functions)@\spxentry{register\_fit\_function()}\spxextra{in module fit\_functions}|hyperpage}{18}
+\indexentry{sine() (in module fit\_functions)@\spxentry{sine()}\spxextra{in module fit\_functions}|hyperpage}{18}
+\indexentry{sine\_lin() (in module fit\_functions)@\spxentry{sine\_lin()}\spxextra{in module fit\_functions}|hyperpage}{18}
