@@ -272,7 +272,9 @@ def analyse_files(filepaths='all'):
 
 @show_user
 def create_index():
-    """Creates an index.html listing all directories and subdirectories and their HTML and Markdown files. This function can be used by the command [j]."""
+    """Creates an index.html listing all directories and subdirectories and their HTML and Markdown files. If 
+    a default browser is found, it will automatically open index.html. This function can be used by the 
+    command [j]."""
     
     # theme for the index.html
     theme = configuration['EXPORT_THEME']
