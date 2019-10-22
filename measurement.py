@@ -500,7 +500,7 @@ class Measurement:
                     txtfile.write('{}'.format(line))
             
 
-    def plot(self, column1=(0,1), column2=(1,1), fit=True, type_of_plot='', override=True, file_extention='.png'):
+    def plot(self, column1=(0,1), column2=(1,1), fit=True, type_of_plot='', override=True, file_extention='.png', enable_jupyter=False):
         """Creates a plot for the data. If fit is set to False the data fit won't be
         plotted, even if there exists one. Following parameters are possible:
 
@@ -511,6 +511,7 @@ class Measurement:
         :param type_of_plot:    string to specify a certain plot type, which will be used
                                 in the file name as well as in the plot title (Default value = '')
         :param override:        determines if plot image should be recreated if it already exists (Default value = True)
+        :param enable_jupyter:  if set to True, triggers plt.show() so the Measurement class can be used in a Juypter Notebook
 
         .. todo:: Make x and y labels more general, especially for interferometer files, where more that one y value list is needed.
         """
@@ -588,6 +589,10 @@ class Measurement:
             # save plot to file
         plt.savefig(n, format=file_extention[1:])
 
+        # fire show() to work in Jupyter Notebooks
+        if enable_jupyter == True:
+            plt.show()
+        
         # clear figure/plot for next
         plt.clf()
 
