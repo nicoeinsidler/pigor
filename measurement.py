@@ -585,13 +585,16 @@ class Measurement:
 
         self.plot_path = Path(n)
 
-        #if (override == False and not os.path.isfile(n)):
-            # save plot to file
-        plt.savefig(n, format=file_extention[1:])
-
-        # fire show() to work in Jupyter Notebooks
-        if enable_jupyter == True:
+        if (override == False and Path(n).is_file()):
+            # don't override existing plot
+            pass
+        elif (enable_jupyter == True):
+            # fire show() to work in Jupyter Notebooks
             plt.show()
+        else:
+            # save plot to file
+            plt.savefig(n, format=file_extention[1:])
+
         
         # clear figure/plot for next
         plt.clf()
