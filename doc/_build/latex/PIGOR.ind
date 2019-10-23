@@ -1,0 +1,104 @@
+\begin{sphinxtheindex}
+\let\bigletter\sphinxstyleindexlettergroup
+\let\spxpagem \sphinxstyleindexpagemain
+\let\spxentry \sphinxstyleindexentry
+\let\spxextra \sphinxstyleindexextra
+
+  \bigletter {\sphinxsymbolsname}
+  \item \spxentry{\_\_init\_\_()}\spxextra{measurement.Measurement method}, \hyperpage{17}
+
+  \indexspace
+  \bigletter A
+  \item \spxentry{analyse\_files()}\spxextra{in module pigor}, \hyperpage{11}
+
+  \indexspace
+  \bigletter B
+  \item \spxentry{bool2yn()}\spxextra{in module pigor}, \hyperpage{11}
+
+  \indexspace
+  \bigletter C
+  \item \spxentry{clean\_data()}\spxextra{measurement.Measurement method}, \hyperpage{18}
+  \item \spxentry{contrast()}\spxextra{measurement.Measurement method}, \hyperpage{18}
+  \item \spxentry{create\_index()}\spxextra{in module pigor}, \hyperpage{11}
+
+  \indexspace
+  \bigletter D
+  \item \spxentry{degree\_of\_polarisation()}\spxextra{measurement.Measurement method}, 
+		\hyperpage{18}
+  \item \spxentry{detect\_measurement\_type()}\spxextra{measurement.Measurement method}, 
+		\hyperpage{18}
+
+  \indexspace
+  \bigletter E
+  \item \spxentry{export\_meta()}\spxextra{measurement.Measurement method}, \hyperpage{19}
+
+  \indexspace
+  \bigletter F
+  \item \spxentry{find\_all\_files()}\spxextra{in module pigor}, \hyperpage{11}
+  \item \spxentry{find\_bounds()}\spxextra{measurement.Measurement method}, \hyperpage{19}
+  \item \spxentry{fit()}\spxextra{measurement.Measurement method}, \hyperpage{19}
+  \item \spxentry{fit\_function\_list}\spxextra{measurement.Measurement attribute}, \hyperpage{19}
+  \item \spxentry{fit\_functions}\spxextra{module}, \hyperpage{25}
+  \item \spxentry{FIT\_RESOLUTION}\spxextra{measurement.Measurement attribute}, \hyperpage{17}
+
+  \indexspace
+  \bigletter G
+  \item \spxentry{gauss()}\spxextra{in module fit\_functions}, \hyperpage{25}
+
+  \indexspace
+  \bigletter I
+  \item \spxentry{init()}\spxextra{in module pigor}, \hyperpage{12}
+  \item \spxentry{is\_valid\_theme()}\spxextra{in module pigor}, \hyperpage{12}
+
+  \indexspace
+  \bigletter L
+  \item \spxentry{list\_themes()}\spxextra{in module pigor}, \hyperpage{12}
+
+  \indexspace
+  \bigletter M
+  \item \spxentry{main()}\spxextra{in module pigor}, \hyperpage{12}
+  \item \spxentry{Measurement}\spxextra{class in measurement}, \hyperpage{17}
+  \item \spxentry{measurement}\spxextra{module}, \hyperpage{17}
+  \item \spxentry{measurement\_type()}\spxextra{measurement.Measurement method}, \hyperpage{19}
+
+  \indexspace
+  \bigletter N
+  \item \spxentry{N\_HEADER}\spxextra{measurement.Measurement attribute}, \hyperpage{17}
+
+  \indexspace
+  \bigletter P
+  \item \spxentry{path}\spxextra{measurement.Measurement attribute}, \hyperpage{19}
+  \item \spxentry{pigor}\spxextra{module}, \hyperpage{11}
+  \item \spxentry{plot()}\spxextra{measurement.Measurement method}, \hyperpage{19}
+  \item \spxentry{poly()}\spxextra{in module fit\_functions}, \hyperpage{25}
+  \item \spxentry{poly5()}\spxextra{in module fit\_functions}, \hyperpage{25}
+  \item \spxentry{pos\_file\_path}\spxextra{measurement.Measurement attribute}, \hyperpage{20}
+  \item \spxentry{print\_header()}\spxextra{in module pigor}, \hyperpage{12}
+  \item \spxentry{print\_help()}\spxextra{in module pigor}, \hyperpage{12}
+  \item \spxentry{print\_root()}\spxextra{in module pigor}, \hyperpage{12}
+
+  \indexspace
+  \bigletter R
+  \item \spxentry{read\_data()}\spxextra{measurement.Measurement method}, \hyperpage{20}
+  \item \spxentry{read\_pos\_file()}\spxextra{measurement.Measurement method}, \hyperpage{20}
+  \item \spxentry{register\_fit\_function()}\spxextra{in module fit\_functions}, \hyperpage{26}
+  \item \spxentry{remove\_generated\_files()}\spxextra{in module pigor}, \hyperpage{12}
+  \item \spxentry{reset\_bounds()}\spxextra{measurement.Measurement method}, \hyperpage{20}
+
+  \indexspace
+  \bigletter S
+  \item \spxentry{select\_columns()}\spxextra{measurement.Measurement method}, \hyperpage{20}
+  \item \spxentry{settings}\spxextra{measurement.Measurement attribute}, \hyperpage{21}
+  \item \spxentry{show\_user()}\spxextra{in module pigor}, \hyperpage{12}
+  \item \spxentry{sine()}\spxextra{in module fit\_functions}, \hyperpage{26}
+  \item \spxentry{sine\_lin()}\spxextra{in module fit\_functions}, \hyperpage{26}
+
+  \indexspace
+  \bigletter T
+  \item \spxentry{type\_of\_fit}\spxextra{measurement.Measurement attribute}, \hyperpage{21}
+
+  \indexspace
+  \bigletter Y
+  \item \spxentry{yn2bool()}\spxextra{in module pigor}, \hyperpage{12}
+
+\end{sphinxtheindex}

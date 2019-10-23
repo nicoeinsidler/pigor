@@ -8,26 +8,28 @@
 \contentsline {chapter}{\numberline {4}PIGOR}{11}{chapter.4}% 
 \contentsline {section}{\numberline {4.1}What PIGOR does}{11}{section.4.1}% 
 \contentsline {section}{\numberline {4.2}PIGORs inner workings}{11}{section.4.2}% 
-\contentsline {chapter}{\numberline {5}The Measurement Class}{15}{chapter.5}% 
-\contentsline {section}{\numberline {5.1}Flow at Startup}{15}{section.5.1}% 
-\contentsline {section}{\numberline {5.2}Flow when plotting}{15}{section.5.2}% 
-\contentsline {section}{\numberline {5.3}Class Usecases}{15}{section.5.3}% 
-\contentsline {section}{\numberline {5.4}Methods}{15}{section.5.4}% 
-\contentsline {chapter}{\numberline {6}Measurement Class 2.0}{21}{chapter.6}% 
-\contentsline {section}{\numberline {6.1}Structure}{21}{section.6.1}% 
-\contentsline {section}{\numberline {6.2}Previous Development}{21}{section.6.2}% 
-\contentsline {section}{\numberline {6.3}The brand new Measurement Class}{22}{section.6.3}% 
-\contentsline {chapter}{\numberline {7}Fit Functions}{23}{chapter.7}% 
-\contentsline {chapter}{\numberline {8}Sprint Planning}{25}{chapter.8}% 
-\contentsline {section}{\numberline {8.1}PIGOR}{25}{section.8.1}% 
-\contentsline {section}{\numberline {8.2}Measurement Class}{25}{section.8.2}% 
-\contentsline {section}{\numberline {8.3}Ideas}{26}{section.8.3}% 
-\contentsline {section}{\numberline {8.4}Column Class}{26}{section.8.4}% 
-\contentsline {section}{\numberline {8.5}Fit Function Class}{26}{section.8.5}% 
-\contentsline {section}{\numberline {8.6}Fit Class}{27}{section.8.6}% 
-\contentsline {section}{\numberline {8.7}Data Set Class}{27}{section.8.7}% 
-\contentsline {chapter}{\numberline {9}ToDo List}{29}{chapter.9}% 
-\contentsline {chapter}{\numberline {10}Old ToDos}{31}{chapter.10}% 
-\contentsline {chapter}{\numberline {11}Project Dependencies}{33}{chapter.11}% 
-\contentsline {chapter}{\numberline {12}Indices and tables}{35}{chapter.12}% 
-\contentsline {chapter}{Python Module Index}{37}{section*.47}% 
+\contentsline {chapter}{\numberline {5}Using PIGOR in Jupyter}{15}{chapter.5}% 
+\contentsline {chapter}{\numberline {6}The Measurement Class}{17}{chapter.6}% 
+\contentsline {section}{\numberline {6.1}Flow at Startup}{17}{section.6.1}% 
+\contentsline {section}{\numberline {6.2}Flow when plotting}{17}{section.6.2}% 
+\contentsline {section}{\numberline {6.3}Class Usecases}{17}{section.6.3}% 
+\contentsline {section}{\numberline {6.4}Methods}{17}{section.6.4}% 
+\contentsline {chapter}{\numberline {7}Measurement Class 2.0}{23}{chapter.7}% 
+\contentsline {section}{\numberline {7.1}Structure}{23}{section.7.1}% 
+\contentsline {section}{\numberline {7.2}Previous Development}{23}{section.7.2}% 
+\contentsline {section}{\numberline {7.3}The brand new Measurement Class}{24}{section.7.3}% 
+\contentsline {chapter}{\numberline {8}Fit Functions}{25}{chapter.8}% 
+\contentsline {chapter}{\numberline {9}Sprint Planning}{27}{chapter.9}% 
+\contentsline {section}{\numberline {9.1}PIGOR}{27}{section.9.1}% 
+\contentsline {section}{\numberline {9.2}Measurement Class}{27}{section.9.2}% 
+\contentsline {section}{\numberline {9.3}Ideas}{28}{section.9.3}% 
+\contentsline {section}{\numberline {9.4}Column Class}{28}{section.9.4}% 
+\contentsline {section}{\numberline {9.5}Fit Function Class}{28}{section.9.5}% 
+\contentsline {section}{\numberline {9.6}Fit Class}{29}{section.9.6}% 
+\contentsline {section}{\numberline {9.7}Data Set Class}{29}{section.9.7}% 
+\contentsline {chapter}{\numberline {10}ToDo List}{31}{chapter.10}% 
+\contentsline {chapter}{\numberline {11}Old ToDos}{33}{chapter.11}% 
+\contentsline {chapter}{\numberline {12}Project Dependencies}{35}{chapter.12}% 
+\contentsline {chapter}{\numberline {13}Indices and tables}{37}{chapter.13}% 
+\contentsline {chapter}{Python Module Index}{39}{section*.47}% 
+\contentsline {chapter}{Index}{41}{section*.48}% 

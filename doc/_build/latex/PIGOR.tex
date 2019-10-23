@@ -59,7 +59,7 @@
 
 
 \title{PIGOR Documentation}
-\date{Oct 17, 2019}
+\date{Oct 23, 2019}
 \release{}
 \author{Nico Einsidler}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -435,7 +435,9 @@ Converts a boolean to yes or no with the mapping: y = True, n = False.
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{pigor:pigor.create_index}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{pigor.}}\sphinxbfcode{\sphinxupquote{create\_index}}}{}{}
-Creates an index.html listing all directories and subdirectories and their HTML and Markdown files. This function can be used by the command {[}j{]}.
+Creates an index.html listing all directories and subdirectories and their HTML and Markdown files. If 
+a default browser is found, it will automatically open index.html. This function can be used by the 
+command {[}j{]}.
 
 \end{fulllineitems}
 
@@ -580,6 +582,51 @@ Converts yes and no to True and False.
 
 \end{fulllineitems}
 
+
+
+\chapter{Using PIGOR in Jupyter}
+\label{\detokenize{jupyter:using-pigor-in-jupyter}}\label{\detokenize{jupyter::doc}}
+\begin{sphinxadmonition}{note}{Note:}
+Please make sure that you have a running Jupyter or Jupyter Lab installation on your system. For more information, please visit \sphinxurl{https://jupyter.org/install}.
+\end{sphinxadmonition}
+
+\begin{sphinxadmonition}{note}{Note:}
+Make sure to install all the requirements for the measurement class in \sphinxtitleref{requirements-measurement.txt}. See {\hyperref[\detokenize{installation:installation}]{\sphinxcrossref{\DUrole{std,std-ref}{Installing PIGOR}}}} for more details.
+\end{sphinxadmonition}
+
+First, open a new Jupyter notebook. Make sure that these following files are within the directory where your newly created Jupyter notebook is located:
+\begin{itemize}
+\item {} 
+measurement.py
+
+\item {} 
+fit\_functions.py
+
+\end{itemize}
+
+If not, you can just copy those two files.
+
+Now we have to import the measurement module in the Jupyter notebook by using the \sphinxtitleref{import} command:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{measurement}
+\end{sphinxVerbatim}
+
+This should already be enough to work with the measurement class within a Jupyter notebook. However there are a few extra steps to take, if one wishes to use inline graphics. To enable this functionality one line has to be added as the first cell to the notebook:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{o}{\PYGZpc{}}\PYG{n}{matplotlib} \PYG{n}{inline}
+\end{sphinxVerbatim}
+
+Now, whenever the plot method is called, an additional argument has to be passed on.
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{m}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{enable\PYGZus{}jupyter}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{)}
+\end{sphinxVerbatim}
+
+\begin{sphinxadmonition}{note}{Note:}
+A test notebook is provided in the root of the PIGOR project at \sphinxurl{https://github.com/nicoeinsidler/pigor/blob/master/PIGOR-Test-Notebook.ipynb}.
+\end{sphinxadmonition}
 
 
 \chapter{The Measurement Class}
@@ -891,7 +938,7 @@ path (pathlib.Path object) to the measurement file
 \index{plot() (measurement.Measurement method)@\spxentry{plot()}\spxextra{measurement.Measurement method}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{measurement:measurement.Measurement.plot}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{plot}}}{\emph{column1=(0}, \emph{1)}, \emph{column2=(1}, \emph{1)}, \emph{fit=True}, \emph{type\_of\_plot=''}, \emph{override=True}, \emph{file\_extention='.png'}}{}
+\phantomsection\label{\detokenize{measurement:measurement.Measurement.plot}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{plot}}}{\emph{column1=(0}, \emph{1)}, \emph{column2=(1}, \emph{1)}, \emph{fit=True}, \emph{type\_of\_plot=''}, \emph{override=True}, \emph{file\_extention='.png'}, \emph{enable\_jupyter=False}}{}
 Creates a plot for the data. If fit is set to False the data fit won’t be
 plotted, even if there exists one. Following parameters are possible:
 \begin{quote}\begin{description}
@@ -914,6 +961,9 @@ in the file name as well as in the plot title (Default value = ‘’)
 
 \item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{override}} \textendash{} determines if plot image should be recreated if it already exists (Default value = True)
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{enable\_jupyter}} \textendash{} if set to True, triggers plt.show() so the Measurement class can be used in a Juypter Notebook
 
 \end{itemize}
 
@@ -1635,7 +1685,7 @@ Variables:
 check if dependencies are correct with dependencies.txt
 \end{sphinxadmonition}
 
-(The {\hyperref[\detokenize{index:index-0}]{\sphinxcrossref{\sphinxstyleemphasis{original entry}}}} is located in /Users/nicoeinsidler/Code/pigor/doc/index.rst, line 55.)
+(The {\hyperref[\detokenize{index:index-0}]{\sphinxcrossref{\sphinxstyleemphasis{original entry}}}} is located in /Users/nicoeinsidler/Code/pigor/doc/index.rst, line 56.)
 
 \begin{sphinxadmonition}{note}{Todo:}
 Method attributes are shown, but value is always None.
@@ -1671,7 +1721,7 @@ Set better default value for measurement type.
 Make x and y labels more general, especially for interferometer files, where more that one y value list is needed.
 \end{sphinxadmonition}
 
-(The {\hyperref[\detokenize{measurement:index-5}]{\sphinxcrossref{\sphinxstyleemphasis{original entry}}}} is located in /Users/nicoeinsidler/Code/pigor/measurement.py:docstring of measurement.Measurement.plot, line 12.)
+(The {\hyperref[\detokenize{measurement:index-5}]{\sphinxcrossref{\sphinxstyleemphasis{original entry}}}} is located in /Users/nicoeinsidler/Code/pigor/measurement.py:docstring of measurement.Measurement.plot, line 13.)
 
 \begin{sphinxadmonition}{note}{Todo:}
 When searching for a position file, the lenght of the file should match. So it should be 1/4 of the size of the original measurement file.

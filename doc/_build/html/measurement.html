@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Measurement Class 2.0" href="measurement2.html" />
-    <link rel="prev" title="PIGOR" href="pigor.html" /> 
+    <link rel="prev" title="Using PIGOR in Jupyter" href="jupyter.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -87,6 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="naming-convention.html">Measurement Naming Convention</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pigor.html">PIGOR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jupyter.html">Using PIGOR in Jupyter</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">The Measurement Class</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#flow-at-startup">Flow at Startup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#flow-when-plotting">Flow when plotting</a></li>
@@ -460,7 +461,7 @@ value = ‘default’)</li>
 
 <dl class="method">
 <dt id="measurement.Measurement.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><em>column1=(0</em>, <em>1)</em>, <em>column2=(1</em>, <em>1)</em>, <em>fit=True</em>, <em>type_of_plot=''</em>, <em>override=True</em>, <em>file_extention='.png'</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.plot" title="Permalink to this definition">¶</a></dt>
+<code class="descname">plot</code><span class="sig-paren">(</span><em>column1=(0</em>, <em>1)</em>, <em>column2=(1</em>, <em>1)</em>, <em>fit=True</em>, <em>type_of_plot=''</em>, <em>override=True</em>, <em>file_extention='.png'</em>, <em>enable_jupyter=False</em><span class="sig-paren">)</span><a class="headerlink" href="#measurement.Measurement.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a plot for the data. If fit is set to False the data fit won’t be
 plotted, even if there exists one. Following parameters are possible:</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -475,6 +476,7 @@ plotted, even if there exists one. Following parameters are possible:</p>
 <li><strong>type_of_plot</strong> – string to specify a certain plot type, which will be used
 in the file name as well as in the plot title (Default value = ‘’)</li>
 <li><strong>override</strong> – determines if plot image should be recreated if it already exists (Default value = True)</li>
+<li><strong>enable_jupyter</strong> – if set to True, triggers plt.show() so the Measurement class can be used in a Juypter Notebook</li>
 </ul>
 </td>
 </tr>
@@ -607,7 +609,7 @@ skip column 2.</p>
         <a href="measurement2.html" class="btn btn-neutral float-right" title="Measurement Class 2.0" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="pigor.html" class="btn btn-neutral float-left" title="PIGOR" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="jupyter.html" class="btn btn-neutral float-left" title="Using PIGOR in Jupyter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -13,33 +13,33 @@
 \indexentry{remove\_generated\_files() (in module pigor)@\spxentry{remove\_generated\_files()}\spxextra{in module pigor}|hyperpage}{12}
 \indexentry{show\_user() (in module pigor)@\spxentry{show\_user()}\spxextra{in module pigor}|hyperpage}{12}
 \indexentry{yn2bool() (in module pigor)@\spxentry{yn2bool()}\spxextra{in module pigor}|hyperpage}{12}
-\indexentry{measurement (module)@\spxentry{measurement}\spxextra{module}|hyperpage}{15}
-\indexentry{Measurement (class in measurement)@\spxentry{Measurement}\spxextra{class in measurement}|hyperpage}{15}
-\indexentry{FIT\_RESOLUTION (measurement.Measurement attribute)@\spxentry{FIT\_RESOLUTION}\spxextra{measurement.Measurement attribute}|hyperpage}{15}
-\indexentry{N\_HEADER (measurement.Measurement attribute)@\spxentry{N\_HEADER}\spxextra{measurement.Measurement attribute}|hyperpage}{15}
-\indexentry{\_\_init\_\_() (measurement.Measurement method)@\spxentry{\_\_init\_\_()}\spxextra{measurement.Measurement method}|hyperpage}{15}
-\indexentry{clean\_data() (measurement.Measurement method)@\spxentry{clean\_data()}\spxextra{measurement.Measurement method}|hyperpage}{16}
-\indexentry{contrast() (measurement.Measurement method)@\spxentry{contrast()}\spxextra{measurement.Measurement method}|hyperpage}{16}
-\indexentry{degree\_of\_polarisation() (measurement.Measurement method)@\spxentry{degree\_of\_polarisation()}\spxextra{measurement.Measurement method}|hyperpage}{16}
-\indexentry{detect\_measurement\_type() (measurement.Measurement method)@\spxentry{detect\_measurement\_type()}\spxextra{measurement.Measurement method}|hyperpage}{16}
-\indexentry{export\_meta() (measurement.Measurement method)@\spxentry{export\_meta()}\spxextra{measurement.Measurement method}|hyperpage}{17}
-\indexentry{find\_bounds() (measurement.Measurement method)@\spxentry{find\_bounds()}\spxextra{measurement.Measurement method}|hyperpage}{17}
-\indexentry{fit() (measurement.Measurement method)@\spxentry{fit()}\spxextra{measurement.Measurement method}|hyperpage}{17}
-\indexentry{fit\_function\_list (measurement.Measurement attribute)@\spxentry{fit\_function\_list}\spxextra{measurement.Measurement attribute}|hyperpage}{17}
-\indexentry{measurement\_type() (measurement.Measurement method)@\spxentry{measurement\_type()}\spxextra{measurement.Measurement method}|hyperpage}{17}
-\indexentry{path (measurement.Measurement attribute)@\spxentry{path}\spxextra{measurement.Measurement attribute}|hyperpage}{17}
-\indexentry{plot() (measurement.Measurement method)@\spxentry{plot()}\spxextra{measurement.Measurement method}|hyperpage}{17}
-\indexentry{pos\_file\_path (measurement.Measurement attribute)@\spxentry{pos\_file\_path}\spxextra{measurement.Measurement attribute}|hyperpage}{18}
-\indexentry{read\_data() (measurement.Measurement method)@\spxentry{read\_data()}\spxextra{measurement.Measurement method}|hyperpage}{18}
-\indexentry{read\_pos\_file() (measurement.Measurement method)@\spxentry{read\_pos\_file()}\spxextra{measurement.Measurement method}|hyperpage}{18}
-\indexentry{reset\_bounds() (measurement.Measurement method)@\spxentry{reset\_bounds()}\spxextra{measurement.Measurement method}|hyperpage}{18}
-\indexentry{select\_columns() (measurement.Measurement method)@\spxentry{select\_columns()}\spxextra{measurement.Measurement method}|hyperpage}{18}
-\indexentry{settings (measurement.Measurement attribute)@\spxentry{settings}\spxextra{measurement.Measurement attribute}|hyperpage}{19}
-\indexentry{type\_of\_fit (measurement.Measurement attribute)@\spxentry{type\_of\_fit}\spxextra{measurement.Measurement attribute}|hyperpage}{19}
-\indexentry{fit\_functions (module)@\spxentry{fit\_functions}\spxextra{module}|hyperpage}{23}
-\indexentry{gauss() (in module fit\_functions)@\spxentry{gauss()}\spxextra{in module fit\_functions}|hyperpage}{23}
-\indexentry{poly() (in module fit\_functions)@\spxentry{poly()}\spxextra{in module fit\_functions}|hyperpage}{23}
-\indexentry{poly5() (in module fit\_functions)@\spxentry{poly5()}\spxextra{in module fit\_functions}|hyperpage}{23}
-\indexentry{register\_fit\_function() (in module fit\_functions)@\spxentry{register\_fit\_function()}\spxextra{in module fit\_functions}|hyperpage}{24}
-\indexentry{sine() (in module fit\_functions)@\spxentry{sine()}\spxextra{in module fit\_functions}|hyperpage}{24}
-\indexentry{sine\_lin() (in module fit\_functions)@\spxentry{sine\_lin()}\spxextra{in module fit\_functions}|hyperpage}{24}
+\indexentry{measurement (module)@\spxentry{measurement}\spxextra{module}|hyperpage}{17}
+\indexentry{Measurement (class in measurement)@\spxentry{Measurement}\spxextra{class in measurement}|hyperpage}{17}
+\indexentry{FIT\_RESOLUTION (measurement.Measurement attribute)@\spxentry{FIT\_RESOLUTION}\spxextra{measurement.Measurement attribute}|hyperpage}{17}
+\indexentry{N\_HEADER (measurement.Measurement attribute)@\spxentry{N\_HEADER}\spxextra{measurement.Measurement attribute}|hyperpage}{17}
+\indexentry{\_\_init\_\_() (measurement.Measurement method)@\spxentry{\_\_init\_\_()}\spxextra{measurement.Measurement method}|hyperpage}{17}
+\indexentry{clean\_data() (measurement.Measurement method)@\spxentry{clean\_data()}\spxextra{measurement.Measurement method}|hyperpage}{18}
+\indexentry{contrast() (measurement.Measurement method)@\spxentry{contrast()}\spxextra{measurement.Measurement method}|hyperpage}{18}
+\indexentry{degree\_of\_polarisation() (measurement.Measurement method)@\spxentry{degree\_of\_polarisation()}\spxextra{measurement.Measurement method}|hyperpage}{18}
+\indexentry{detect\_measurement\_type() (measurement.Measurement method)@\spxentry{detect\_measurement\_type()}\spxextra{measurement.Measurement method}|hyperpage}{18}
+\indexentry{export\_meta() (measurement.Measurement method)@\spxentry{export\_meta()}\spxextra{measurement.Measurement method}|hyperpage}{19}
+\indexentry{find\_bounds() (measurement.Measurement method)@\spxentry{find\_bounds()}\spxextra{measurement.Measurement method}|hyperpage}{19}
+\indexentry{fit() (measurement.Measurement method)@\spxentry{fit()}\spxextra{measurement.Measurement method}|hyperpage}{19}
+\indexentry{fit\_function\_list (measurement.Measurement attribute)@\spxentry{fit\_function\_list}\spxextra{measurement.Measurement attribute}|hyperpage}{19}
+\indexentry{measurement\_type() (measurement.Measurement method)@\spxentry{measurement\_type()}\spxextra{measurement.Measurement method}|hyperpage}{19}
+\indexentry{path (measurement.Measurement attribute)@\spxentry{path}\spxextra{measurement.Measurement attribute}|hyperpage}{19}
+\indexentry{plot() (measurement.Measurement method)@\spxentry{plot()}\spxextra{measurement.Measurement method}|hyperpage}{19}
+\indexentry{pos\_file\_path (measurement.Measurement attribute)@\spxentry{pos\_file\_path}\spxextra{measurement.Measurement attribute}|hyperpage}{20}
+\indexentry{read\_data() (measurement.Measurement method)@\spxentry{read\_data()}\spxextra{measurement.Measurement method}|hyperpage}{20}
+\indexentry{read\_pos\_file() (measurement.Measurement method)@\spxentry{read\_pos\_file()}\spxextra{measurement.Measurement method}|hyperpage}{20}
+\indexentry{reset\_bounds() (measurement.Measurement method)@\spxentry{reset\_bounds()}\spxextra{measurement.Measurement method}|hyperpage}{20}
+\indexentry{select\_columns() (measurement.Measurement method)@\spxentry{select\_columns()}\spxextra{measurement.Measurement method}|hyperpage}{20}
+\indexentry{settings (measurement.Measurement attribute)@\spxentry{settings}\spxextra{measurement.Measurement attribute}|hyperpage}{21}
+\indexentry{type\_of\_fit (measurement.Measurement attribute)@\spxentry{type\_of\_fit}\spxextra{measurement.Measurement attribute}|hyperpage}{21}
+\indexentry{fit\_functions (module)@\spxentry{fit\_functions}\spxextra{module}|hyperpage}{25}
+\indexentry{gauss() (in module fit\_functions)@\spxentry{gauss()}\spxextra{in module fit\_functions}|hyperpage}{25}
+\indexentry{poly() (in module fit\_functions)@\spxentry{poly()}\spxextra{in module fit\_functions}|hyperpage}{25}
+\indexentry{poly5() (in module fit\_functions)@\spxentry{poly5()}\spxextra{in module fit\_functions}|hyperpage}{25}
+\indexentry{register\_fit\_function() (in module fit\_functions)@\spxentry{register\_fit\_function()}\spxextra{in module fit\_functions}|hyperpage}{26}
+\indexentry{sine() (in module fit\_functions)@\spxentry{sine()}\spxextra{in module fit\_functions}|hyperpage}{26}
+\indexentry{sine\_lin() (in module fit\_functions)@\spxentry{sine\_lin()}\spxextra{in module fit\_functions}|hyperpage}{26}

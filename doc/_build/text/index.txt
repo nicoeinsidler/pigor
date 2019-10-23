@@ -26,6 +26,8 @@ Contents:
 
   * PIGORs inner workings
 
+* Using PIGOR in Jupyter
+
 * The Measurement Class
 
   * Flow at Startup
