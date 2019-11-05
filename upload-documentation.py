@@ -28,8 +28,8 @@ file_extentions = [
 documentation_path = pathlib.Path('./doc')
 html_path = documentation_path.joinpath('_build','html')
 
-def upload_all_files() -> bool:
-
+def upload_all_files():
+    """ Uploads all files that can be found in the doc/ dir to the FTP server. """
     session = ftplib.FTP(server, username, password)
     print('\n'+session.getwelcome()+'\n\n')
 
